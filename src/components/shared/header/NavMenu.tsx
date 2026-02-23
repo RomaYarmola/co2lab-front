@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import ChevronIcon from "@/components/shared/icons/ChevronIcon";
 import { navMenuList, getActiveIndex } from "@/constants/navMenu";
 
@@ -40,25 +40,20 @@ export default function NavMenu() {
     });
   }, [pillActiveIndex]);
 
-  // Перше оновлення + ретраї для надійного показу при завантаженні
-  useEffect(() => {
+  // Оновлення позиції pill: useLayoutEffect + rAF щоб layout встиг відмалюватись (шрифти, контейнер)
+  useLayoutEffect(() => {
     const run = () => updatePill();
-    run();
+    // Відкладаємо вимірювання на наступний кадр — у цей момент layout уже готовий
+    const raf = requestAnimationFrame(() => {
+      run();
+      // Додатковий rAF для надійності при холодному завантаженні (шрифти ще завантажуються)
+      requestAnimationFrame(run);
+    });
     const nav = navRef.current;
     const ro = nav ? new ResizeObserver(run) : null;
     if (nav) ro?.observe(nav);
-    const t1 = setTimeout(run, 50);
-    const t2 = setTimeout(run, 150);
-    const t3 = setTimeout(run, 400);
-    const onLoad = () => run();
-    window.addEventListener("load", onLoad);
-    const t4 = setTimeout(run, 500);
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-      clearTimeout(t4);
-      window.removeEventListener("load", onLoad);
+      cancelAnimationFrame(raf);
       ro?.disconnect();
     };
   }, [pillActiveIndex, updatePill]);
