@@ -7,7 +7,7 @@ export default function SendMessage() {
     <section className="pt-12 pb-24 lg:pt-[136px] lg:pb-30">
       <Container className="flex flex-col sm:flex-row gap-12 sm:gap-5">
         <div className="relative sm:w-[calc(50%-10px)] h-45 sm:h-auto rounded-[18px] overflow-hidden">
-          <Image quality={90}
+          <Image quality={100}
             src="/images/contactsPage/sendMessage/image.webp"
             alt="background image"
             fill

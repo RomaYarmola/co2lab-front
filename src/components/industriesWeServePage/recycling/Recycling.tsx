@@ -21,7 +21,7 @@ export default function Recycling() {
       <div className="flex flex-col gap-1">
         {/* Ряд 1: текст завжди видимий, права картинка повна у видимій частині, уходить за екран, скруглення видно */}
         <Container className="relative flex w-full justify-start items-center overflow-x-visible">
-          <Image quality={90}
+          <Image quality={100}
             src="/images/industriesWeServePage/recycling/bgTopMob.svg"
             alt=""
             aria-hidden
@@ -29,7 +29,7 @@ export default function Recycling() {
             width="161"
             height="147"
           />
-          <Image quality={90}
+          <Image quality={100}
             src="/images/industriesWeServePage/recycling/bgTopDesk.svg"
             alt=""
             aria-hidden
@@ -48,7 +48,7 @@ export default function Recycling() {
               transition={{ ...slideInTransition, delay: 0 }}
               className="shrink-0 min-w-[min(80vw,800px)] overflow-hidden rounded-l-[12px]"
             >
-              <Image quality={90}
+              <Image quality={100}
                 src="/images/industriesWeServePage/recycling/bgRight.webp"
                 alt=""
                 aria-hidden
@@ -69,7 +69,7 @@ export default function Recycling() {
               transition={{ ...slideInTransition, delay: 0.2 }}
               className="shrink-0 overflow-hidden"
             >
-              <Image quality={90}
+              <Image quality={100}
                 src="/images/industriesWeServePage/recycling/bgLeft.webp"
                 alt=""
                 aria-hidden

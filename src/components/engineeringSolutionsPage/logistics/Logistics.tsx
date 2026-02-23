@@ -20,7 +20,7 @@ export default function Logistics() {
   return (
     <section className="py-12 lg:pt-30 lg:pb-0">
       <Container className="relative flex flex-col sm:flex-row sm:items-center gap-8">
-        <Image quality={90}
+        <Image quality={100}
           src="/images/engineeringSolutionsPage/logistics/bgMob.svg"
           alt="bg mobile"
           width={158}
@@ -28,7 +28,7 @@ export default function Logistics() {
           className="absolute -top-16.5 -right-6 -z-10 object-cover object-right pointer-events-none lg:hidden"
           aria-hidden
         />
-        <Image quality={90}
+        <Image quality={100}
           src="/images/engineeringSolutionsPage/logistics/bgDesk.svg"
           alt="bg desktop"
           width={279}

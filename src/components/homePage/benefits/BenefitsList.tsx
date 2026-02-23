@@ -61,7 +61,7 @@ export default function BenefitsList() {
         transition={{ ...slideInTransition, delay: 0 }}
         className="relative flex min-h-[304px] flex-[0_0_calc(50%-8px)] flex-col justify-center overflow-hidden rounded-full bg-black p-3.5 text-white lg:min-h-[490px] lg:p-5 md:flex-[0_0_calc(25%-15px)]"
       >
-        <Image quality={90}
+        <Image quality={100}
           src="/images/homePage/benefits/imageOneTop.svg"
           alt=""
           width={260}
@@ -69,7 +69,7 @@ export default function BenefitsList() {
           className="pointer-events-none absolute left-0 top-0 opacity-40"
           aria-hidden
         />
-        <Image quality={90}
+        <Image quality={100}
           src="/images/homePage/benefits/imageOneBottom.svg"
           alt=""
           width={289}
@@ -102,7 +102,7 @@ export default function BenefitsList() {
         >
           {item.imageFirst ? (
             <>
-              <Image quality={90}
+              <Image quality={100}
                 src={item.image}
                 alt={item.title}
                 width={item.imageWidth}
@@ -118,7 +118,7 @@ export default function BenefitsList() {
               <p className="max-w-[130px] text-[16px] font-medium uppercase leading-[130%] lg:max-w-[246px] lg:text-[20px] xl:text-[24px] text-center">
                 {item.title}
               </p>
-              <Image quality={90}
+              <Image quality={100}
                 src={item.image}
                 alt={item.title}
                 width={item.imageWidth}

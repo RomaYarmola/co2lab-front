@@ -23,7 +23,7 @@ export default function CriogenicTanks() {
             </p>
           </div>
           <div className="relative sm:w-[calc(50%-16px)] h-60 xs:h-80 sm:h-70 lg:h-[435px] rounded-[18px] overflow-hidden">
-            <Image quality={90}
+            <Image quality={100}
               src="/images/equipmentAndSystemsPage/criogenicTanks/image.webp"
               alt="Processing"
               fill
