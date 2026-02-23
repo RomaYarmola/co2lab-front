@@ -9,7 +9,7 @@ export default function Monitoring() {
       <Container>
         <div className="relative px-3 lg:px-6.5 py-8 lg:py-16 rounded-[18px] overflow-hidden">
           <div className="lg:hidden absolute -z-10 inset-0 bg-[linear-gradient(0deg,rgba(38,38,38,0.4),rgba(38,38,38,0.4)),linear-gradient(270deg,rgba(0,0,0,0)_0%,rgba(0,0,0,0.4)_59.13%)]"></div>
-          <Image
+          <Image quality={100}
             src="/images/engineeringSolutionsPage/monitoring/monitoring.webp"
             alt="monitoring"
             fill

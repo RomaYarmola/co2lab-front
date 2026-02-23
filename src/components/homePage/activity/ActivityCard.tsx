@@ -28,7 +28,7 @@ export default function ActivityCard({ item }: ActivityCardProps) {
         <>
           {item.backgroundImage ? (
             <>
-              <Image
+              <Image quality={100}
                 src={item.backgroundImage}
                 alt=""
                 fill

@@ -63,7 +63,7 @@ export default function Comparison() {
         </div>
 
         <div className="relative px-4 lg:px-[79px] pt-8 lg:pt-[53px] pb-5 lg:pb-[62px] overflow-hidden rounded-[20px] bg-black text-white">
-          <Image
+          <Image quality={100}
             src="/images/equipmentAndSystemsPage/comparison/bgTopMob.svg"
             alt=""
             width={200}
@@ -71,7 +71,7 @@ export default function Comparison() {
             className="pointer-events-none absolute top-0 left-9 z-0 w-auto h-auto lg:hidden"
             aria-hidden
           />
-          <Image
+          <Image quality={100}
             src="/images/equipmentAndSystemsPage/comparison/bgTopDesk.svg"
             alt=""
             width={320}
@@ -79,7 +79,7 @@ export default function Comparison() {
             className="pointer-events-none absolute top-0 left-[108px] z-0 hidden w-auto h-auto lg:block"
             aria-hidden
           />
-          <Image
+          <Image quality={100}
             src="/images/equipmentAndSystemsPage/comparison/bgBottomMob.svg"
             alt=""
             width={200}
@@ -87,7 +87,7 @@ export default function Comparison() {
             className="pointer-events-none absolute bottom-0 right-[51px] z-0 w-auto h-auto lg:hidden"
             aria-hidden
           />
-          <Image
+          <Image quality={100}
             src="/images/equipmentAndSystemsPage/comparison/bgBottomDesk.svg"
             alt=""
             width={320}

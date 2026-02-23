@@ -8,7 +8,7 @@ export default function ContactUs() {
     <section className="pt-12 pb-24 lg:pt-[136px] lg:pb-[76px]">
       <Container className="overflow-hidden rounded-[18px]">
         <div className="relative overflow-hidden rounded-[18px]">
-          <Image
+          <Image quality={100}
             src="/images/homePage/contactUs/image.webp"
             alt="contact us image"
             fill
@@ -17,7 +17,7 @@ export default function ContactUs() {
             priority
           />
 
-          <Image
+          <Image quality={100}
             src="/images/homePage/contactUs/smokeMob.webp"
             alt=""
             width={338}
@@ -25,7 +25,7 @@ export default function ContactUs() {
             className="pointer-events-none absolute -bottom-62 -right-7 z-[5] lg:hidden"
             aria-hidden
           />
-          <Image
+          <Image quality={100}
             src="/images/homePage/contactUs/smokeDesk.webp"
             alt=""
             width={758}

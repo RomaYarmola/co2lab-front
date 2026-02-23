@@ -38,7 +38,7 @@ export default function RecyclingList() {
           className=" sm:w-[calc(50%-6px)] lg:w-[calc(25%-9px)]"
         >
           <div className="flex items-end relative min-h-[160px] lg:min-h-[224px] xl:min-h-[274px] rounded-[12px] border border-white overflow-hidden">
-            <Image
+            <Image quality={100}
               src={card.image}
               alt={card.alt ?? card.title}
               fill

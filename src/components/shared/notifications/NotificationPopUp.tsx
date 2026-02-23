@@ -18,7 +18,7 @@ export default function NotificationPopUp({
   return (
     <Modal isModalShown={isPopUpShown} setIsModalShown={setIsPopUpShown}>
       <div className="relative px-4 lg:px-[45px] py-12 lg:py-[63px] flex flex-col justify-center items-center w-full overflow-hidden">
-        <Image
+        <Image quality={100}
           src="/images/notifications/bgTopMob.svg"
           alt=""
           aria-hidden
@@ -26,7 +26,7 @@ export default function NotificationPopUp({
           height={128}
           className="absolute left-0 top-0 pointer-events-none lg:hidden"
         />
-        <Image
+        <Image quality={100}
           src="/images/notifications/bgTopDesk.svg"
           alt=""
           aria-hidden
@@ -34,7 +34,7 @@ export default function NotificationPopUp({
           height={162}
           className="absolute left-0 top-0 pointer-events-none hidden lg:block"
         />
-        <Image
+        <Image quality={100}
           src="/images/notifications/bgBottomMob.svg"
           alt=""
           aria-hidden
@@ -42,7 +42,7 @@ export default function NotificationPopUp({
           height={103}
           className="absolute right-0 bottom-0 pointer-events-none lg:hidden"
         />
-        <Image
+        <Image quality={100}
           src="/images/notifications/bgBottomDesk.svg"
           alt=""
           aria-hidden

@@ -32,7 +32,7 @@ export default function Technologies() {
   return (
     <section className="py-12 lg:pt-[136px] lg:pb-24 relative">
       <Container className="relative">
-        <Image
+        <Image quality={100}
           src="/images/engineeringSolutionsPage/technologies/bgMobile.svg"
           alt=""
           width={150}
@@ -40,7 +40,7 @@ export default function Technologies() {
           className="absolute top-[-80px] left-[-22px] -z-10 pointer-events-none md:hidden"
           aria-hidden
         />
-        <Image
+        <Image quality={100}
           src="/images/engineeringSolutionsPage/technologies/bgDesktop.svg"
           alt=""
           width={279}
@@ -94,7 +94,7 @@ export default function Technologies() {
                   </SecondaryButton>
                 </div>
                 <div className="relative rounded-[12px] shrink-0 lg:h-full w-[117px] lg:w-[187px] xl:w-[280px] md:min-h-[117px] lg:min-h-[228px] overflow-hidden">
-                  <Image
+                  <Image quality={100}
                     src={item.image}
                     alt={item.imageAlt}
                     fill

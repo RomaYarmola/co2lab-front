@@ -24,7 +24,7 @@ export default function Biogas() {
             </div>
             <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
               <div className="relative h-[180px] sm:h-auto sm:w-[260px] md:w-[400px] lg:w-[520px] xl:w-[773px] rounded-[20px] overflow-hidden shrink-0">
-                <Image
+                <Image quality={100}
                   src="/images/industriesWeServePage/biogas/biogas.webp"
                   alt="Biogas"
                   fill

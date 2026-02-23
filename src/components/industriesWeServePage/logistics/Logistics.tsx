@@ -8,7 +8,7 @@ export default function Logistics() {
       <div className="relative rounded-[28px] bg-black overflow-hidden">
         <Container>
           <div className="relative py-8 lg:py-10.5">
-            <Image
+            <Image quality={100}
               src="/images/industriesWeServePage/logistics/bgLeftDesk.svg"
               alt="background"
               aria-hidden
@@ -16,7 +16,7 @@ export default function Logistics() {
               width="328"
               height="285"
             />
-            <Image
+            <Image quality={100}
               src="/images/industriesWeServePage/logistics/bgRightDesk.svg"
               alt="background"
               aria-hidden
@@ -24,7 +24,7 @@ export default function Logistics() {
               width="290"
               height="322"
             />
-            <Image
+            <Image quality={100}
               src="/images/industriesWeServePage/logistics/bgMob.svg"
               alt="background"
               aria-hidden
@@ -53,7 +53,7 @@ export default function Logistics() {
                     </p>
                   </div>
                   <div className="relative sm:w-[calc(50%-6px)] h-[152px] sm:h-auto border border-white rounded-[12px] overflow-hidden">
-                    <Image
+                    <Image quality={100}
                       src="/images/industriesWeServePage/logistics/imageOne.webp"
                       alt="Dry ice"
                       fill
@@ -72,7 +72,7 @@ export default function Logistics() {
                     </p>
                   </div>
                   <div className="relative sm:w-[calc(50%-6px)] h-[152px] sm:h-auto rounded-[12px] border border-white  overflow-hidden">
-                    <Image
+                    <Image quality={100}
                       src="/images/industriesWeServePage/logistics/imageTwo.webp"
                       alt="Temperature stabilization"
                       fill
@@ -92,7 +92,7 @@ export default function Logistics() {
                   </p>
                 </div>
                 <div className="relative sm:w-[calc(50%-6px)] h-[152px] sm:h-auto rounded-[12px] border border-white overflow-hidden">
-                  <Image
+                  <Image quality={100}
                     src="/images/industriesWeServePage/logistics/imageThree.webp"
                     alt="Cold storage and distribution"
                     fill

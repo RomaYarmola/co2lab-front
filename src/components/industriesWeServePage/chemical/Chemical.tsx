@@ -29,7 +29,7 @@ export default function Chemical() {
   return (
     <section className="py-12 lg:pt-30 lg:pb-0">
       <Container className="relative flex flex-col gap-8 lg:gap-12">
-        <Image
+        <Image quality={100}
           src="/images/engineeringSolutionsPage/logistics/bgMob.svg"
           alt="bg mobile"
           width={158}
@@ -37,7 +37,7 @@ export default function Chemical() {
           className="absolute top-34 -right-16 -z-10 object-cover object-right pointer-events-none lg:hidden"
           aria-hidden
         />
-        <Image
+        <Image quality={100}
           src="/images/engineeringSolutionsPage/logistics/bgDesk.svg"
           alt="bg desktop"
           width={279}
@@ -54,7 +54,7 @@ export default function Chemical() {
               transition={{ ...slideInTransition, delay: 0 }}
               className="shrink-0"
             >
-              <Image
+              <Image quality={100}
                 src="/images/industriesWeServePage/chemical/chemicalLeft.png"
                 alt="Low Emissions"
                 width={860}
@@ -78,7 +78,7 @@ export default function Chemical() {
               transition={{ ...slideInTransition, delay: 0.2 }}
               className="shrink-0 mr-9 sm:mr-40 lg:mr-130"
             >
-              <Image
+              <Image quality={100}
                 src="/images/industriesWeServePage/chemical/chemicalRight.webp"
                 alt="Low Emissions"
                 width={903}

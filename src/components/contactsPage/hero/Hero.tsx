@@ -19,7 +19,7 @@ export default function Hero() {
           <ContactDetails className="hidden lg:block" />
         </div>
         <div className="relative w-full lg:w-[calc(50%-16px)] min-h-[305px] sm:min-h-[380px] lg:min-h-[420px] rounded-[18px]">
-          <Image
+          <Image quality={100}
             src="/images/homePage/hero/bgMobile.svg"
             alt="background image"
             width={152}
@@ -27,7 +27,7 @@ export default function Hero() {
             className="absolute -z-10 right-[-41px] top-[397px] lg:hidden"
             aria-hidden
           />
-          <Image
+          <Image quality={100}
             src="/images/homePage/hero/bgDesk.svg"
             alt="background image"
             width={269}
@@ -35,7 +35,7 @@ export default function Hero() {
             className="absolute -z-10 bottom-[-163px] left-[-164px] hidden lg:block"
             aria-hidden
           />
-          <Image
+          <Image quality={100}
             src={heroImage}
             alt="hero image"
             fill

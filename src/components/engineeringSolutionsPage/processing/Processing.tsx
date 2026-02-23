@@ -6,7 +6,7 @@ export default function Processing() {
   return (
     <section className="py-12 lg:pt-30 lg:pb-0">
       <Container className="relative flex flex-col sm:flex-row-reverse gap-8 lg:gap-9">
-        <Image
+        <Image quality={100}
           src="/images/engineeringSolutionsPage/processing/bgMobile.svg"
           alt=""
           width={150}
@@ -14,7 +14,7 @@ export default function Processing() {
           className="absolute top-[-135px] right-[-20px] -z-10 pointer-events-none md:hidden"
           aria-hidden
         />
-        <Image
+        <Image quality={100}
           src="/images/engineeringSolutionsPage/processing/bgDesktop.svg"
           alt=""
           width={279}
@@ -36,7 +36,7 @@ export default function Processing() {
           </p>
         </div>
         <div className="relative sm:w-[calc(50%-27px)] lg:w-[calc(50%-27px)] h-[202px] xs:h-70 sm:h-50 lg:h-90 rounded-[18px] overflow-hidden">
-          <Image
+          <Image quality={100}
             src="/images/engineeringSolutionsPage/processing/processing.webp"
             alt="Processing"
             fill

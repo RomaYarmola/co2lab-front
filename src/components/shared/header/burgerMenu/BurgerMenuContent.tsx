@@ -29,7 +29,7 @@ export default function BurgerMenuContent({
           exit="exit"
           variants={burgerMenuVariants}
         >
-          <Image
+          <Image quality={100}
             src="/images/header/imageTop.svg"
             alt=""
             width={186}
@@ -37,7 +37,7 @@ export default function BurgerMenuContent({
             className="absolute top-24 right-0 pointer-events-none"
             aria-hidden
           />
-          <Image
+          <Image quality={100}
             src="/images/header/imageBottom.svg"
             alt=""
             width={239}

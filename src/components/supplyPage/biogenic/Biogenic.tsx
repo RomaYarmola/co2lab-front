@@ -20,7 +20,7 @@ export default function Biogenic() {
   return (
     <section className="py-12 lg:pt-[132px] lg:pb-0">
       <Container className="relative flex flex-col sm:flex-row sm:items-center gap-8">
-        <Image
+        <Image quality={100}
           src="/images/supplyPage/biogenic/bgMob.svg"
           alt="bg mobile"
           width={158}
@@ -28,7 +28,7 @@ export default function Biogenic() {
           className="absolute -top-23.5 left-0 -z-10 object-cover object-right pointer-events-none lg:hidden"
           aria-hidden
         />
-        <Image
+        <Image quality={100}
           src="/images/supplyPage/biogenic/bgDesk.svg"
           alt="bg desktop"
           width={279}

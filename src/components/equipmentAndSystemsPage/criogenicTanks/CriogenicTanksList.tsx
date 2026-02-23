@@ -53,7 +53,7 @@ export default function CriogenicTanksList() {
           key={item.title}
           className="relative sm:w-[calc(50%-6px)] lg:w-[calc(25%-9px)] h-[180px] lg:h-[274px] rounded-[12px]  border border-white overflow-hidden text-white"
         >
-          <Image
+          <Image quality={100}
             src={item.image}
             alt={item.imageAlt}
             fill

@@ -26,7 +26,7 @@ export default function WhatWeDoCard({ item }: WhatWeDoCardProps) {
         <>
           {item.backgroundImage ? (
             <>
-              <Image
+              <Image quality={100}
                 src={item.backgroundImage}
                 alt=""
                 fill
