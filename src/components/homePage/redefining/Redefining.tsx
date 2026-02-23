@@ -53,7 +53,7 @@ export default function Redefining() {
             for industry.
           </p>
         </div>
-        <Image quality={100}
+        <img
           src="/images/homePage/redefining/infographicMob.svg"
           alt="infographic"
           width={328}
