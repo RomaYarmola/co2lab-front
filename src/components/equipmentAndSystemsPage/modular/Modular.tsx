@@ -20,7 +20,7 @@ export default function Modular() {
   return (
     <section className="py-12 lg:pt-[134px] lg:pb-0">
       <Container className="relative flex flex-col sm:flex-row sm:items-center gap-8">
-        <Image
+        <Image quality={90}
           src="/images/supplyPage/biogenic/bgMob.svg"
           alt="bg mobile"
           width={158}
@@ -28,7 +28,7 @@ export default function Modular() {
           className="absolute -top-23 -left-12 -z-10 object-cover object-right pointer-events-none lg:hidden"
           aria-hidden
         />
-        <Image
+        <Image quality={90}
           src="/images/supplyPage/biogenic/bgDesk.svg"
           alt="bg desktop"
           width={279}

@@ -65,7 +65,7 @@ export default function ImageCarousel({
             key={idx}
             className={`carousel-card-item ${card.className} w-full h-full rounded-[12px] overflow-hidden shadow-[inset_0_0_60px_rgba(0,0,0,0.2)]`}
           >
-            <Image
+            <Image quality={90}
               src={card.image.src}
               alt={card.image.alt ?? ""}
               fill

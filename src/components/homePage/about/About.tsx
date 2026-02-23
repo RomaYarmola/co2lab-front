@@ -10,7 +10,7 @@ export default function About() {
       <Container>
         <div className="relative rounded-[18px] px-3 lg:px-[46px] pt-8 lg:pt-[62px] pb-[182px] lg:pb-[117px]">
           <div className="absolute -z-10 inset-0 overflow-hidden rounded-[18px] bg-[linear-gradient(353.3deg,rgba(0,0,0,0)_44.74%,rgba(0,0,0,0.6)_67.83%)]">
-            <Image
+            <Image quality={90}
               src="/images/homePage/about/about.webp"
               alt="About CO2LAB"
               fill
@@ -18,7 +18,7 @@ export default function About() {
             />
             <div className="absolute z-10 inset-0 overflow-hidden rounded-[18px] bg-[linear-gradient(353.3deg,rgba(0,0,0,0)_44.74%,rgba(0,0,0,0.6)_67.83%)]" />
             <div className="absolute top-[-131px] lg:top-[-537px] right-0 z-20 w-[232px] lg:w-[538px] h-[259px] lg:h-[1068px]">
-              <Image
+              <Image quality={90}
                 src="/images/homePage/about/smoke.webp"
                 alt="Smoke"
                 fill

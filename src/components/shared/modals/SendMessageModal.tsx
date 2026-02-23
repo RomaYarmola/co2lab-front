@@ -26,7 +26,7 @@ export default function SendMessageModal({
       className="px-7 py-8 lg:px-30 lg:py-12"
     >
       {/* Фонові картинки */}
-      <Image
+      <Image quality={90}
         src="/images/modals/bgTopMob.svg"
         alt=""
         width={29}
@@ -34,7 +34,7 @@ export default function SendMessageModal({
         aria-hidden
         className="absolute left-0 top-0 z-0 pointer-events-none lg:hidden"
       />
-      <Image
+      <Image quality={90}
         src="/images/modals/bgTopDesk.svg"
         alt=""
         width={143}
@@ -42,7 +42,7 @@ export default function SendMessageModal({
         aria-hidden
         className="absolute left-0 top-0 z-0 pointer-events-none hidden lg:block"
       />
-      <Image
+      <Image quality={90}
         src="/images/modals/bgBottomDesk.svg"
         alt=""
         width={187}

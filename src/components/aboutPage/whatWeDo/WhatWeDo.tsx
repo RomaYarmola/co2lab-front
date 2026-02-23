@@ -9,7 +9,7 @@ export default function WhatWeDo() {
     <section className="py-12 lg:pt-[108px] lg:pb-0">
       <div className="relative rounded-[28px] bg-black py-8 lg:pt-[59px] lg:pb-12">
         <Container className="relative">
-          <Image
+          <Image quality={90}
             src="/images/aboutPage/whatWeDo/bgMob.svg"
             alt="background mobile"
             width="188"
@@ -17,7 +17,7 @@ export default function WhatWeDo() {
             className="absolute -right-3 top-0 pointer-events-none lg:hidden"
             aria-hidden
           />
-          <Image
+          <Image quality={90}
             src="/images/aboutPage/whatWeDo/bgLeftDesk.svg"
             alt="background left desktop"
             width="328"
@@ -25,7 +25,7 @@ export default function WhatWeDo() {
             className="absolute right-[447px] xl:right-[647px] -top-5 pointer-events-none hidden lg:block"
             aria-hidden
           />
-          <Image
+          <Image quality={90}
             src="/images/aboutPage/whatWeDo/bgRightDesk.svg"
             alt="background right desktop"
             width="264"

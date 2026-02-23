@@ -7,7 +7,7 @@ export default function Approach() {
   return (
     <section className="py-12 lg:pt-30 lg:pb-0">
       <Container className="relative">
-        <Image
+        <Image quality={90}
           src="/images/aboutPage/approach/bgMob.svg"
           alt=""
           aria-hidden
@@ -15,7 +15,7 @@ export default function Approach() {
           height={216}
           className="absolute -z-10 -top-20 -left-2 pointer-events-none lg:hidden"
         />
-        <Image
+        <Image quality={90}
           src="/images/aboutPage/approach/bgDesk.svg"
           alt=""
           aria-hidden

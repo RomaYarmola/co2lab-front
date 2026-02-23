@@ -33,7 +33,7 @@ export default function FoodList() {
           key={item.title}
           className="relative h-30 w-full rounded-[20px] overflow-hidden text-white lg:h-[227px] xl:h-[304px] sm:w-[calc(50%-8px)] lg:w-[calc(25%-15px)]"
         >
-          <Image
+          <Image quality={90}
             src={item.image}
             alt={item.imageAlt}
             fill

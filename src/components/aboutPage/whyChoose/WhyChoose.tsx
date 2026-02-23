@@ -6,7 +6,7 @@ export default function WhyChoose() {
   return (
     <section className="py-12 lg:pt-30 lg:pb-0">
       <Container className="relative flex flex-col md:flex-row-reverse md:items-center gap-8 md:gap-5 lg:gap-15 xl:gap-[98px]">
-        <Image
+        <Image quality={90}
           src="/images/aboutPage/whyChoose/bgMob.svg"
           alt=""
           aria-hidden
@@ -14,7 +14,7 @@ export default function WhyChoose() {
           width="208"
           height="213"
         />
-        <Image
+        <Image quality={90}
           src="/images/aboutPage/whyChoose/bgDesk.svg"
           alt=""
           aria-hidden
@@ -35,7 +35,7 @@ export default function WhyChoose() {
           </p>
         </div>
         <div className="relative rounded-[18px] md:w-[calc(50%-10px)] h-[158px] xs:h-[248px] md:h-auto md:min-h-[208px] lg:min-h-[281px] overflow-hidden">
-          <Image
+          <Image quality={90}
             src="/images/aboutPage/whyChoose/whyChoose.webp"
             alt="Why Choose CO2Lab"
             fill

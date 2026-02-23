@@ -8,7 +8,7 @@ export default function Food() {
     <section className="py-12 lg:pt-[132px] lg:pb-0">
       <Container>
         <div className="relative flex flex-col md:flex-row md:justify-between md:items-center gap-3 mb-4 lg:mb-6">
-          <Image
+          <Image quality={90}
             src="/images/industriesWeServePage/food/bgMob.svg"
             alt=""
             width={200}
@@ -16,7 +16,7 @@ export default function Food() {
             className="pointer-events-none absolute top-[-72px] right-[-26px] z-10 w-auto h-auto lg:hidden"
             aria-hidden
           />
-          <Image
+          <Image quality={90}
             src="/images/industriesWeServePage/food/bgDesk.svg"
             alt=""
             width={320}

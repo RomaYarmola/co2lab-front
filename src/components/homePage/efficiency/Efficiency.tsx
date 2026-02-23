@@ -26,7 +26,7 @@ export default function Efficiency() {
               transition={{ ...slideInTransition, delay: 0 }}
               className="shrink-0"
             >
-              <Image
+              <Image quality={90}
                 src="/images/homePage/efficiency/leftTop.webp"
                 alt="Low Emissions"
                 width={553}
@@ -45,7 +45,7 @@ export default function Efficiency() {
               transition={{ ...slideInTransition, delay: 0.2 }}
               className="shrink-0"
             >
-              <Image
+              <Image quality={90}
                 src="/images/homePage/efficiency/rightTop.webp"
                 alt="Low Emissions"
                 width={580}
@@ -64,7 +64,7 @@ export default function Efficiency() {
               transition={{ ...slideInTransition, delay: 0.4 }}
               className="shrink-0"
             >
-              <Image
+              <Image quality={90}
                 src="/images/homePage/efficiency/leftBottom.webp"
                 alt="Low Emissions"
                 width={614}
@@ -88,7 +88,7 @@ export default function Efficiency() {
               transition={{ ...slideInTransition, delay: 0.6 }}
               className="shrink-0"
             >
-              <Image
+              <Image quality={90}
                 src="/images/homePage/efficiency/rightBottom.webp"
                 alt="Low Emissions"
                 width={569}

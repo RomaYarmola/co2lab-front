@@ -31,7 +31,7 @@ export default function Distribution() {
   return (
     <section className="py-12 lg:pt-[136px] lg:pb-0 relative">
       <Container className="relative">
-        <Image
+        <Image quality={90}
           src="/images/engineeringSolutionsPage/technologies/bgMobile.svg"
           alt=""
           width={150}
@@ -39,7 +39,7 @@ export default function Distribution() {
           className="absolute top-[-80px] left-[-22px] -z-10 pointer-events-none md:hidden"
           aria-hidden
         />
-        <Image
+        <Image quality={90}
           src="/images/engineeringSolutionsPage/technologies/bgDesktop.svg"
           alt=""
           width={279}
@@ -89,7 +89,7 @@ export default function Distribution() {
                   </p>
                 </div>
                 <div className="relative rounded-[12px] shrink-0 lg:h-full w-[129px] lg:w-[187px] xl:w-[280px] min-h-[124px] lg:min-h-[228px] overflow-hidden">
-                  <Image
+                  <Image quality={90}
                     src={item.image}
                     alt={item.imageAlt}
                     fill

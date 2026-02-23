@@ -9,7 +9,7 @@ export default function Activity() {
     <section className="py-12 lg:py-0">
       <div className="relative rounded-[28px] bg-black py-8 lg:pt-[59px] lg:pb-12">
         <Container className="relative">
-          <Image
+          <Image quality={90}
             src="/images/homePage/activity/bgMob.svg"
             alt=""
             width={185}
@@ -17,7 +17,7 @@ export default function Activity() {
             className="absolute -right-1 -top-1 pointer-events-none lg:hidden"
             aria-hidden
           />
-          <Image
+          <Image quality={90}
             src="/images/homePage/activity/bgLeftDesk.svg"
             alt=""
             width={328}
@@ -25,7 +25,7 @@ export default function Activity() {
             className="absolute right-[335px] top-5 pointer-events-none hidden lg:block"
             aria-hidden
           />
-          <Image
+          <Image quality={90}
             src="/images/homePage/activity/bgRightDesk.svg"
             alt=""
             width={290}
