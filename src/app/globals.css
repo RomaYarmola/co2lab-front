@@ -1,0 +1,626 @@
+@import "tailwindcss";
+@import "react-phone-number-input/style.css";
+@plugin 'tailwind-scrollbar' {
+  nocompatible: true;
+  preferredstrategy: "pseudoelements";
+}
+
+@theme inline {
+  --breakpoint-xs: 27rem;
+
+  --color-white: #ffffff;
+  --color-black: #262626;
+
+  --font-montserrat: var(--font-montserrat);
+}
+
+@layer base {
+  :root:has(.no-doc-scroll) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  html,
+  body {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  body {
+    background: var(--color-white);
+    color: var(--color-black);
+    font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  *,
+  *::after,
+  *::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer utilities {
+  .popup-scroll::-webkit-scrollbar-track {
+    margin-top: 9px;
+    margin-bottom: 9px;
+  }
+
+  /* Phone Input Customization */
+  .PhoneInput {
+    --PhoneInputCountryFlag-aspectRatio: 1.333;
+    --PhoneInputCountryFlag-height: 24px;
+    --PhoneInputCountrySelect-marginRight: 10px;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .PhoneInputCountry {
+    border-right: 1px solid rgba(4, 4, 4, 0.4);
+    padding-right: 12px;
+  }
+
+  .PhoneInputCountryIcon {
+    width: 32px;
+    margin-right: 10px;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .PhoneInputInput {
+    outline: none !important;
+    border: none !important;
+    flex: 1;
+    background: transparent;
+  }
+
+  .PhoneInputInput:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Phone Input Dropdown Styles */
+  .PhoneInputCountrySelect {
+    background-color: var(--color-white) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    max-height: 200px !important;
+    overflow-y: auto !important;
+    z-index: 10 !important;
+  }
+
+  /* Scrollbar styling for dropdown */
+  .PhoneInputCountrySelect::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .PhoneInputCountrySelect::-webkit-scrollbar-track {
+    background: var(--color-white);
+  }
+
+  .PhoneInputCountrySelect::-webkit-scrollbar-thumb {
+    background: rgba(250, 54, 68, 0.4);
+    border-radius: 3px;
+  }
+
+  .PhoneInputCountrySelect::-webkit-scrollbar-thumb:hover {
+    background: rgba(250, 54, 68, 0.6);
+  }
+
+  .group-data-\[invalid\=true\]\:text-danger:is(
+    :where(.group)[data-invalid="true"] *
+  ) {
+    color: var(--color-accent) !important;
+  }
+
+  /* RadioGroup Customization - перевизначення primary кольору на accent */
+  .bg-primary {
+    background-color: var(--color-accent) !important;
+  }
+
+  .border-default {
+    border-color: var(--color-black) !important;
+    border-width: 1px !important;
+  }
+
+  .group-data-\[selected\=true\]\:border-primary:is(
+    :where(.group)[data-selected="true"] *
+  ) {
+    border-color: var(--color-accent) !important;
+  }
+
+  /* Select Customization - перевизначення content1 кольору на білий */
+  .bg-content1 {
+    background-color: var(--color-white) !important;
+  }
+
+  /* Select Customization - перевизначення focus кольору на акцентний 40% */
+  .data-\[selectable\=true\]\:focus\:bg-default[data-selectable="true"]:focus {
+    background-color: rgba(250, 54, 68, 0.25) !important;
+  }
+
+  /* ImageCarousel — моб: 8+7px, десктоп: 16+14px, картка = ширина батька − сума відступів */
+  .carousel-card-stack {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .carousel-card-item {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: calc(100% - 15px);
+    transform-origin: right center;
+    transition: all 2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
+
+  @media (min-width: 1024px) {
+    .carousel-card-item {
+      width: calc(100% - 30px);
+    }
+  }
+
+  .carousel-right-card {
+    height: 193px;
+    transform: translate(-15px, -50%);
+    z-index: 30;
+    animation: carouselMoveToLeft 15s cubic-bezier(0.645, 0.045, 0.355, 1)
+      infinite;
+  }
+
+  .carousel-center-card {
+    height: 172px;
+    transform: translate(-7px, -50%);
+    z-index: 20;
+    animation: carouselMoveToRight 15s cubic-bezier(0.645, 0.045, 0.355, 1)
+      infinite;
+  }
+
+  .carousel-left-card {
+    height: 139px;
+    transform: translate(0, -50%);
+    z-index: 10;
+    animation: carouselMoveToMiddle 15s cubic-bezier(0.645, 0.045, 0.355, 1)
+      infinite;
+  }
+
+  /* Extended layout (N > 3): static, no animation; backstack = same size as center, under it */
+  .carousel-extended .carousel-right-card,
+  .carousel-extended .carousel-center-card,
+  .carousel-extended .carousel-left-card {
+    animation: none;
+  }
+
+  .carousel-backstack-card {
+    height: 172px;
+    transform: translate(-7px, -50%);
+    z-index: 5;
+  }
+
+  @media (min-width: 1024px) {
+    .carousel-right-card {
+      height: 252px;
+      transform: translate(-30px, -50%);
+      animation: carouselMoveToLeftDesktop 10s
+        cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+    }
+
+    .carousel-center-card {
+      height: 224px;
+      transform: translate(-14px, -50%);
+      animation: carouselMoveToRightDesktop 10s
+        cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+    }
+
+    .carousel-left-card {
+      height: 181px;
+      animation: carouselMoveToMiddleDesktop 10s
+        cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+    }
+
+    .carousel-backstack-card {
+      height: 224px;
+      transform: translate(-14px, -50%);
+    }
+  }
+
+  @keyframes carouselMoveToLeft {
+    0%,
+    28% {
+      transform: translate(-15px, -50%);
+      height: 193px;
+      z-index: 30;
+    }
+    33%,
+    61% {
+      transform: translate(0, -50%);
+      height: 139px;
+      z-index: 10;
+    }
+    66%,
+    94% {
+      transform: translate(-7px, -50%);
+      height: 172px;
+      z-index: 20;
+    }
+    99%,
+    100% {
+      transform: translate(-15px, -50%);
+      height: 193px;
+      z-index: 30;
+    }
+  }
+
+  @keyframes carouselMoveToRight {
+    0%,
+    28% {
+      transform: translate(-7px, -50%);
+      height: 172px;
+      z-index: 20;
+    }
+    33%,
+    61% {
+      transform: translate(-15px, -50%);
+      height: 193px;
+      z-index: 30;
+    }
+    66%,
+    94% {
+      transform: translate(0, -50%);
+      height: 139px;
+      z-index: 10;
+    }
+    99%,
+    100% {
+      transform: translate(-7px, -50%);
+      height: 172px;
+      z-index: 20;
+    }
+  }
+
+  @keyframes carouselMoveToMiddle {
+    0%,
+    28% {
+      transform: translate(0, -50%);
+      height: 139px;
+      z-index: 10;
+    }
+    33%,
+    61% {
+      transform: translate(-7px, -50%);
+      height: 172px;
+      z-index: 20;
+    }
+    66%,
+    94% {
+      transform: translate(-15px, -50%);
+      height: 193px;
+      z-index: 30;
+    }
+    99%,
+    100% {
+      transform: translate(0, -50%);
+      height: 139px;
+      z-index: 10;
+    }
+  }
+
+  @keyframes carouselMoveToLeftDesktop {
+    0%,
+    28% {
+      transform: translate(-30px, -50%);
+      height: 252px;
+      z-index: 30;
+    }
+    33%,
+    61% {
+      transform: translate(0, -50%);
+      height: 181px;
+      z-index: 10;
+    }
+    66%,
+    94% {
+      transform: translate(-14px, -50%);
+      height: 224px;
+      z-index: 20;
+    }
+    99%,
+    100% {
+      transform: translate(-30px, -50%);
+      height: 252px;
+      z-index: 30;
+    }
+  }
+
+  @keyframes carouselMoveToRightDesktop {
+    0%,
+    28% {
+      transform: translate(-14px, -50%);
+      height: 224px;
+      z-index: 20;
+    }
+    33%,
+    61% {
+      transform: translate(-30px, -50%);
+      height: 252px;
+      z-index: 30;
+    }
+    66%,
+    94% {
+      transform: translate(0, -50%);
+      height: 181px;
+      z-index: 10;
+    }
+    99%,
+    100% {
+      transform: translate(-14px, -50%);
+      height: 224px;
+      z-index: 20;
+    }
+  }
+
+  @keyframes carouselMoveToMiddleDesktop {
+    0%,
+    28% {
+      transform: translate(0, -50%);
+      height: 181px;
+      z-index: 10;
+    }
+    33%,
+    61% {
+      transform: translate(-14px, -50%);
+      height: 224px;
+      z-index: 20;
+    }
+    66%,
+    94% {
+      transform: translate(-30px, -50%);
+      height: 252px;
+      z-index: 30;
+    }
+    99%,
+    100% {
+      transform: translate(0, -50%);
+      height: 181px;
+      z-index: 10;
+    }
+  }
+
+  /* ImageCarousel variant: left (нижні картки виступають зліва) */
+  .carousel-variant-left .carousel-card-item {
+    left: 0;
+    right: auto;
+    transform-origin: left center;
+  }
+
+  .carousel-variant-left .carousel-right-card {
+    transform: translate(15px, -50%);
+    animation: carouselMoveToLeftFromLeft 15s
+      cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+  }
+
+  .carousel-variant-left .carousel-center-card {
+    transform: translate(7px, -50%);
+    animation: carouselMoveToRightFromLeft 15s
+      cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+  }
+
+  .carousel-variant-left .carousel-left-card {
+    transform: translate(0, -50%);
+    animation: carouselMoveToMiddleFromLeft 15s
+      cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+  }
+
+  .carousel-variant-left .carousel-backstack-card {
+    transform: translate(7px, -50%);
+  }
+
+  .carousel-variant-left.carousel-extended .carousel-right-card,
+  .carousel-variant-left.carousel-extended .carousel-center-card,
+  .carousel-variant-left.carousel-extended .carousel-left-card {
+    animation: none;
+  }
+
+  @media (min-width: 1024px) {
+    .carousel-variant-left .carousel-right-card {
+      transform: translate(30px, -50%);
+      animation: carouselMoveToLeftFromLeftDesktop 10s
+        cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+    }
+
+    .carousel-variant-left .carousel-center-card {
+      transform: translate(14px, -50%);
+      animation: carouselMoveToRightFromLeftDesktop 10s
+        cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+    }
+
+    .carousel-variant-left .carousel-left-card {
+      transform: translate(0, -50%);
+      animation: carouselMoveToMiddleFromLeftDesktop 10s
+        cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+    }
+
+    .carousel-variant-left .carousel-backstack-card {
+      transform: translate(14px, -50%);
+    }
+  }
+
+  @keyframes carouselMoveToLeftFromLeft {
+    0%,
+    28% {
+      transform: translate(15px, -50%);
+      height: 193px;
+      z-index: 30;
+    }
+    33%,
+    61% {
+      transform: translate(0, -50%);
+      height: 139px;
+      z-index: 10;
+    }
+    66%,
+    94% {
+      transform: translate(7px, -50%);
+      height: 172px;
+      z-index: 20;
+    }
+    99%,
+    100% {
+      transform: translate(15px, -50%);
+      height: 193px;
+      z-index: 30;
+    }
+  }
+
+  @keyframes carouselMoveToRightFromLeft {
+    0%,
+    28% {
+      transform: translate(7px, -50%);
+      height: 172px;
+      z-index: 20;
+    }
+    33%,
+    61% {
+      transform: translate(15px, -50%);
+      height: 193px;
+      z-index: 30;
+    }
+    66%,
+    94% {
+      transform: translate(0, -50%);
+      height: 139px;
+      z-index: 10;
+    }
+    99%,
+    100% {
+      transform: translate(7px, -50%);
+      height: 172px;
+      z-index: 20;
+    }
+  }
+
+  @keyframes carouselMoveToMiddleFromLeft {
+    0%,
+    28% {
+      transform: translate(0, -50%);
+      height: 139px;
+      z-index: 10;
+    }
+    33%,
+    61% {
+      transform: translate(7px, -50%);
+      height: 172px;
+      z-index: 20;
+    }
+    66%,
+    94% {
+      transform: translate(15px, -50%);
+      height: 193px;
+      z-index: 30;
+    }
+    99%,
+    100% {
+      transform: translate(0, -50%);
+      height: 139px;
+      z-index: 10;
+    }
+  }
+
+  @keyframes carouselMoveToLeftFromLeftDesktop {
+    0%,
+    28% {
+      transform: translate(30px, -50%);
+      height: 252px;
+      z-index: 30;
+    }
+    33%,
+    61% {
+      transform: translate(0, -50%);
+      height: 181px;
+      z-index: 10;
+    }
+    66%,
+    94% {
+      transform: translate(14px, -50%);
+      height: 224px;
+      z-index: 20;
+    }
+    99%,
+    100% {
+      transform: translate(30px, -50%);
+      height: 252px;
+      z-index: 30;
+    }
+  }
+
+  @keyframes carouselMoveToRightFromLeftDesktop {
+    0%,
+    28% {
+      transform: translate(14px, -50%);
+      height: 224px;
+      z-index: 20;
+    }
+    33%,
+    61% {
+      transform: translate(30px, -50%);
+      height: 252px;
+      z-index: 30;
+    }
+    66%,
+    94% {
+      transform: translate(0, -50%);
+      height: 181px;
+      z-index: 10;
+    }
+    99%,
+    100% {
+      transform: translate(14px, -50%);
+      height: 224px;
+      z-index: 20;
+    }
+  }
+
+  @keyframes carouselMoveToMiddleFromLeftDesktop {
+    0%,
+    28% {
+      transform: translate(0, -50%);
+      height: 181px;
+      z-index: 10;
+    }
+    33%,
+    61% {
+      transform: translate(14px, -50%);
+      height: 224px;
+      z-index: 20;
+    }
+    66%,
+    94% {
+      transform: translate(30px, -50%);
+      height: 252px;
+      z-index: 30;
+    }
+    99%,
+    100% {
+      transform: translate(0, -50%);
+      height: 181px;
+      z-index: 10;
+    }
+  }
+}
