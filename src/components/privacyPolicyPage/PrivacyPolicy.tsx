@@ -1,13 +1,13 @@
 import Container from "@/components/shared/container/Container";
 import PageTitle from "../shared/titles/PageTitle";
-import { CONTACT_EMAIL } from "@/constants/contact";
+import { CONTACT_EMAIL_REQUEST } from "@/constants/contact";
 
 const sections = [
   {
     title: "INTRODUCTION",
     content: (
       <p>
-        CO₂ Lab (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) respects your
+        CO2Lab (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) respects your
         privacy and is committed to protecting personal data. This Privacy
         Policy explains how we collect, use, and safeguard information when you
         visit our website.
@@ -95,10 +95,10 @@ const sections = [
         <p>
           Email:{" "}
           <a
-            href={`mailto:${CONTACT_EMAIL}`}
+            href={`mailto:${CONTACT_EMAIL_REQUEST}`}
             className="underline hover:no-underline focus:outline-none focus:underline"
           >
-            {CONTACT_EMAIL}
+            {CONTACT_EMAIL_REQUEST}
           </a>
         </p>
       </>
