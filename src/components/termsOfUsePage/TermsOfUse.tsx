@@ -1,6 +1,6 @@
 import Container from "@/components/shared/container/Container";
 import PageTitle from "../shared/titles/PageTitle";
-import { CONTACT_EMAIL } from "@/constants/contact";
+import { CONTACT_EMAIL_REQUEST } from "@/constants/contact";
 
 const sections = [
   {
@@ -16,8 +16,8 @@ const sections = [
     title: "USE OF WEBSITE",
     content: (
       <p>
-        This website is provided for informational purposes only. Content may
-        be changed or updated without prior notice.
+        This website is provided for informational purposes only. Content may be
+        changed or updated without prior notice.
       </p>
     ),
   },
@@ -26,7 +26,7 @@ const sections = [
     content: (
       <p>
         All content on this website, including text, images, graphics, and
-        logos, is the property of CO₂ Lab or its licensors and is protected by
+        logos, is the property of CO2Lab or its licensors and is protected by
         applicable intellectual property laws.
       </p>
     ),
@@ -36,7 +36,7 @@ const sections = [
     content: (
       <p>
         Information on this website is provided &quot;as is&quot; without
-        warranties of any kind. CO₂ Lab does not guarantee the accuracy or
+        warranties of any kind. CO2Lab does not guarantee the accuracy or
         completeness of the content.
       </p>
     ),
@@ -45,7 +45,7 @@ const sections = [
     title: "LIMITATION OF LIABILITY",
     content: (
       <p>
-        CO₂ Lab shall not be liable for any direct or indirect damages arising
+        CO2Lab shall not be liable for any direct or indirect damages arising
         from the use or inability to use this website.
       </p>
     ),
@@ -54,7 +54,7 @@ const sections = [
     title: "EXTERNAL LINKS",
     content: (
       <p>
-        This website may contain links to third-party websites. CO₂ Lab is not
+        This website may contain links to third-party websites. CO2Lab is not
         responsible for the content or practices of external sites.
       </p>
     ),
@@ -78,10 +78,10 @@ const sections = [
         <p>
           Email:{" "}
           <a
-            href={`mailto:${CONTACT_EMAIL}`}
+            href={`mailto:${CONTACT_EMAIL_REQUEST}`}
             className="underline hover:no-underline focus:outline-none focus:underline"
           >
-            {CONTACT_EMAIL}
+            {CONTACT_EMAIL_REQUEST}
           </a>
         </p>
       </>
