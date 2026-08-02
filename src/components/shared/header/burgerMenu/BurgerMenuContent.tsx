@@ -9,13 +9,17 @@ import {
 import MobileNavMenu from "./MobileNavMenu";
 import Container from "../../container/Container";
 import Image from "next/image";
+import LanguageSwitcher from "../LanguageSwitcher";
+import type { Locale } from "@/i18n/config";
 
 interface BurgerMenuContentProps {
+  locale: Locale;
   isOpen: boolean;
   setIsOpenBurgerMenu: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function BurgerMenuContent({
+  locale,
   isOpen,
   setIsOpenBurgerMenu,
 }: BurgerMenuContentProps) {
@@ -23,7 +27,7 @@ export default function BurgerMenuContent({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="md:hidden fixed right-0 top-0 z-40 pt-[71px] w-full h-dvh max-h-dvh bg-white overflow-hidden no-doc-scroll"
+          className="xl:hidden fixed right-0 top-0 z-40 pt-[71px] w-full h-dvh max-h-dvh bg-white overflow-hidden no-doc-scroll"
           initial="hidden"
           animate="visible"
           exit="exit"
@@ -56,7 +60,24 @@ export default function BurgerMenuContent({
               animate="visible"
               exit="exit"
             >
-              <MobileNavMenu setIsOpenBurgerMenu={setIsOpenBurgerMenu} />
+              <MobileNavMenu
+                locale={locale}
+                setIsOpenBurgerMenu={setIsOpenBurgerMenu}
+              />
+            </motion.div>
+
+            <motion.div
+              variants={burgerListVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="mt-10 shrink-0"
+            >
+              <LanguageSwitcher
+                locale={locale}
+                variant="mobile"
+                onNavigate={() => setIsOpenBurgerMenu(false)}
+              />
             </motion.div>
           </Container>
         </motion.div>

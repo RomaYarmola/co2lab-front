@@ -8,6 +8,7 @@ import { contactValidation } from "@/schemas/contactFormValidation";
 import MainButton from "../buttons/MainButton";
 import { twMerge } from "tailwind-merge";
 import SectionTitle from "../titles/SectionTitle";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 interface ContactFormValues {
   name: string;
@@ -34,9 +35,10 @@ export default function ContactForm({
   titleClassName = "",
   buttonClassName = "",
 }: ContactFormProps) {
+  const t = useTranslations("forms");
   const [isLoading, setIsLoading] = useState(false);
 
-  const validationSchema = contactValidation();
+  const validationSchema = contactValidation(t);
 
   const initialValues: ContactFormValues = {
     name: "",
@@ -91,7 +93,7 @@ export default function ContactForm({
   return (
     <div className={twMerge("", className)}>
       <SectionTitle className={twMerge("mb-8 lg:mb-8", titleClassName)}>
-        Send us a message
+        {t("sendUsAMessage")}
       </SectionTitle>
 
       <Formik
@@ -102,17 +104,17 @@ export default function ContactForm({
         {({ dirty, isValid }) => (
           <Form>
             <div className="flex flex-col gap-4 mb-6">
-              <CustomizedInput fieldName="name" placeholder="Full name*" />
-              <CustomizedInput fieldName="company" placeholder="Company name" />
+              <CustomizedInput fieldName="name" placeholder={t("fullNamePlaceholder")} />
+              <CustomizedInput fieldName="company" placeholder={t("companyPlaceholder")} />
               <CustomizedInput
                 fieldName="phone"
                 inputType="tel"
                 fieldClassName="px-6 py-0 lg:py-0"
               />
-              <CustomizedInput fieldName="email" placeholder="Email address" />
+              <CustomizedInput fieldName="email" placeholder={t("emailAddressPlaceholder")} />
               <CustomizedInput
                 fieldName="message"
-                placeholder="Message"
+                placeholder={t("message")}
                 as="textarea"
                 fieldClassName="h-30 lg:h-[172px] p-4 rounded-[24px]"
               />
@@ -122,10 +124,10 @@ export default function ContactForm({
                 type="submit"
                 disabled={!(dirty && isValid) || isLoading}
                 isLoading={isLoading}
-                loadingText="Sending..."
+                loadingText={t("submitting")}
                 className={twMerge("w-full sm:max-w-[288px] ml-auto", buttonClassName)}
               >
-                Send Request
+                {t("sendRequest")}
               </MainButton>
             </div>
           </Form>

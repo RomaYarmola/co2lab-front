@@ -1,14 +1,20 @@
 import type { MetadataRoute } from "next";
-
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://co2lab.com";
+import { getBaseUrl } from "@/utils/createMetadata";
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = getBaseUrl();
+
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: ["/api/"],
-    },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        // /api — службові ендпоінти; ?q= — клієнтський пошук каталогу,
+        // індексувати його немає сенсу (нескінченні комбінації параметрів).
+        disallow: ["/api/", "/*?q=", "/*&q="],
+      },
+    ],
     sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

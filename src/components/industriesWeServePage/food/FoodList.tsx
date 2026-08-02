@@ -1,31 +1,23 @@
 import Image from "next/image";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
 const IMAGE_BASE = "/images/industriesWeServePage/food";
 
-const items = [
-  {
-    title: "Carbonation of soft drinks and beer",
-    image: `${IMAGE_BASE}/imageOne.webp`,
-    imageAlt: "Carbonation of soft drinks and beer",
-  },
-  {
-    title: "Cooling and freezing processes",
-    image: `${IMAGE_BASE}/imageTwo.webp`,
-    imageAlt: "Cooling and freezing processes",
-  },
-  {
-    title: "Inerting during production and storage",
-    image: `${IMAGE_BASE}/imageThree.webp`,
-    imageAlt: "Inerting during production and storage",
-  },
-  {
-    title: "Modified atmosphere packaging (MAP)",
-    image: `${IMAGE_BASE}/imageFour.webp`,
-    imageAlt: "Modified atmosphere packaging (MAP)",
-  },
+/** Зображення карток; заголовки — у словнику `pages.industries.food.items`. */
+const cardImages = [
+  `${IMAGE_BASE}/imageOne.webp`,
+  `${IMAGE_BASE}/imageTwo.webp`,
+  `${IMAGE_BASE}/imageThree.webp`,
+  `${IMAGE_BASE}/imageFour.webp`,
 ];
 
-export default function FoodList() {
+export default function FoodList({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.industries.food");
+  const items = t
+    .list<{ title: string }>("items")
+    .map((item, index) => ({ ...item, image: cardImages[index] }));
+
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap lg:gap-5">
       {items.map((item, idx) => (
@@ -35,7 +27,7 @@ export default function FoodList() {
         >
           <Image quality={100}
             src={item.image}
-            alt={item.imageAlt}
+            alt={item.title}
             fill
             className="object-cover -z-20"
           />

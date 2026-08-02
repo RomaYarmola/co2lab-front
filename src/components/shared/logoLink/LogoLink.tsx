@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
+import { defaultLocale, localizePath, type Locale } from "@/i18n/config";
 
 type LogoLinkVariant = "white" | "black";
 
@@ -7,6 +8,7 @@ type LogoLinkProps = {
   variant?: LogoLinkVariant;
   onNavigate?: () => void;
   className?: string;
+  locale?: Locale;
 };
 
 const fillColor = {
@@ -18,14 +20,15 @@ export default function LogoLink({
   variant = "black",
   onNavigate,
   className,
+  locale = defaultLocale,
 }: LogoLinkProps) {
   const fill = fillColor[variant];
   const fillValue = `var(--logo-fill, ${fill})`;
 
   return (
     <Link
-      href="/"
-      aria-label="Go to home"
+      href={localizePath(locale, "/")}
+      aria-label="CO₂ Lab"
       className={twMerge(
         "relative z-50 transition-opacity xl:hover:opacity-80 focus-visible:opacity-80 transition-duration-300 ease-in-out outline-none",
         className,

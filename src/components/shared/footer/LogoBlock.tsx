@@ -2,11 +2,16 @@ import { ICELAB_LINK, SOCIAL_LINK_INSTAGRAM_ICELAB } from "@/constants/contact";
 import LogoLink from "../logoLink/LogoLink";
 import IceLabIcon from "../icons/IceLabIcon";
 import InstagramIcon from "../icons/InstagramIcon";
+import type { Locale } from "@/i18n/config";
 
-export default function LogoBlock() {
+export default function LogoBlock({ locale }: { locale: Locale }) {
   return (
     <div className="max-w-[217px]">
-      <LogoLink variant="white" className="inline-block mb-10 lg:mb-12" />
+      <LogoLink
+        variant="white"
+        locale={locale}
+        className="mb-10 inline-block lg:mb-12"
+      />
       <div className="flex gap-4 items-center mb-6">
         <a
           href={ICELAB_LINK}

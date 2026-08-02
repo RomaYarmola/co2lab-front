@@ -1,5 +1,7 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
 const slideInTransition = {
   duration: 1.5,
@@ -17,10 +19,10 @@ const slideDistances = [80, 60, 40, 20];
 const initialScales = [0.9, 0.85, 0.8];
 
 // Мобілка: перша 142×142, друга 212×331, третя 99×106. lg — розміри з SVG.
+/** Оформлення карток; заголовки — у словнику `pages.home.benefits.cards`. */
 const benefitCards = [
   {
     id: "sustainable-tech",
-    title: "Sustainable tech adoption",
     image: "/images/homePage/benefits/imageTwo.svg",
     imageWidth: 291,
     imageHeight: 291,
@@ -30,7 +32,6 @@ const benefitCards = [
   },
   {
     id: "certified-quality",
-    title: "Certified quality",
     image: "/images/homePage/benefits/imageThree.svg",
     imageWidth: 194,
     imageHeight: 194,
@@ -40,7 +41,6 @@ const benefitCards = [
   },
   {
     id: "co2-monetization",
-    title: "CO₂ monetization",
     image: "/images/homePage/benefits/ImageFour.svg",
     imageWidth: 159,
     imageHeight: 171,
@@ -50,16 +50,19 @@ const benefitCards = [
   },
 ] as const;
 
-export default function BenefitsList() {
+export default function BenefitsList({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.home.benefits");
+  const cards = t.list<{ title: string }>("cards");
+
   return (
-    <div className="flex flex-wrap gap-x-4 gap-y-8 md:gap-5 xs:mx-auto xs:max-w-[408px] md:mx-0 md:max-w-full">
+    <div className="grid grid-cols-2 gap-x-4 gap-y-8 xs:mx-auto xs:max-w-[408px] md:mx-0 md:max-w-full md:grid-cols-4 md:gap-5">
       {/* Primary dark card — тільки текст */}
       <motion.div
         initial={{ opacity: 0, x: slideDistances[0], scale: 0.95 }}
         whileInView={slideEnd}
         viewport={viewport}
         transition={{ ...slideInTransition, delay: 0 }}
-        className="relative flex min-h-[304px] flex-[0_0_calc(50%-8px)] flex-col justify-center overflow-hidden rounded-full bg-black p-3.5 text-white lg:min-h-[490px] lg:p-5 md:flex-[0_0_calc(25%-15px)]"
+        className="relative flex min-h-[340px] flex-col justify-center overflow-hidden rounded-full bg-black px-5 py-6 text-white sm:min-h-[304px] lg:min-h-[490px] lg:px-5"
       >
         <Image quality={100}
           src="/images/homePage/benefits/imageOneTop.svg"
@@ -78,11 +81,10 @@ export default function BenefitsList() {
           aria-hidden
         />
         <h2 className="relative mb-3 text-[16px] font-medium uppercase leading-[120%] lg:max-w-[204px] lg:mb-4.5 lg:text-[36px]">
-          How it helps your business
+          {t("title")}
         </h2>
-        <p className="relative max-w-[210px] text-[10px] font-light leading-[120%] lg:text-[16px]">
-          Optimize production and reduce costs with smart CO₂ solutions tailored
-          to your needs.
+        <p className="relative text-[10px] font-light leading-[120%] lg:max-w-[210px] lg:text-[16px]">
+          {t("text")}
         </p>
       </motion.div>
 
@@ -98,29 +100,29 @@ export default function BenefitsList() {
           whileInView={slideEnd}
           viewport={viewport}
           transition={{ ...slideInTransition, delay: 0.2 * (index + 1) }}
-          className="flex min-h-[304px] flex-[0_0_calc(50%-8px)] flex-col items-center justify-center rounded-full border-3 border-black bg-white text-center text-black md:flex-[0_0_calc(25%-15px)] lg:min-h-[490px]"
+          className="flex min-h-[340px] flex-col items-center justify-center rounded-full border-3 border-black bg-white px-5 text-center text-black sm:min-h-[304px] lg:min-h-[490px]"
         >
           {item.imageFirst ? (
             <>
               <Image quality={100}
                 src={item.image}
-                alt={item.title}
+                alt={cards[index]?.title ?? ""}
                 width={item.imageWidth}
                 height={item.imageHeight}
                 className={`shrink-0 object-contain ${item.imageMobClass} ${item.imageLgClass}`}
               />
-              <p className="max-w-[130px] text-[16px] font-medium uppercase leading-[130%] lg:max-w-[246px] lg:text-[20px] xl:text-[24px] text-center">
-                {item.title}
+              <p className="text-[14px] font-medium uppercase leading-[130%] text-center lg:max-w-[246px] lg:text-[20px] xl:text-[24px]">
+                {cards[index]?.title}
               </p>
             </>
           ) : (
             <>
-              <p className="max-w-[130px] text-[16px] font-medium uppercase leading-[130%] lg:max-w-[246px] lg:text-[20px] xl:text-[24px] text-center">
-                {item.title}
+              <p className="text-[14px] font-medium uppercase leading-[130%] text-center lg:max-w-[246px] lg:text-[20px] xl:text-[24px]">
+                {cards[index]?.title}
               </p>
               <Image quality={100}
                 src={item.image}
-                alt={item.title}
+                alt={cards[index]?.title ?? ""}
                 width={item.imageWidth}
                 height={item.imageHeight}
                 className={`shrink-0 object-contain ${item.imageMobClass} ${item.imageLgClass}`}

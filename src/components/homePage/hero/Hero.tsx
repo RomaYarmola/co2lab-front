@@ -6,24 +6,26 @@ import Badges from "./Badges";
 import Link from "next/link";
 import HeroSlider from "./slider/HeroSlider";
 import heroImage from "../../../../public/images/homePage/hero/hero.webp";
+import { localizePath, type Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
+import { ROUTES } from "@/constants/routes";
 
-export default function Hero() {
+export default function Hero({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.home.hero");
+  const tCommon = getTranslator(locale, "common");
+
   return (
     <section className="pt-22 pb-4 lg:pt-8 lg:pb-0">
       <Container className="flex flex-col gap-4 lg:flex-row lg:gap-8">
         <div className="lg:w-[calc(50%-16px)] lg:pt-30 lg:pb-10">
-          <PageTitle className="mb-3 lg:mb-5.5">
-            Turning emissions into opportunity
-          </PageTitle>
-          <p className="mb-4 lg:mb-10">
-            Complete CO₂ solutions — from capture to application
-          </p>
-          <Link href="/solutions/engineering-solutions">
+          <PageTitle className="mb-3 lg:mb-5.5">{t("title")}</PageTitle>
+          <p className="mb-4 lg:mb-10">{t("subtitle")}</p>
+          <Link href={localizePath(locale, ROUTES.engineeringSolutions)}>
             <MainButton className="sm:max-w-[288px] lg:mb-20">
-              Explore Solutions
+              {tCommon("exploreSolutions")}
             </MainButton>
           </Link>
-          <Badges className="hidden lg:flex max-w-[335px]" />
+          <Badges locale={locale} className="hidden lg:flex max-w-[335px]" />
         </div>
         <div className="relative w-full lg:w-[calc(50%-16px)] min-h-[305px] lg:min-h-[420px] rounded-[18px]">
           <Image quality={100}
@@ -60,7 +62,7 @@ export default function Hero() {
             <HeroSlider />
           </div>
         </div>
-        <Badges className="lg:hidden" />
+        <Badges locale={locale} className="lg:hidden" />
       </Container>
     </section>
   );

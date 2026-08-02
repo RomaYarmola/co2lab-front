@@ -42,9 +42,11 @@ export default function Backdrop({
     return null;
   }
 
+  // inset-0 уже розтягує бекдроп на весь екран; w-dvw враховував ширину
+  // скролбара й давав зайвий горизонтальний скрол
   return createPortal(
     <div
-      className={`fixed z-[90] inset-0 w-dvw h-dvh transition duration-[1000ms] ease-in-out ${
+      className={`fixed z-[90] inset-0 transition duration-[1000ms] ease-in-out ${
         isVisible
           ? "opacity-100 no-doc-scroll"
           : "opacity-0 pointer-events-none"

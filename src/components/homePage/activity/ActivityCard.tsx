@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import ArrowIcon from "@/components/shared/icons/ArrowIcon";
+import { localizePath, type Locale } from "@/i18n/config";
 
 export type ActivityItem = {
   title: string;
@@ -12,14 +13,15 @@ export type ActivityItem = {
 
 type ActivityCardProps = {
   item: ActivityItem;
+  locale: Locale;
 };
 
-export default function ActivityCard({ item }: ActivityCardProps) {
+export default function ActivityCard({ item, locale }: ActivityCardProps) {
   const isDark = item.theme === "dark";
 
   return (
     <Link
-      href={item.href}
+      href={localizePath(locale, item.href)}
       className={`group relative flex min-h-30 flex-col justify-between overflow-hidden rounded-[12px] px-6 py-6 transition-opacity lg:min-h-[227px] xl:min-h-[217px] lg:py-7 xl:hover:opacity-95 ${
         isDark ? "border border-white text-white" : "bg-white text-black"
       }`}

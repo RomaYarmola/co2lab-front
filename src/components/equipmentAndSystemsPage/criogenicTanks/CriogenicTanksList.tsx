@@ -1,51 +1,43 @@
 import Image from "next/image";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
 const IMAGE_BASE = "/images/equipmentAndSystemsPage/criogenicTanks";
 
-const items = [
+/** Оформлення карток; тексти — у словнику `pages.equipment.cryogenic.items`. */
+const cardStyles = [
   {
-    title: "We offer:",
-    description:
-      "With CO₂Lab, you gain access to innovative cryogenic technologies that help reduce operating costs and improve business efficiency.",
     image: `${IMAGE_BASE}/imageOne.webp`,
-    imageAlt: "Cryogenic technologies",
-    overlay:
-      "bg-[linear-gradient(180deg,rgba(22,20,20,0)_73.32%,#161414_100%)]",
+    overlay: "bg-[linear-gradient(180deg,rgba(22,20,20,0)_73.32%,#161414_100%)]",
     imageClass: "object-top",
+    hasDescription: true,
   },
   {
-    title: "Cryogenic tank configurations",
-    description:
-      "Vertical and horizontal tanks with vacuum or dual-component insulation, working pressure from 18.5 to 37 bar, ensuring minimal cold losses.",
     image: `${IMAGE_BASE}/imageTwo.webp`,
-    imageAlt: "Cryogenic tank configurations",
-    overlay:
-      "bg-[linear-gradient(0deg,rgba(17,17,17,0.6)_38.81%,rgba(17,17,17,0)_129.37%)]",
+    overlay: "bg-[linear-gradient(0deg,rgba(17,17,17,0.6)_38.81%,rgba(17,17,17,0)_129.37%)]",
     imageClass: "object-top lg:object-[75%_50%]",
+    hasDescription: true,
   },
   {
-    title: "Storage capacities & standards",
-    description:
-      "Stationary reservoirs with capacities ranging from 3,000 to 500,000 liters, compliant with European PED EC 97/23 standards and Ukrainian DSTU regulations.",
     image: `${IMAGE_BASE}/imageThree.webp`,
-    imageAlt: "Storage capacities and standards",
-    overlay:
-      "bg-[linear-gradient(0deg,rgba(17,17,17,0.6)_38.81%,rgba(17,17,17,0)_129.37%)]",
+    overlay: "bg-[linear-gradient(0deg,rgba(17,17,17,0.6)_38.81%,rgba(17,17,17,0)_129.37%)]",
     imageClass: "object-[75%_30%]",
+    hasDescription: true,
   },
   {
-    title: "Engineering & custom solutions",
-    description:
-      "Consultation and equipment calculations, as well as tailored solutions for industries including manufacturing, food processing, healthcare, and more.",
     image: `${IMAGE_BASE}/imageFour.webp`,
-    imageAlt: "Engineering and custom solutions",
-    overlay:
-      "bg-[linear-gradient(0deg,rgba(17,17,17,0.6)_38.81%,rgba(17,17,17,0)_129.37%)]",
+    overlay: "bg-[linear-gradient(0deg,rgba(17,17,17,0.6)_38.81%,rgba(17,17,17,0)_129.37%)]",
     imageClass: "object-center",
+    hasDescription: true,
   },
 ];
 
-export default function CriogenicTanksList() {
+export default function CriogenicTanksList({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.equipment.cryogenic");
+  const items = t
+    .list<{ title: string; description: string; imageAlt: string }>("items")
+    .map((item, index) => ({ ...item, ...cardStyles[index] }));
+
   return (
     <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
       {items.map((item) => (

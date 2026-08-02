@@ -2,8 +2,12 @@ import Container from "@/components/shared/container/Container";
 import SectionTitle from "@/components/shared/titles/SectionTitle";
 import FoodList from "./FoodList";
 import Image from "next/image";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
-export default function Food() {
+export default function Food({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.industries.food");
+
   return (
     <section className="py-12 lg:pt-[132px] lg:pb-0">
       <Container>
@@ -25,17 +29,12 @@ export default function Food() {
             aria-hidden
           />
           <div className="relative z-10 flex flex-col md:flex-row md:justify-between md:items-center gap-3 w-full">
-            <SectionTitle>Food & Beverage</SectionTitle>
-            <p className="md:max-w-[295px]">
-              CO₂ for carbonation, packaging, cooling, and quality preservation.
-            </p>
+            <SectionTitle>{t("title")}</SectionTitle>
+            <p className="md:max-w-[295px]">{t("subtitle")}</p>
           </div>
         </div>
-        <p className="md:max-w-[589px] mb-8 lg:mb-6">
-          CO₂ is a critical component in food and beverage production — ensuring
-          product quality, safety, and shelf life.
-        </p>
-        <FoodList />
+        <p className="md:max-w-[589px] mb-8 lg:mb-6">{t("text")}</p>
+        <FoodList locale={locale} />
       </Container>
     </section>
   );

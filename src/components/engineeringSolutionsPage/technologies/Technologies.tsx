@@ -1,34 +1,27 @@
 import Container from "@/components/shared/container/Container";
 import Image from "next/image";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
+import { localizePath } from "@/i18n/config";
+import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 import SectionTitle from "@/components/shared/titles/SectionTitle";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 
-const technologies = [
-  {
-    title: "Equipment & modular CO₂ systems",
-    href: "/solutions/equipment-and-systems",
-    image: "/images/engineeringSolutionsPage/technologies/second.webp",
-    imageAlt: "Equipment and modular CO₂ systems",
-    dark: true,
-  },
-  {
-    title: "Full-cycle CO₂ production and supply",
-    href: "/supply",
-    image: "/images/engineeringSolutionsPage/technologies/first.webp",
-    imageAlt: "Full-cycle CO₂ production and supply",
-    dark: false,
-  },
-  {
-    title: "Helping businesses optimize processes",
-    href: "/solutions/industries-we-serve",
-    image: "/images/engineeringSolutionsPage/technologies/third.webp",
-    imageAlt: "Helping businesses optimize processes",
-    dark: true,
-  },
+/** Оформлення й маршрути; заголовки — у словнику `pages.engineering.technologies.items`. */
+const technologyStyles = [
+  { href: ROUTES.equipmentAndSystems, image: "/images/engineeringSolutionsPage/technologies/second.webp", dark: true },
+  { href: ROUTES.supply, image: "/images/engineeringSolutionsPage/technologies/first.webp", dark: false },
+  { href: ROUTES.industriesWeServe, image: "/images/engineeringSolutionsPage/technologies/third.webp", dark: true },
 ];
 
-export default function Technologies() {
+export default function Technologies({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.engineering.technologies");
+  const tCommon = getTranslator(locale, "common");
+  const technologies = t
+    .list<{ title: string }>("items")
+    .map((item, index) => ({ ...item, ...technologyStyles[index] }));
+
   return (
     <section className="py-12 lg:pt-[136px] lg:pb-24 relative">
       <Container className="relative">
@@ -54,13 +47,10 @@ export default function Technologies() {
             className="pb-4 md:w-[calc(50%-10px)] md:order-1 md:my-auto"
           >
             <SectionTitle className="mb-3 lg:mb-6 lg:text-[44px] xl:text-[48px]">
-              <span className="block">CO₂ Capture</span>
-              <span className="block pl-[114px]">& upgrading</span>
+              <span className="block">{t("titleLine1")}</span>
+              <span className="block pl-[114px]">{t("titleLine2")}</span>
             </SectionTitle>
-            <p className="lg:max-w-[460px]">
-              Advanced technologies for efficient and sustainable CO₂ recovery
-              from any source.
-            </p>
+            <p className="lg:max-w-[460px]">{t("text")}</p>
           </li>
 
           {technologies.map((item, idx) => (
@@ -75,7 +65,7 @@ export default function Technologies() {
               }`}
             >
               <Link
-                href={item.href}
+                href={localizePath(locale, item.href)}
                 className={`group flex gap-3 md:items-center md:h-full p-4 lg:p-3 justify-between transition-opacity xl:hover:opacity-95 focus-visible:opacity-95 outline-none rounded-[20px] overflow-hidden ${
                   item.dark
                     ? "bg-black text-white"
@@ -90,13 +80,13 @@ export default function Technologies() {
                     variant={item.dark ? "white" : "black"}
                     className="h-10 lg:h-10"
                   >
-                    Read more
+                    {tCommon("readMore")}
                   </SecondaryButton>
                 </div>
                 <div className="relative rounded-[12px] shrink-0 lg:h-full w-[117px] lg:w-[187px] xl:w-[280px] md:min-h-[117px] lg:min-h-[228px] overflow-hidden">
                   <Image quality={100}
                     src={item.image}
-                    alt={item.imageAlt}
+                    alt={item.title}
                     fill
                     className="object-cover xl:group-hover:scale-105 transition-transform duration-1500 ease-in-out will-change-transform"
                     sizes="(max-width: 1023px) 100vw, 38vw"

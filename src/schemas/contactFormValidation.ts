@@ -1,38 +1,37 @@
 import * as yup from "yup";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { nameRegex, emailRegex } from "../regex/regex";
+import type { Translator } from "@/i18n/translate";
 
-export const contactValidation = () => {
+/**
+ * Схема приймає перекладач, щоб помилки валідації показувались
+ * мовою сторінки. `t` очікується з namespace "forms".
+ */
+export const contactValidation = (t: Translator) => {
   const contactFormValidationSchema = yup.object().shape({
     name: yup
       .string()
-      .min(2, "The field must contain between 2 and 30 characters")
-      .max(30, "The field must contain between 2 and 30 characters")
-      .matches(nameRegex, "Allowed letters and hyphens, apostrophes, quotes")
-      .required("This field is required"),
-    company: yup
-      .string()
-      .max(100, "Company name must be at most 100 characters")
-      .default(""),
+      .min(2, t("nameLength"))
+      .max(30, t("nameLength"))
+      .matches(nameRegex, t("nameChars"))
+      .required(t("required")),
+    company: yup.string().max(100, t("companyMax")).default(""),
     phone: yup
       .string()
-      .required("This field is required")
+      .required(t("required"))
       .test(
         "is-valid-phone",
-        "Invalid phone number",
+        t("invalidPhone"),
         (value) => !value || isValidPhoneNumber(value),
       ),
     email: yup
       .string()
       .matches(emailRegex, {
-        message: "Invalid email address",
+        message: t("invalidEmail"),
         excludeEmptyString: true,
       })
       .default(""),
-    message: yup
-      .string()
-      .max(1000, "Message must be at most 1000 characters")
-      .default(""),
+    message: yup.string().max(1000, t("messageMax")).default(""),
   });
 
   return contactFormValidationSchema;

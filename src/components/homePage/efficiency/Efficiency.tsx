@@ -1,6 +1,8 @@
 import SectionTitle from "@/components/shared/titles/SectionTitle";
 import Image from "next/image";
 import * as motion from "motion/react-client";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
 const slideInTransition = {
   duration: 1.5,
@@ -13,7 +15,9 @@ const slideFromLeft = { opacity: 0, x: -36 };
 const slideFromRight = { opacity: 0, x: 36 };
 const slideEnd = { opacity: 1, x: 0 };
 
-export default function Efficiency() {
+export default function Efficiency({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.home.efficiency");
+
   return (
     <section className="overflow-x-hidden py-12 lg:pt-[103px] lg:pb-[108px] overflow-hidden">
       <div className="flex flex-col items-center gap-4 lg:gap-6">
@@ -28,15 +32,15 @@ export default function Efficiency() {
             >
               <Image quality={100}
                 src="/images/homePage/efficiency/leftTop.webp"
-                alt="Low Emissions"
+                alt=""
                 width={553}
                 height={134}
                 className="opacity-0 sm:opacity-100 w-auto h-[104px] lg:h-[134px] lg:-mb-3"
               />
             </motion.div>
             <div className="w-60 lg:w-[411px] shrink-0 lg:mr-[41px]">
-              <p className="mb-3 lg:mb-2">Built for today and tomorrow.</p>
-              <SectionTitle>Low Emissions</SectionTitle>
+              <p className="mb-3 lg:mb-2">{t("eyebrow")}</p>
+              <SectionTitle>{t("lowEmissions")}</SectionTitle>
             </div>
             <motion.div
               initial={slideFromRight}
@@ -47,7 +51,7 @@ export default function Efficiency() {
             >
               <Image quality={100}
                 src="/images/homePage/efficiency/rightTop.webp"
-                alt="Low Emissions"
+                alt=""
                 width={580}
                 height={94}
                 className="w-auto h-[73px] lg:h-[94px] lg:mb-2.5"
@@ -66,7 +70,7 @@ export default function Efficiency() {
             >
               <Image quality={100}
                 src="/images/homePage/efficiency/leftBottom.webp"
-                alt="Low Emissions"
+                alt=""
                 width={614}
                 height={142}
                 className="w-auto h-[114px] lg:h-[142px]"
@@ -74,12 +78,9 @@ export default function Efficiency() {
             </motion.div>
             <div className="w-[260px] lg:w-[446px] shrink-0 lg:mr-3 lg:-mt-12">
               <SectionTitle className="mb-3 lg:mb-3.5">
-                High Efficiency
+                {t("highEfficiency")}
               </SectionTitle>
-              <p>
-                Lower emissions, higher efficiency, reduced costs — sustainable
-                technology that delivers now and in the future.
-              </p>
+              <p>{t("text")}</p>
             </div>
             <motion.div
               initial={slideFromRight}
@@ -90,7 +91,7 @@ export default function Efficiency() {
             >
               <Image quality={100}
                 src="/images/homePage/efficiency/rightBottom.webp"
-                alt="Low Emissions"
+                alt=""
                 width={569}
                 height={160}
                 className="opacity-0 sm:opacity-100 w-auto h-[128px] lg:h-[160px]"

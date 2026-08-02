@@ -1,24 +1,32 @@
 import { contacts } from "@/constants/contact";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
-const contactItems: Array<{
-  label: string;
-  value: string;
-  href?: string;
-}> = [
-  {
-    label: "Phone",
-    value: contacts.phone,
-    href: `tel:${contacts.phone.replace(/\s|\(|\)/g, "")}`,
-  },
-  { label: "Email", value: contacts.email, href: `mailto:${contacts.email}` },
-  {
-    label: "Address",
-    value: contacts.address,
-    href: contacts.addressLink,
-  },
-];
+export default function ContactsBlock({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "forms");
 
-export default function ContactsBlock() {
+  const contactItems: Array<{
+    label: string;
+    value: string;
+    href?: string;
+  }> = [
+    {
+      label: t("phone"),
+      value: contacts.phone,
+      href: `tel:${contacts.phone.replace(/\s|\(|\)/g, "")}`,
+    },
+    {
+      label: t("email"),
+      value: contacts.email,
+      href: `mailto:${contacts.email}`,
+    },
+    {
+      label: "Address",
+      value: contacts.address,
+      href: contacts.addressLink,
+    },
+  ];
+
   return (
     <div className="md:w-1/2 lg:w-auto">
       {contactItems.map(({ label, value, href }) => (

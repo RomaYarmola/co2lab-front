@@ -7,22 +7,22 @@ import imageTwo from "../../../../public/images/engineeringSolutionsPage/logisti
 import imageThree from "../../../../public/images/engineeringSolutionsPage/logistics/imageThree.webp";
 import imageFour from "../../../../public/images/engineeringSolutionsPage/logistics/imageFour.webp";
 import imageFive from "../../../../public/images/engineeringSolutionsPage/logistics/imageFive.webp";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
-const logisticsImages = [
-  { src: imageOne, alt: "CO₂ storage tanks and cryogenic equipment" },
-  { src: imageTwo, alt: "Dry ice production and logistics facility" },
-  { src: imageThree, alt: "Industrial CO₂ distribution systems" },
-  { src: imageFour, alt: "Cold chain storage and transportation" },
-  { src: imageFive, alt: "CO₂ supply and logistics infrastructure" },
-];
+const imageSources = [imageOne, imageTwo, imageThree, imageFour, imageFive];
 
-export default function Logistics() {
+export default function Logistics({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.engineering.logistics");
+  const alts = t.list<string>("imageAlts");
+  const logisticsImages = imageSources.map((src, index) => ({ src, alt: alts[index] ?? "" }));
+
   return (
     <section className="py-12 lg:pt-30 lg:pb-0">
       <Container className="relative flex flex-col sm:flex-row sm:items-center gap-8">
         <Image quality={100}
           src="/images/engineeringSolutionsPage/logistics/bgMob.svg"
-          alt="bg mobile"
+          alt=""
           width={158}
           height={188}
           className="absolute -top-16.5 -right-6 -z-10 object-cover object-right pointer-events-none lg:hidden"
@@ -30,7 +30,7 @@ export default function Logistics() {
         />
         <Image quality={100}
           src="/images/engineeringSolutionsPage/logistics/bgDesk.svg"
-          alt="bg desktop"
+          alt=""
           width={279}
           height={333}
           className="absolute -top-25 left-[418px] -z-10 object-cover object-right pointer-events-none hidden lg:block"
@@ -38,12 +38,10 @@ export default function Logistics() {
         />
         <div className="sm:w-[calc(50%-16px)] xl:w-[46%]">
           <SectionTitle className="mb-3 lg:mb-4.5">
-            <span className="block">Storage &</span>
-            <span className="block pl-[113px] lg:pl-[186px]">Logistics</span>
+            <span className="block">{t("titleLine1")}</span>
+            <span className="block pl-[113px] lg:pl-[186px]">{t("titleLine2")}</span>
           </SectionTitle>
-          <p className="lg:max-w-[440px]">
-            Safe, efficient and scalable CO₂ infrastructure for any application.
-          </p>
+          <p className="lg:max-w-[440px]">{t("text")}</p>
         </div>
         <ImageCarousel images={logisticsImages} />
       </Container>

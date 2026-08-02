@@ -9,6 +9,8 @@ import InstagramIcon from "@/components/shared/icons/InstagramIcon";
 import LinkedInIcon from "@/components/shared/icons/LinkedInIcon";
 import YouTubeIcon from "@/components/shared/icons/YouTubeIcon";
 import { twMerge } from "tailwind-merge";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
 const socialLinks = [
   {
@@ -21,20 +23,24 @@ const socialLinks = [
 ];
 
 type ContactDetailsProps = {
+  locale: Locale;
   className?: string;
 };
 
 export default function ContactDetails({
+  locale,
   className = "",
 }: ContactDetailsProps) {
+  const t = getTranslator(locale, "pages.contacts.details");
+
   return (
     <div className={twMerge(className)}>
       <h2 className="mb-6 text-[20px] lg:text-[24px] font-semibold uppercase leading-[120%]">
-        Contact Details:
+        {t("title")}
       </h2>
       <div className="mb-8 lg:mb-12 flex flex-col gap-3 text-[14px] lg:text-[16px] font-light leading-[120%]">
         <p className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4">
-          <span className="lg:w-40 font-medium"> Email: </span>
+          <span className="lg:w-40 font-medium">{t("emailLabel")}</span>
           <a
             href={`mailto:${CONTACT_EMAIL_REQUEST}`}
             className="xl:hover:opacity-60 focus-visible:opacity-60 transition duration-300 ease-in-out"
@@ -43,7 +49,7 @@ export default function ContactDetails({
           </a>
         </p>
         <p className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4">
-          <span className="lg:w-40 font-medium"> Phone: </span>
+          <span className="lg:w-40 font-medium">{t("phoneLabel")}</span>
           <a
             href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
             className="xl:hover:opacity-60 focus-visible:opacity-60 transition duration-300 ease-in-out"

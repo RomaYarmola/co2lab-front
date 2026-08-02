@@ -3,6 +3,8 @@ import RecyclingList from "./RecyclingList";
 import SectionTitle from "@/components/shared/titles/SectionTitle";
 import Image from "next/image";
 import * as motion from "motion/react-client";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
 const slideInTransition = {
   duration: 1.5,
@@ -15,7 +17,9 @@ const slideFromLeft = { opacity: 0, x: -36 };
 const slideFromRight = { opacity: 0, x: 36 };
 const slideEnd = { opacity: 1, x: 0 };
 
-export default function Recycling() {
+export default function Recycling({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.industries.recycling");
+
   return (
     <section className="py-12 lg:pt-30 lg:pb-0">
       <div className="flex flex-col gap-1">
@@ -39,7 +43,7 @@ export default function Recycling() {
           />
           <div className="flex min-w-max flex-nowrap items-center gap-4 lg:gap-[43px]">
             <div className="shrink-0">
-              <SectionTitle>Environmental</SectionTitle>
+              <SectionTitle>{t("titleLine1")}</SectionTitle>
             </div>
             <motion.div
               initial={slideFromRight}
@@ -79,10 +83,9 @@ export default function Recycling() {
               />
             </motion.div>
             <div className="shrink-0 lg:flex lg:justify-between lg:items-center lg:gap-20 xl:gap-[186px]">
-              <SectionTitle>& Recycling</SectionTitle>
+              <SectionTitle>{t("titleLine2")}</SectionTitle>
               <p className="hidden lg:block lg:max-w-[290px] text-[14px] font-light leading-[120%]">
-                CO₂ utilization and recycling solutions for environmental
-                applications.
+                {t("text")}
               </p>
             </div>
           </div>
@@ -95,7 +98,7 @@ export default function Recycling() {
         </Container>
       </div>
       <Container className="mt-8 lg:mt-10">
-        <RecyclingList />
+        <RecyclingList locale={locale} />
       </Container>
     </section>
   );

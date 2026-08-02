@@ -4,29 +4,29 @@ import PageTitle from "@/components/shared/titles/PageTitle";
 import Image from "next/image";
 import Badges from "./Badges";
 import heroImage from "../../../../public/images/aboutPage/hero/hero.webp";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
-export default function Hero() {
+export default function Hero({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.about.hero");
+
   return (
     <section className="pt-22 pb-4 lg:pt-8 lg:pb-0">
       <Container className="flex flex-col gap-4 lg:flex-row lg:gap-8">
         <div className="lg:w-[calc(50%-16px)] lg:pt-[151px] lg:pb-10">
           <PageTitle className="mb-3 lg:mb-5.5 max-w-40 lg:max-w-[302px]">
-            About CO2Lab
+            {t("title")}
           </PageTitle>
-          <p className="mb-4 lg:mb-10">
-            CO2Lab delivers end-to-end CO₂ technologies — from capture and
-            purification to supply and logistics — for industrial partners
-            worldwide.
-          </p>
+          <p className="mb-4 lg:mb-10">{t("text")}</p>
 
           <ContactUsApplication />
 
-          <Badges className="hidden lg:flex lg:max-w-[387px]" />
+          <Badges locale={locale} className="hidden lg:flex lg:max-w-[387px]" />
         </div>
         <div className="relative w-full lg:w-[calc(50%-16px)] min-h-[305px] sm:min-h-[380px] lg:min-h-[420px] rounded-[18px]">
           <Image quality={100}
             src="/images/homePage/hero/bgMobile.svg"
-            alt="background image"
+            alt=""
             width={152}
             height={190}
             className="absolute -z-10 right-[-41px] top-[-74px] lg:hidden"
@@ -34,7 +34,7 @@ export default function Hero() {
           />
           <Image quality={100}
             src="/images/homePage/hero/bgDesk.svg"
-            alt="background image"
+            alt=""
             width={269}
             height={338}
             className="absolute -z-10 bottom-[-163px] left-[-164px] hidden lg:block"
@@ -42,7 +42,7 @@ export default function Hero() {
           />
           <Image quality={100}
             src={heroImage}
-            alt="hero image"
+            alt={t("imageAlt")}
             fill
             priority
             fetchPriority="high"
@@ -55,7 +55,7 @@ export default function Hero() {
             aria-hidden
           />
         </div>
-        <Badges className="lg:hidden" />
+        <Badges locale={locale} className="lg:hidden" />
       </Container>
     </section>
   );

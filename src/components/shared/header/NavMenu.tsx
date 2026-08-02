@@ -2,12 +2,28 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import ChevronIcon from "@/components/shared/icons/ChevronIcon";
-import { navMenuList, getActiveIndex } from "@/constants/navMenu";
+import {
+  navMenuList,
+  getActiveIndex,
+  SOLUTIONS_INDEX,
+} from "@/constants/navMenu";
+import { localizePath, type Locale } from "@/i18n/config";
+import { useTranslations } from "@/i18n/I18nProvider";
+import { splitLocalePath } from "@/utils/localePathname";
+import LanguageSwitcher from "./LanguageSwitcher";
 
-export default function NavMenu() {
-  const pathname = usePathname();
+export default function NavMenu({ locale }: { locale: Locale }) {
+  const t = useTranslations("nav");
+  const rawPathname = usePathname();
+  const { path: pathname } = splitLocalePath(rawPathname);
   const activeIndex = getActiveIndex(pathname);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
@@ -22,8 +38,8 @@ export default function NavMenu() {
   const [pillScale, setPillScale] = useState(0);
   const hasAnimatedInitial = useRef(false);
 
-  // When Solutions is open, pill stays on Solutions; otherwise follows pathname
-  const pillActiveIndex = solutionsOpen ? 2 : activeIndex;
+  // При відкритому Solutions pill лишається на ньому; інакше — за pathname
+  const pillActiveIndex = solutionsOpen ? SOLUTIONS_INDEX : activeIndex;
 
   const updatePill = useCallback(() => {
     const el = itemRefs.current[pillActiveIndex];
@@ -43,7 +59,6 @@ export default function NavMenu() {
   // Оновлення позиції pill: useLayoutEffect + rAF щоб layout встиг відмалюватись (шрифти, контейнер)
   useLayoutEffect(() => {
     const run = () => updatePill();
-    // Відкладаємо вимірювання на наступний кадр — у цей момент layout уже готовий
     const raf = requestAnimationFrame(() => {
       run();
       // Додатковий rAF для надійності при холодному завантаженні (шрифти ще завантажуються)
@@ -66,11 +81,11 @@ export default function NavMenu() {
     return () => cancelAnimationFrame(raf);
   }, [pillStyle]);
 
-  // Close dropdown: on pathname change, Escape, or click outside
-  const prevPathname = useRef(pathname);
+  // Закриття дропдауну: зміна маршруту, Escape, клік поза межами
+  const prevPathname = useRef(rawPathname);
   useEffect(() => {
-    if (prevPathname.current !== pathname) {
-      prevPathname.current = pathname;
+    if (prevPathname.current !== rawPathname) {
+      prevPathname.current = rawPathname;
       setSolutionsOpen(false);
     }
     if (!solutionsOpen) return;
@@ -91,18 +106,18 @@ export default function NavMenu() {
       window.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("mousedown", onMouseDown);
     };
-  }, [pathname, solutionsOpen]);
+  }, [rawPathname, solutionsOpen]);
 
-  const solutionsItem = navMenuList[2];
-  const isSolutionsActive = pillActiveIndex === 2;
+  const solutionsItem = navMenuList[SOLUTIONS_INDEX];
+  const isSolutionsActive = pillActiveIndex === SOLUTIONS_INDEX;
 
   return (
     <nav
       ref={navRef}
-      className="hidden md:flex relative my-2 p-2 rounded-full bg-[linear-gradient(90.95deg,rgba(231,231,231,0.8)_52.25%,rgba(255,255,255,0.8)_99.18%)] shadow-[inset_0px_4px_12.6px_0px_rgba(255,255,255,0.25)] backdrop-blur-[10px]"
+      className="relative my-2 hidden items-center rounded-full bg-[linear-gradient(90.95deg,rgba(231,231,231,0.8)_52.25%,rgba(255,255,255,0.8)_99.18%)] p-2 shadow-[inset_0px_4px_12.6px_0px_rgba(255,255,255,0.25)] backdrop-blur-[10px] xl:flex"
     >
       <div
-        className="absolute inset-0 rounded-full pointer-events-none"
+        className="pointer-events-none absolute inset-0 rounded-full"
         style={{
           background:
             "linear-gradient(270.67deg, #F2F2F2 -9.58%, #C7C7C7 103.45%)",
@@ -117,7 +132,7 @@ export default function NavMenu() {
       {/* Sliding active pill: при першому показі з’являється з центру (scale 0→1), далі їздить по пунктах */}
       {pillStyle && (
         <div
-          className="absolute rounded-full bg-black origin-center pointer-events-none z-0 transition-[left,width,top,height,transform] duration-300 ease-out"
+          className="pointer-events-none absolute z-0 origin-center rounded-full bg-black transition-[left,width,top,height,transform] duration-300 ease-out"
           style={{
             left: pillStyle.left,
             top: pillStyle.top,
@@ -129,10 +144,10 @@ export default function NavMenu() {
         />
       )}
 
-      <ul className="relative z-10 flex items-center gap-3 list-none">
+      <ul className="relative z-10 flex list-none items-center gap-1 lg:gap-2">
         {navMenuList.map((item, i) => (
           <li
-            key={item.title}
+            key={item.titleKey}
             className={`flex ${item.slug ? "relative z-20" : "relative z-10"}`}
           >
             {item.slug ? (
@@ -140,11 +155,15 @@ export default function NavMenu() {
                 ref={(el) => {
                   itemRefs.current[i] = el;
                 }}
-                href={item.slug}
+                href={localizePath(locale, item.slug)}
                 onClick={() => setSolutionsOpen(false)}
-                className={`relative z-10 px-4.5 py-3 rounded-full text-[14px] font-medium leading-[120%] border border-transparent transition-[color,border] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-transparent xl:hover:border-black ${pillActiveIndex === i ? "text-white" : "text-black xl:hover:brightness-125"}`}
+                className={`relative z-10 whitespace-nowrap rounded-full border border-transparent px-3.5 py-3 text-[13px] font-medium leading-[120%] transition-[color,border] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-transparent lg:px-4 lg:text-[14px] xl:hover:border-black ${
+                  pillActiveIndex === i
+                    ? "text-white"
+                    : "text-black xl:hover:brightness-125"
+                }`}
               >
-                {item.title}
+                {t(item.titleKey)}
               </Link>
             ) : (
               <>
@@ -154,17 +173,21 @@ export default function NavMenu() {
                   }}
                   type="button"
                   onClick={() => setSolutionsOpen((prev) => !prev)}
-                  className={`cursor-pointer relative z-10 flex items-center px-4.5 py-3 rounded-full text-[14px] font-medium leading-[120%] border border-transparent transition-[color,border] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-transparent xl:hover:border-black ${isSolutionsActive ? "text-white" : "text-black xl:hover:brightness-125 xl:hover:text-black"}`}
+                  className={`relative z-10 flex cursor-pointer items-center whitespace-nowrap rounded-full border border-transparent px-3.5 py-3 text-[13px] font-medium leading-[120%] transition-[color,border] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-transparent lg:px-4 lg:text-[14px] xl:hover:border-black ${
+                    isSolutionsActive
+                      ? "text-white"
+                      : "text-black xl:hover:brightness-125 xl:hover:text-black"
+                  }`}
                   aria-expanded={solutionsOpen}
                   aria-haspopup="true"
                 >
-                  {item.title}
-                  <ChevronIcon open={solutionsOpen} className="ml-2.5 size-4" />
+                  {t(item.titleKey)}
+                  <ChevronIcon open={solutionsOpen} className="ml-2 size-4" />
                 </button>
                 {/* Solutions dropdown */}
                 <div
                   ref={dropdownRef}
-                  className="absolute left-0 top-full mt-4 min-w-[220px] rounded-[18px] bg-[linear-gradient(90.95deg,rgba(231,231,231,0.8)_52.25%,rgba(255,255,255,0.8)_99.18%)] shadow-[inset_0px_4px_12.6px_0px_rgba(255,255,255,0.25)] backdrop-blur-[10px] transition duration-200 ease-out z-50"
+                  className="absolute left-0 top-full z-50 mt-4 min-w-[240px] rounded-[18px] bg-[linear-gradient(90.95deg,rgba(231,231,231,0.9)_52.25%,rgba(255,255,255,0.9)_99.18%)] shadow-[inset_0px_4px_12.6px_0px_rgba(255,255,255,0.25)] backdrop-blur-[10px] transition duration-200 ease-out"
                   style={{
                     opacity: solutionsOpen ? 1 : 0,
                     transform: solutionsOpen
@@ -175,7 +198,7 @@ export default function NavMenu() {
                   }}
                 >
                   <div
-                    className="absolute inset-0 rounded-[18px] pointer-events-none"
+                    className="pointer-events-none absolute inset-0 rounded-[18px]"
                     style={{
                       background:
                         "linear-gradient(270.67deg, #F2F2F2 -9.58%, #C7C7C7 103.45%)",
@@ -190,10 +213,10 @@ export default function NavMenu() {
                     {solutionsItem.submenu?.map((sub) => (
                       <li key={sub.slug}>
                         <Link
-                          href={sub.slug}
-                          className="block px-5 py-2.5 text-sm font-medium transition-colors xl:hover:brightness-125 xl:hover:bg-black/5"
+                          href={localizePath(locale, sub.slug)}
+                          className="block px-5 py-2.5 text-sm font-medium transition-colors xl:hover:bg-black/5 xl:hover:brightness-125"
                         >
-                          {sub.title}
+                          {t(sub.titleKey)}
                         </Link>
                       </li>
                     ))}
@@ -204,6 +227,11 @@ export default function NavMenu() {
           </li>
         ))}
       </ul>
+
+      <span className="relative z-10 mx-1 h-5 w-px bg-black/15" aria-hidden />
+      <div className="relative z-20">
+        <LanguageSwitcher locale={locale} />
+      </div>
     </nav>
   );
 }

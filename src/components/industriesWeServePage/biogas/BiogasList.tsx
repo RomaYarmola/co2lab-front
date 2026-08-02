@@ -1,10 +1,11 @@
-const items = [
-  "CO₂ capture from biogas and fermentation",
-  "Purification and liquefaction systems",
-  "CO₂ reuse or commercial supply",
-];
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
-export default function BiogasList() {
+
+export default function BiogasList({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.industries.biogas");
+  const items = t.list<string>("items");
+
   return (
     <ul className="flex flex-col gap-3 lg:gap-4">
       {items.map((text) => (

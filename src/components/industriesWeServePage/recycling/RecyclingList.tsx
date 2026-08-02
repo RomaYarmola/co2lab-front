@@ -1,35 +1,25 @@
 import Image from "next/image";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
-const cards = [
-  {
-    image: "/images/industriesWeServePage/recycling/imageOne.webp",
-    title: "TYPICAL APPLICATIONS:",
-    description:
-      "CO2Lab technologies support environmental initiatives by turning emissions into usable resources.",
-    hasDescription: true,
-    alt: "Applications of CO₂ technologies in environmental projects",
-  },
-  {
-    image: "/images/industriesWeServePage/recycling/imageTwo.webp",
-    title: "CO₂ UTILIZATION IN RECYCLING PROCESSES",
-    hasDescription: false,
-    alt: "Use of CO₂ in recycling and waste processing",
-  },
-  {
-    image: "/images/industriesWeServePage/recycling/imageThree.webp",
-    title: "ENVIRONMENTAL TREATMENT SYSTEMS",
-    hasDescription: false,
-    alt: "Systems for treating and cleaning industrial emissions",
-  },
-  {
-    image: "/images/industriesWeServePage/recycling/imageFour.webp",
-    title: "NEUTRALIZATION AND RECOVERY SOLUTIONS",
-    hasDescription: false,
-    alt: "Neutralization and recovery of CO₂ for reuse",
-  },
+/** Зображення карток; тексти — у словнику `pages.industries.recycling.cards`. */
+const cardImages = [
+  "/images/industriesWeServePage/recycling/imageOne.webp",
+  "/images/industriesWeServePage/recycling/imageTwo.webp",
+  "/images/industriesWeServePage/recycling/imageThree.webp",
+  "/images/industriesWeServePage/recycling/imageFour.webp",
 ];
 
-export default function RecyclingList() {
+export default function RecyclingList({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.industries.recycling");
+  const cards = t
+    .list<{ title: string; description: string; imageAlt: string }>("cards")
+    .map((card, index) => ({
+      ...card,
+      image: cardImages[index],
+      hasDescription: Boolean(card.description),
+    }));
+
   return (
     <ul className="flex flex-col gap-3 sm:flex-row sm:flex-wrap mt-8 lg:mt-11">
       {cards.map((card, idx) => (
@@ -40,7 +30,7 @@ export default function RecyclingList() {
           <div className="flex items-end relative min-h-[160px] lg:min-h-[224px] xl:min-h-[274px] rounded-[12px] border border-white overflow-hidden">
             <Image quality={100}
               src={card.image}
-              alt={card.alt ?? card.title}
+              alt={card.imageAlt || card.title}
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 1200px"

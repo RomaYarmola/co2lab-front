@@ -2,8 +2,12 @@ import Container from "@/components/shared/container/Container";
 import SectionTitle from "@/components/shared/titles/SectionTitle";
 import ApproachList from "@/components/aboutPage/approach/ApproachList";
 import Image from "next/image";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
-export default function Approach() {
+export default function Approach({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.about.approach");
+
   return (
     <section className="py-12 lg:pt-30 lg:pb-0">
       <Container className="relative">
@@ -24,15 +28,10 @@ export default function Approach() {
           className="absolute -z-10 -top-26 left-74 pointer-events-none hidden lg:block"
         />
         <div className="flex flex-col md:flex-row md:justify-between gap-3 mb-8 lg:mb-14">
-          <SectionTitle>Our Approach</SectionTitle>
-          <p className="md:w-[calc(50%-10px)]">
-            We prioritize technical excellence, reliability, and transparency in
-            every project. Our solutions are engineered to meet industrial
-            standards, adapted to customer needs, and delivered with full
-            operational support — from planning to execution.
-          </p>
+          <SectionTitle>{t("title")}</SectionTitle>
+          <p className="md:w-[calc(50%-10px)]">{t("text")}</p>
         </div>
-        <ApproachList />
+        <ApproachList locale={locale} />
       </Container>
     </section>
   );

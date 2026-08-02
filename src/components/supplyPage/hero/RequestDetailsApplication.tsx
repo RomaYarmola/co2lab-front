@@ -3,9 +3,11 @@
 import { useState } from "react";
 import SendMessageModal from "@/components/shared/modals/SendMessageModal";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
+import { useTranslations } from "@/i18n/I18nProvider";
 import MainButton from "@/components/shared/buttons/MainButton";
 
 export default function RequestDetailsApplication() {
+  const t = useTranslations("common");
   const [isModalShown, setIsModalShown] = useState(false);
   return (
     <>
@@ -14,7 +16,7 @@ export default function RequestDetailsApplication() {
         onClick={() => setIsModalShown(true)}
         className="xs:max-w-[288px] mx-auto lg:mx-0"
       >
-        Request Supply Details
+        {t("requestSupplyDetails")}
       </MainButton>
       <SendMessageModal
         isModalShown={isModalShown}

@@ -4,9 +4,11 @@ import { useState } from "react";
 import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 import SendMessageModal from "@/components/shared/modals/SendMessageModal";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
+import { useTranslations } from "@/i18n/I18nProvider";
 import MainButton from "@/components/shared/buttons/MainButton";
 
 export default function RequestQuoteApplication() {
+  const t = useTranslations("common");
   const [isModalShown, setIsModalShown] = useState(false);
   return (
     <>
@@ -15,7 +17,7 @@ export default function RequestQuoteApplication() {
         className="w-full xs:max-w-[304px] mx-auto md:mx-0"
         onClick={() => setIsModalShown(true)}
       >
-        Request a Quote
+        {t("requestQuote")}
       </MainButton>
       <SendMessageModal
         isModalShown={isModalShown}

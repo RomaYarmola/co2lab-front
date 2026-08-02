@@ -4,8 +4,10 @@ import ContactForm from "@/components/shared/forms/ContactForm";
 import NotificationPopUp from "@/components/shared/notifications/NotificationPopUp";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
 import { useState } from "react";
+import { useTranslations } from "@/i18n/I18nProvider";
 
 export default function ContactFormWithNotifications() {
+  const t = useTranslations("forms");
   const [isNotificationShown, setIsNotificationShown] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -16,12 +18,8 @@ export default function ContactFormWithNotifications() {
         setIsNotificationShown={setIsNotificationShown}
       />
       <NotificationPopUp
-        title={isError ? "Something went wrong" : "Your message has been sent"}
-        description={
-          isError
-            ? "Try submitting the form later."
-            : "We have received your message and will get back to you shortly."
-        }
+        title={isError ? t("failedTitle") : t("sentTitle")}
+        description={isError ? t("failedText") : t("sentText")}
         isPopUpShown={isNotificationShown}
         setIsPopUpShown={setIsNotificationShown}
       />

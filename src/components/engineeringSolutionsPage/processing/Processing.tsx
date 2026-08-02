@@ -1,8 +1,12 @@
 import Container from "@/components/shared/container/Container";
 import SectionTitle from "@/components/shared/titles/SectionTitle";
 import Image from "next/image";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
-export default function Processing() {
+export default function Processing({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.engineering.processing");
+
   return (
     <section className="py-12 lg:pt-30 lg:pb-0">
       <Container className="relative flex flex-col sm:flex-row-reverse gap-8 lg:gap-9">
@@ -24,21 +28,17 @@ export default function Processing() {
         />
         <div className="flex flex-col sm:justify-center sm:w-[calc(50%-11px)] lg:w-[calc(50%-11px)] xl:px-4">
           <SectionTitle className="mb-3 lg:mb-4.5 lg:text-[44px] xl:text-[48px]">
-            <span className="block">High-Purity</span>
+            <span className="block">{t("titleLine1")}</span>
             <span className="block pl-[74px] sm:pl-10 lg:pl-19 xl:pl-[137px]">
-              CO₂ Processing
+              {t("titleLine2")}
             </span>
           </SectionTitle>
-          <p>
-            Our purification and liquefaction systems ensure that CO₂ reaches
-            the highest levels of quality, safety, and stability required for
-            industrial and food-grade applications.
-          </p>
+          <p>{t("text")}</p>
         </div>
         <div className="relative sm:w-[calc(50%-27px)] lg:w-[calc(50%-27px)] h-[202px] xs:h-70 sm:h-50 lg:h-90 rounded-[18px] overflow-hidden">
           <Image quality={100}
             src="/images/engineeringSolutionsPage/processing/processing.webp"
-            alt="Processing"
+            alt={t("imageAlt")}
             fill
             className="object-cover object-bottom"
           />

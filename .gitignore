@@ -32,6 +32,11 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# шаблон зі змінними — без значень, потрібен команді
+!.env.example
+
+# локальні дозволи Claude Code, у репозиторії не потрібні
+.claude/settings.local.json
 
 # vercel
 .vercel

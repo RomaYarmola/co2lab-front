@@ -1,33 +1,22 @@
 import Container from "@/components/shared/container/Container";
 import Image from "next/image";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 import SectionTitle from "@/components/shared/titles/SectionTitle";
 
-const distribution = [
-  {
-    title: "Own logistics infrastructure",
-    description:
-      "Pricing adapted to market conditions, contract duration, and customer-specific supply needs.",
-    image: "/images/supplyPage/distribution/imageOne.webp",
-    imageAlt: "Own logistics infrastructure",
-    dark: true,
-  },
-  {
-    title: "Cold chain compliance",
-    description: "Stable temperature from production to destination.",
-    image: "/images/supplyPage/distribution/imageTwo.webp",
-    imageAlt: "Cold chain compliance",
-    dark: false,
-  },
-  {
-    title: "Reliable delivery",
-    description: "Planned routes and predictable lead times.",
-    image: "/images/supplyPage/distribution/imageThree.webp",
-    imageAlt: "Reliable delivery",
-    dark: true,
-  },
+/** Оформлення карток; тексти — у словнику `pages.supply.distribution.items`. */
+const distributionStyles = [
+  { image: "/images/supplyPage/distribution/imageOne.webp", dark: true },
+  { image: "/images/supplyPage/distribution/imageTwo.webp", dark: false },
+  { image: "/images/supplyPage/distribution/imageThree.webp", dark: true },
 ];
 
-export default function Distribution() {
+export default function Distribution({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.supply.distribution");
+  const distribution = t
+    .list<{ title: string; description: string }>("items")
+    .map((item, index) => ({ ...item, ...distributionStyles[index] }));
+
   return (
     <section className="py-12 lg:pt-[136px] lg:pb-0 relative">
       <Container className="relative">
@@ -53,13 +42,10 @@ export default function Distribution() {
             className="pb-4 md:w-[calc(50%-10px)] md:order-1 md:my-auto"
           >
             <SectionTitle className="mb-3 lg:mb-6 lg:text-[44px] xl:text-[48px]">
-              <span className="block">Distribution</span>
-              <span className="block pl-[114px]">& Transport</span>
+              <span className="block">{t("titleLine1")}</span>
+              <span className="block pl-[114px]">{t("titleLine2")}</span>
             </SectionTitle>
-            <p className="lg:max-w-[460px]">
-              We manage our own logistics infrastructure to ensure safe,
-              reliable, and on-time delivery of CO₂ and dry ice across regions.
-            </p>
+            <p className="lg:max-w-[460px]">{t("text")}</p>
           </li>
 
           {distribution.map((item, idx) => (
@@ -91,7 +77,7 @@ export default function Distribution() {
                 <div className="relative rounded-[12px] shrink-0 lg:h-full w-[129px] lg:w-[187px] xl:w-[280px] min-h-[124px] lg:min-h-[228px] overflow-hidden">
                   <Image quality={100}
                     src={item.image}
-                    alt={item.imageAlt}
+                    alt={item.title}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1023px) 100vw, 38vw"

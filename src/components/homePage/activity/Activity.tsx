@@ -2,9 +2,16 @@ import Image from "next/image";
 import Container from "@/components/shared/container/Container";
 import SectionTitle from "@/components/shared/titles/SectionTitle";
 import ActivityList from "@/components/homePage/activity/ActivityList";
-import { activityListItems } from "@/constants/activityList";
+import { activityHrefs, activityThemes } from "@/constants/activityList";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
-export default function Activity() {
+export default function Activity({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.home.activity");
+  const items = t
+    .list<{ title: string; description: string }>("items")
+    .map((item, index) => ({ ...item, ...activityThemes[index], href: activityHrefs[index] }));
+
   return (
     <section className="py-12 lg:py-0">
       <div className="relative rounded-[28px] bg-black py-8 lg:pt-[59px] lg:pb-12">
@@ -34,14 +41,13 @@ export default function Activity() {
             aria-hidden
           />
           <SectionTitle className="mb-3 text-white lg:mb-6">
-            Areas of activity
+            {t("title")}
           </SectionTitle>
           <p className="mb-8 lg:mb-[73px] text-white max-w-[277px]">
-            From design to delivery — engineered systems for every CO₂
-            application.
+            {t("text")}
           </p>
           <div className="mt-6 lg:mt-8">
-            <ActivityList items={activityListItems} />
+            <ActivityList items={items} locale={locale} />
           </div>
         </Container>
       </div>

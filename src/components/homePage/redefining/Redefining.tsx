@@ -1,8 +1,12 @@
 import Image from "next/image";
 import Container from "@/components/shared/container/Container";
 import SectionTitle from "@/components/shared/titles/SectionTitle";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
-export default function Redefining() {
+export default function Redefining({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.home.redefining");
+
   return (
     <section className="py-12 lg:pt-[106px] lg:pb-0">
       <Container className="relative">
@@ -47,20 +51,16 @@ export default function Redefining() {
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-[116px] mb-8 lg:mb-16">
           <div>
             <SectionTitle className="mb-3 lg:mb-4.5">
-              Redefining CO₂
+              {t("title")}
             </SectionTitle>
-            <p>From Waste to Resource</p>
+            <p>{t("subtitle")}</p>
           </div>
-          <p className="lg:max-w-[365px]">
-            We capture CO₂ at the point of emission, purify it to high standards
-            of purity, and return it to circulation as a valuable raw material
-            for industry.
-          </p>
+          <p className="lg:max-w-[365px]">{t("text")}</p>
         </div>
         <Image
           quality={100}
           src="/images/homePage/redefining/infographicMob.png"
-          alt="infographic"
+          alt={t("imageAlt")}
           width={328}
           height={601}
           className="w-full h-auto xs:hidden"
@@ -69,7 +69,7 @@ export default function Redefining() {
         <Image
           quality={100}
           src="/images/homePage/redefining/infographicDesk.png"
-          alt="infographic"
+          alt={t("imageAlt")}
           width={1216}
           height={428}
           className="hidden w-full h-auto xs:block"

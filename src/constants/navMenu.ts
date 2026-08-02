@@ -1,43 +1,45 @@
+import { ROUTES } from "./routes";
+
 export type NavSubmenuItem = {
-    title: string;
-    slug: string;
+  /** Ключ у словнику nav.* */
+  titleKey: string;
+  slug: string;
 };
 
 export type NavMenuItem = {
-    title: string;
-    slug?: string;
-    submenu?: NavSubmenuItem[];
+  titleKey: string;
+  slug?: string;
+  submenu?: NavSubmenuItem[];
 };
 
 export const navMenuList: NavMenuItem[] = [
-    { title: "Home", slug: "/" },
-    { title: "Supply", slug: "/supply" },
-    {
-        title: "Solutions",
-        submenu: [
-            {
-                title: "Engineering Solutions",
-                slug: "/solutions/engineering-solutions",
-            },
-            {
-                title: "Equipment and systems",
-                slug: "/solutions/equipment-and-systems",
-            },
-            {
-                title: "Industries we serve",
-                slug: "/solutions/industries-we-serve",
-            },
-        ],
-    },
-    { title: "About", slug: "/about" },
-    { title: "Contacts", slug: "/contacts" },
+  { titleKey: "home", slug: ROUTES.home },
+  { titleKey: "supply", slug: ROUTES.supply },
+  { titleKey: "catalog", slug: ROUTES.catalog },
+  {
+    titleKey: "solutions",
+    submenu: [
+      { titleKey: "engineeringSolutions", slug: ROUTES.engineeringSolutions },
+      { titleKey: "equipmentAndSystems", slug: ROUTES.equipmentAndSystems },
+      { titleKey: "industriesWeServe", slug: ROUTES.industriesWeServe },
+    ],
+  },
+  { titleKey: "blog", slug: ROUTES.blog },
+  { titleKey: "about", slug: ROUTES.about },
+  { titleKey: "contacts", slug: ROUTES.contacts },
 ];
 
+/** Індекс пункту в меню під поточний шлях (без префікса локалі). */
 export function getActiveIndex(pathname: string): number {
-    if (pathname === "/") return 0;
-    if (pathname === "/supply") return 1;
-    if (pathname.startsWith("/solutions")) return 2;
-    if (pathname === "/about") return 3;
-    if (pathname === "/contacts") return 4;
-    return 0;
+  if (pathname === ROUTES.home) return 0;
+  if (pathname.startsWith(ROUTES.supply)) return 1;
+  if (pathname.startsWith(ROUTES.catalog)) return 2;
+  if (pathname.startsWith("/solutions")) return 3;
+  if (pathname.startsWith(ROUTES.blog)) return 4;
+  if (pathname.startsWith(ROUTES.about)) return 5;
+  if (pathname.startsWith(ROUTES.contacts)) return 6;
+  return 0;
 }
+
+/** Індекс пункту "Solutions" — pill лишається на ньому при відкритому дропдауні. */
+export const SOLUTIONS_INDEX = 3;

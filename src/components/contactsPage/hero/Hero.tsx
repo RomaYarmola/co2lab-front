@@ -3,25 +3,26 @@ import PageTitle from "@/components/shared/titles/PageTitle";
 import Image from "next/image";
 import ContactDetails from "./ContactDetails";
 import heroImage from "../../../../public/images/contactsPage/hero/hero.webp";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 
-export default function Hero() {
+export default function Hero({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.contacts.hero");
+
   return (
     <section className="pt-22 pb-4 lg:pt-8 lg:pb-0">
       <Container className="flex flex-col gap-4 lg:flex-row lg:gap-8">
         <div className="lg:w-[calc(50%-16px)] lg:pt-[170px] lg:pb-[101px]">
           <PageTitle className="mb-3 lg:mb-5.5 max-w-40 lg:max-w-[302px]">
-            Contacts
+            {t("title")}
           </PageTitle>
-          <p className="mb-4 lg:mb-[85px]">
-            Get in touch with CO2Lab to discuss your project, supply needs, or
-            technical requirements.
-          </p>
-          <ContactDetails className="hidden lg:block" />
+          <p className="mb-4 lg:mb-[85px]">{t("text")}</p>
+          <ContactDetails locale={locale} className="hidden lg:block" />
         </div>
         <div className="relative w-full lg:w-[calc(50%-16px)] min-h-[305px] sm:min-h-[380px] lg:min-h-[420px] rounded-[18px]">
           <Image quality={100}
             src="/images/homePage/hero/bgMobile.svg"
-            alt="background image"
+            alt=""
             width={152}
             height={190}
             className="absolute -z-10 right-[-41px] top-[397px] lg:hidden"
@@ -29,7 +30,7 @@ export default function Hero() {
           />
           <Image quality={100}
             src="/images/homePage/hero/bgDesk.svg"
-            alt="background image"
+            alt=""
             width={269}
             height={338}
             className="absolute -z-10 bottom-[-163px] left-[-164px] hidden lg:block"
@@ -37,7 +38,7 @@ export default function Hero() {
           />
           <Image quality={100}
             src={heroImage}
-            alt="hero image"
+            alt={t("imageAlt")}
             fill
             priority
             fetchPriority="high"
@@ -50,7 +51,7 @@ export default function Hero() {
             aria-hidden
           />
         </div>
-        <ContactDetails className="lg:hidden mt-12" />
+        <ContactDetails locale={locale} className="lg:hidden mt-12" />
       </Container>
     </section>
   );

@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { heroSlides, HERO_SLIDE_DURATION_MS } from "@/constants/heroSlides";
+import { HERO_SLIDE_DURATION_MS } from "@/constants/heroSlides";
+import { useTranslations } from "@/i18n/I18nProvider";
 import slideOne from "../../../../../public/images/homePage/hero/slideOne.webp";
 import slideTwo from "../../../../../public/images/homePage/hero/slideTwo.webp";
 import slideThree from "../../../../../public/images/homePage/hero/slideThree.webp";
@@ -10,22 +11,27 @@ import slideFour from "../../../../../public/images/homePage/hero/slideFour.webp
 
 const slideImages = [slideOne, slideTwo, slideThree, slideFour] as const;
 
-const TOTAL = heroSlides.length;
 const TRANSITION_MS = 500;
-const STRIP_POSITIONS = TOTAL + 1;
 const CLONES_COUNT = 3; // перший, другий, третій слайди після останнього для превʼю на широких екранах
 
+type Slide = { title: string; description: string };
+
 export default function HeroSlider() {
+  const t = useTranslations("pages.home");
+  const heroSlides = t.list<Slide>("slides");
+  const TOTAL = heroSlides.length;
+  const STRIP_POSITIONS = TOTAL + 1;
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [transitionEnabled, setTransitionEnabled] = useState(true);
   const resetTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const t = setInterval(() => {
+    const timer = setInterval(() => {
       setActiveIndex((i) => (i + 1) % STRIP_POSITIONS);
     }, HERO_SLIDE_DURATION_MS);
-    return () => clearInterval(t);
-  }, []);
+    return () => clearInterval(timer);
+  }, [STRIP_POSITIONS]);
 
   useEffect(() => {
     if (activeIndex !== STRIP_POSITIONS - 1) return;
@@ -41,7 +47,7 @@ export default function HeroSlider() {
     return () => {
       if (resetTimeoutRef.current) clearTimeout(resetTimeoutRef.current);
     };
-  }, [activeIndex]);
+  }, [activeIndex, STRIP_POSITIONS]);
 
   const displayIndex = Math.min(activeIndex, TOTAL - 1);
 
@@ -79,7 +85,7 @@ export default function HeroSlider() {
         >
           {heroSlides.map((slide, idx) => (
             <div
-              key={slide.id}
+              key={slide.title}
               className="flex w-[250px] shrink-0 items-center gap-2 rounded-[18px] p-2.5 shadow-[inset_0_4px_12.6px_0_rgba(255,255,255,0.25)] backdrop-blur-[10px] lg:w-[310px] lg:gap-3.5"
             >
               <div className="relative h-[77px] lg:h-[107px] w-[84px] lg:w-[98px] shrink-0 overflow-hidden rounded-[10px]">

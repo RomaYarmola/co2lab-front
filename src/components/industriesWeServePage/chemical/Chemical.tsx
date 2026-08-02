@@ -6,6 +6,8 @@ import Badges from "./Badges";
 import imageOne from "../../../../public/images/industriesWeServePage/chemical/imageOne.webp";
 import imageTwo from "../../../../public/images/industriesWeServePage/chemical/imageTwo.webp";
 import imageThree from "../../../../public/images/industriesWeServePage/chemical/imageThree.webp";
+import type { Locale } from "@/i18n/config";
+import { getTranslator } from "@/i18n/server";
 import * as motion from "motion/react-client";
 
 const slideInTransition = {
@@ -19,19 +21,22 @@ const slideFromLeft = { opacity: 0, x: -36 };
 const slideFromRight = { opacity: 0, x: 36 };
 const slideEnd = { opacity: 1, x: 0 };
 
-const applicationsImages = [
-  { src: imageOne, alt: "High-purity CO₂ for chemical processes" },
-  { src: imageTwo, alt: "Pharmaceutical-grade CO₂ applications" },
-  { src: imageThree, alt: "Industrial chemical CO₂ process control" },
-];
+const applicationSources = [imageOne, imageTwo, imageThree];
 
-export default function Chemical() {
+export default function Chemical({ locale }: { locale: Locale }) {
+  const t = getTranslator(locale, "pages.industries.chemical");
+  const alts = t.list<string>("imageAlts");
+  const applicationsImages = applicationSources.map((src, index) => ({
+    src,
+    alt: alts[index] ?? "",
+  }));
+
   return (
     <section className="py-12 lg:pt-30 lg:pb-0">
       <Container className="relative flex flex-col gap-8 lg:gap-12">
         <Image quality={100}
           src="/images/engineeringSolutionsPage/logistics/bgMob.svg"
-          alt="bg mobile"
+          alt=""
           width={158}
           height={188}
           className="absolute top-34 -right-16 -z-10 object-cover object-right pointer-events-none lg:hidden"
@@ -39,7 +44,7 @@ export default function Chemical() {
         />
         <Image quality={100}
           src="/images/engineeringSolutionsPage/logistics/bgDesk.svg"
-          alt="bg desktop"
+          alt=""
           width={279}
           height={333}
           className="absolute top-55 left-[428px] -z-10 object-cover object-right pointer-events-none hidden lg:block"
@@ -56,7 +61,7 @@ export default function Chemical() {
             >
               <Image quality={100}
                 src="/images/industriesWeServePage/chemical/chemicalLeft.png"
-                alt="Low Emissions"
+                alt=""
                 width={860}
                 height={176}
                 className="w-auto h-[112px] lg:h-[176px]"
@@ -64,11 +69,10 @@ export default function Chemical() {
             </motion.div>
             <div className="w-[181px] lg:w-[355px] shrink-0">
               <SectionTitle className="mb-2 lg:mb-3.5">
-                Chemical & Pharma
+                {t("title")}
               </SectionTitle>
               <p className="text-[10px] lg:text-[18px] font-light leading-[120%]">
-                High-purity CO₂ for controlled industrial and pharmaceutical
-                processes.
+                {t("text")}
               </p>
             </div>
             <motion.div
@@ -80,7 +84,7 @@ export default function Chemical() {
             >
               <Image quality={100}
                 src="/images/industriesWeServePage/chemical/chemicalRight.webp"
-                alt="Low Emissions"
+                alt=""
                 width={903}
                 height={176}
                 className="w-auto h-[112px] lg:h-[176px]"
@@ -90,22 +94,19 @@ export default function Chemical() {
         </div>
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <h3 className="lg:max-w-[220px] xl:max-w-full text-[16px] lg:text-[24px] font-semibold leading-[120%] uppercase">
-            Value for the industry:
+            {t("valueLabel")}
           </h3>
-          <Badges />
+          <Badges locale={locale} />
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center gap-8">
           <div className="sm:w-[calc(50%-16px)] xl:w-[46%]">
             <SectionTitle className="mb-3 lg:mb-4.5">
-              <span className="block">Typical</span>
+              <span className="block">{t("applicationsTitleLine1")}</span>
               <span className="block pl-[68px] xl:pl-[126px]">
-                applications:
+                {t("applicationsTitleLine2")}
               </span>
             </SectionTitle>
-            <p className="lg:max-w-[513px]">
-              Chemical and pharmaceutical industries require precise gas quality
-              and process stability.
-            </p>
+            <p className="lg:max-w-[513px]">{t("applicationsText")}</p>
           </div>
           <ImageCarousel images={applicationsImages} />
         </div>
