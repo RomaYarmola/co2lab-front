@@ -96,9 +96,9 @@ const en = {
 
   catalog: {
     title: "Product catalog",
-    heading: "CO₂ equipment and product catalog",
+    heading: "Cryogenic equipment and CO₂ systems catalog",
     intro:
-      "Capture units, liquefaction and purification systems, cryogenic tanks, dry ice equipment and CO₂ supply products — engineered, certified and ready for industrial deployment.",
+      "Cryogenic tanks for liquid CO₂, nitrogen, oxygen and argon, cryogenic cylinders, ambient and CO₂ vaporizers, CO₂ quality control laboratory equipment and turnkey gas supply system installation.",
     allCategories: "All categories",
     categories: "Categories",
     filters: "Filters",
@@ -227,9 +227,9 @@ const en = {
         "CO₂ solutions for biogas, food and beverage, chemical, recycling and logistics industries. Sector-specific capture, supply and utilisation systems.",
     },
     catalog: {
-      title: "CO₂ Equipment Catalog",
+      title: "Cryogenic tanks, vaporizers and CO₂ equipment catalog",
       description:
-        "Browse CO₂ capture units, purification and liquefaction systems, cryogenic tanks, dry ice equipment and CO₂ products. Technical specs and quotes.",
+        "Cryogenic storage tanks for liquid CO₂, nitrogen, oxygen and argon (10–100 m³), cryogenic cylinders, ambient and CO₂ vaporizers, CO₂ quality control and turnkey installation. Supply across Ukraine.",
     },
     blog: {
       title: "CO₂ Blog — Carbon Capture Insights and Industry News",

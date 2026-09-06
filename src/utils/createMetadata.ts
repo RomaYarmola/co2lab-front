@@ -17,7 +17,7 @@ const OG_IMAGE_HEIGHT = 630;
 function getBaseUrl(): string {
   const url = process.env.NEXT_PUBLIC_SITE_URL;
   if (url) return url.replace(/\/$/, "");
-  return "https://co2lab.com";
+  return "https://www.co2lab.pro";
 }
 
 /** Абсолютний URL сторінки для конкретної локалі. */

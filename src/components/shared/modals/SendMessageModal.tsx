@@ -11,11 +11,13 @@ import { useTranslations } from "@/i18n/I18nProvider";
 interface SendMessageModalProps {
   isModalShown: boolean;
   setIsModalShown: Dispatch<SetStateAction<boolean>>;
+  formName?: string;
 }
 
 export default function SendMessageModal({
   isModalShown,
   setIsModalShown,
+  formName = "modal",
 }: SendMessageModalProps) {
   const t = useTranslations("forms");
   const [isNotificationShown, setIsNotificationShown] = useState(false);
@@ -56,6 +58,7 @@ export default function SendMessageModal({
         setIsError={setIsError}
         setIsNotificationShown={setIsNotificationShown}
         setIsModalShown={setIsModalShown}
+        formName={formName}
         titleClassName="lg:text-[28px]"
         buttonClassName="sm:max-w-full sm:ml-0"
       />

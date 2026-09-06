@@ -5,6 +5,7 @@ import SecondaryButton from "@/components/shared/buttons/SecondaryButton";
 import SendMessageModal from "@/components/shared/modals/SendMessageModal";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
 import { useTranslations } from "@/i18n/I18nProvider";
+import { trackEvent } from "@/lib/analytics/track";
 
 export default function ProductQuoteApplication({
   productTitle,
@@ -19,7 +20,10 @@ export default function ProductQuoteApplication({
       <SecondaryButton
         variant="white"
         className="w-full justify-center"
-        onClick={() => setIsModalShown(true)}
+        onClick={() => {
+          trackEvent({ event: "request_quote_click", product: productTitle });
+          setIsModalShown(true);
+        }}
       >
         {t("requestPrice")}
       </SecondaryButton>
@@ -29,6 +33,7 @@ export default function ProductQuoteApplication({
       <SendMessageModal
         isModalShown={isModalShown}
         setIsModalShown={setIsModalShown}
+        formName="quote"
       />
       <Backdrop
         isVisible={isModalShown}

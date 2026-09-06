@@ -11,6 +11,7 @@ import YouTubeIcon from "@/components/shared/icons/YouTubeIcon";
 import { twMerge } from "tailwind-merge";
 import type { Locale } from "@/i18n/config";
 import { getTranslator } from "@/i18n/server";
+import TrackedLink from "@/components/shared/analytics/TrackedLink";
 
 const socialLinks = [
   {
@@ -41,21 +42,23 @@ export default function ContactDetails({
       <div className="mb-8 lg:mb-12 flex flex-col gap-3 text-[14px] lg:text-[16px] font-light leading-[120%]">
         <p className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4">
           <span className="lg:w-40 font-medium">{t("emailLabel")}</span>
-          <a
+          <TrackedLink
             href={`mailto:${CONTACT_EMAIL_REQUEST}`}
+            location="contacts"
             className="xl:hover:opacity-60 focus-visible:opacity-60 transition duration-300 ease-in-out"
           >
             {CONTACT_EMAIL_REQUEST}
-          </a>
+          </TrackedLink>
         </p>
         <p className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4">
           <span className="lg:w-40 font-medium">{t("phoneLabel")}</span>
-          <a
+          <TrackedLink
             href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
+            location="contacts"
             className="xl:hover:opacity-60 focus-visible:opacity-60 transition duration-300 ease-in-out"
           >
             {CONTACT_PHONE}
-          </a>
+          </TrackedLink>
         </p>
       </div>
       <div className="flex flex-wrap gap-2 lg:gap-4">

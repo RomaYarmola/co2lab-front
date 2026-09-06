@@ -45,11 +45,13 @@ export default function OrganizationJsonLd({ locale }: { locale: Locale }) {
           postalCode: "04213",
           addressCountry: "UA",
         },
+        // Лише реальні профілі: заглушки на кшталт linkedin.com без шляху
+        // Google трактує як помилку розмітки
         sameAs: [
           SOCIAL_LINK_INSTAGRAM_CO2LAB,
           SOCIAL_LINK_LINKEDIN,
           SOCIAL_LINK_YOUTUBE,
-        ],
+        ].filter((url) => /^https?:\/\/[^/]+\/.+/.test(url)),
         contactPoint: [
           {
             "@type": "ContactPoint",

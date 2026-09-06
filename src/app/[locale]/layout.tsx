@@ -15,6 +15,7 @@ import {
 import { getMessages } from "@/i18n/getMessages";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import OrganizationJsonLd from "@/components/shared/seo/OrganizationJsonLd";
+import { AnalyticsNoScript, AnalyticsScripts } from "@/components/shared/analytics/Analytics";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -55,9 +56,14 @@ export async function generateMetadata({
       languages: buildLanguageAlternates("/"),
     },
     formatDetection: { telephone: false, address: false, email: false },
-    verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-      ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
-      : undefined,
+    verification: {
+      ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+        ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+        : {}),
+      ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+        ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } }
+        : {}),
+    },
     openGraph: {
       title,
       description,
@@ -100,6 +106,8 @@ export default async function LocaleLayout({
       <body
         className={`${montserrat.variable} flex min-h-screen flex-col text-[14px] lg:text-[18px] font-light leading-[120%] antialiased`}
       >
+        <AnalyticsNoScript />
+        <AnalyticsScripts />
         <I18nProvider locale={locale} messages={messages}>
           <OrganizationJsonLd locale={locale} />
           <Header locale={locale} />

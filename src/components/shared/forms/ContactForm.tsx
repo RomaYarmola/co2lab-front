@@ -9,6 +9,7 @@ import MainButton from "../buttons/MainButton";
 import { twMerge } from "tailwind-merge";
 import SectionTitle from "../titles/SectionTitle";
 import { useTranslations } from "@/i18n/I18nProvider";
+import { trackEvent } from "@/lib/analytics/track";
 
 interface ContactFormValues {
   name: string;
@@ -25,6 +26,8 @@ interface ContactFormProps {
   className?: string;
   titleClassName?: string;
   buttonClassName?: string;
+  /** Назва форми для аналітики: contact / quote / … */
+  formName?: string;
 }
 
 export default function ContactForm({
@@ -34,6 +37,7 @@ export default function ContactForm({
   className = "",
   titleClassName = "",
   buttonClassName = "",
+  formName = "contact",
 }: ContactFormProps) {
   const t = useTranslations("forms");
   const [isLoading, setIsLoading] = useState(false);
@@ -74,11 +78,13 @@ export default function ContactForm({
         },
       });
       resetForm();
+      trackEvent({ event: "form_submit", form_name: formName });
       if (setIsModalShown) {
         setIsModalShown(false);
       }
       setIsNotificationShown(true);
     } catch (error) {
+      trackEvent({ event: "form_error", form_name: formName });
       setIsError(true);
       if (setIsModalShown) {
         setIsModalShown(false);

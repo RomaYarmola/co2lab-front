@@ -1,6 +1,7 @@
 import { contacts } from "@/constants/contact";
 import type { Locale } from "@/i18n/config";
 import { getTranslator } from "@/i18n/server";
+import TrackedLink from "@/components/shared/analytics/TrackedLink";
 
 export default function ContactsBlock({ locale }: { locale: Locale }) {
   const t = getTranslator(locale, "forms");
@@ -35,12 +36,13 @@ export default function ContactsBlock({ locale }: { locale: Locale }) {
             {label}
           </p>
           {href !== undefined ? (
-            <a
+            <TrackedLink
               href={href || "#"}
+              location="footer"
               className="text-[14px] font-medium leading-[120%] xl:hover:opacity-80 transition-opacity duration-300 ease-in-out block"
             >
               {value}
-            </a>
+            </TrackedLink>
           ) : (
             <p className="text-[14px] font-medium leading-[120%]">{value}</p>
           )}

@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "seed:push": "node --env-file=.env.local scripts/sanity-push.mts",
+    "seed:dry": "node --env-file=.env.local scripts/sanity-push.mts --dry-run",
+    "seed:ndjson": "node scripts/sanity-push.mts --ndjson"
   },
   "dependencies": {
     "@portabletext/react": "^7.0.1",
