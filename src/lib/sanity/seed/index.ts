@@ -54,3 +54,12 @@ export function seedProduct(id: string): SeedProduct {
   if (!found) throw new Error(`Seed product not found: ${id}`);
   return found;
 }
+
+export {
+  seedAuthor,
+  seedBlogCategories,
+  seedPosts,
+  type SeedAuthor,
+  type SeedBlogCategory,
+  type SeedPost,
+} from "./blog.ts";

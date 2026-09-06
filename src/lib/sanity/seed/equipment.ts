@@ -16,12 +16,28 @@ import {
 import { GASES, type GasKey } from "./gases.ts";
 
 const IMG = {
+  // Фото клієнта з каталогу «Кріогенне обладнання» (витягнуті з docx)
+  tankWithVaporizer: "/images/catalog/cryogenic-tank-with-ambient-vaporizer.webp",
+  ambientRange: "/images/catalog/ambient-air-vaporizers-range.webp",
+  cylinderNitrogen: "/images/catalog/cryogenic-cylinder-nitrogen.webp",
+  cylinderFrame: "/images/catalog/cryogenic-cylinder-stainless-frame.webp",
+  microbulk: "/images/catalog/microbulk-tank-with-piping.webp",
+  lab: "/images/catalog/co2-quality-control-laboratory.webp",
+  co2Fans: "/images/catalog/forced-draft-vaporizer-fans.webp",
+  co2Greenhouse: "/images/catalog/co2-vaporizer-in-greenhouse.webp",
+  crane: "/images/catalog/cryogenic-tank-installation-crane.webp",
+  // Знімки з маркетингових сторінок сайту
   tanks: "/images/equipmentAndSystemsPage/criogenicTanks/image.webp",
   valves: "/images/equipmentAndSystemsPage/criogenicTanks/imageThree.webp",
   engineer: "/images/equipmentAndSystemsPage/engineering/imageThree.webp",
-  crane: "/images/equipmentAndSystemsPage/modular/imageThree.webp",
-  lab: "/images/supplyPage/standards/standards.webp",
-  truck: "/images/supplyPage/distribution/imageOne.webp",
+};
+
+/** Головне й додаткове фото кріоциліндра під кожен газ. */
+const CYLINDER_PHOTOS: Record<GasKey, [string, string]> = {
+  n2: [IMG.cylinderNitrogen, IMG.cylinderFrame],
+  o2: [IMG.cylinderFrame, IMG.microbulk],
+  ar: [IMG.microbulk, IMG.cylinderFrame],
+  co2: [IMG.cylinderFrame, IMG.microbulk],
 };
 
 const SCOPE_HEADING: L = {
@@ -162,10 +178,10 @@ function buildCylinderCategory(def: CylinderDef): SeedCategory {
       h2(SELECTION_HEADING[lang], `cc-${def.gas}`),
       p(CYL_SELECTION[lang], `cc-${def.gas}`),
     ]),
-    image: img(IMG.valves, {
-      en: `Cryogenic cylinder valves and pressure regulator for ${g.nom.en}`,
-      uk: `Арматура та регулятор тиску кріоциліндра для ${gasShort.uk}`,
-      ru: `Арматура и регулятор давления криоцилиндра для ${gasShort.ru}`,
+    image: img(CYLINDER_PHOTOS[def.gas][0], {
+      en: `Cryogenic cylinder for ${g.nom.en} in a transport frame with valves and pressure regulator`,
+      uk: `Кріоциліндр для ${gasShort.uk} у транспортній рамі з арматурою та регулятором тиску`,
+      ru: `Криоцилиндр для ${gasShort.ru} в транспортной раме с арматурой и регулятором давления`,
     }),
     faq: CYL_FAQ.map((item, index) =>
       faq(`faq-cyl-${def.gas}-${index}`, item.q, item.a),
@@ -225,20 +241,20 @@ function buildCylinderProduct(
     category,
     gallery: [
       img(
-        IMG.valves,
+        CYLINDER_PHOTOS[def.gas][0],
         {
-          en: `${title.en} — valves and pressure regulator`,
-          uk: `${title.uk} — арматура та регулятор тиску`,
-          ru: `${title.ru} — арматура и регулятор давления`,
+          en: `${title.en} — vacuum-insulated vessel in a transport frame`,
+          uk: `${title.uk} — вакуумно-ізольована посудина в транспортній рамі`,
+          ru: `${title.ru} — вакуумно-изолированный сосуд в транспортной раме`,
         },
         `cyl-${def.gas}-1`,
       ),
       img(
-        IMG.engineer,
+        CYLINDER_PHOTOS[def.gas][1],
         {
-          en: "Engineer checking pressure on cryogenic equipment",
-          uk: "Інженер перевіряє тиск на кріогенному обладнанні",
-          ru: "Инженер проверяет давление на криогенном оборудовании",
+          en: `${title.en} — valve group, pressure regulator and level gauge`,
+          uk: `${title.uk} — група арматури, регулятор тиску та покажчик рівня`,
+          ru: `${title.ru} — группа арматуры, регулятор давления и указатель уровня`,
         },
         `cyl-${def.gas}-2`,
       ),
@@ -462,9 +478,9 @@ export const labCategory: SeedCategory = {
     ...LAB_TEXT.scope.map((item) => li(item[lang], "cl")),
   ]),
   image: img(IMG.lab, {
-    en: "Stainless steel process and analytical equipment for CO₂ quality control",
-    uk: "Технологічне та аналітичне обладнання з нержавіючої сталі для контролю якості CO₂",
-    ru: "Технологическое и аналитическое оборудование из нержавеющей стали для контроля качества CO₂",
+    en: "Container laboratory for CO₂ quality control: analysers, sampling panel and workstation",
+    uk: "Контейнерна лабораторія контролю якості CO₂: аналізатори, панель відбору проб і робоче місце",
+    ru: "Контейнерная лаборатория контроля качества CO₂: анализаторы, панель отбора проб и рабочее место",
   }),
   faq: LAB_FAQ.map((item, index) => faq(`faq-lab-${index}`, item.q, item.a)),
   seo: {
@@ -511,9 +527,9 @@ export const labProduct: SeedProduct = {
     img(
       IMG.lab,
       {
-        en: "Analytical equipment for CO₂ purity and impurity control",
-        uk: "Аналітичне обладнання для контролю чистоти та домішок CO₂",
-        ru: "Аналитическое оборудование для контроля чистоты и примесей CO₂",
+        en: "CO₂ analysers, sampling panel and laboratory workstation inside a container laboratory",
+        uk: "Аналізатори CO₂, панель відбору проб і робоче місце всередині контейнерної лабораторії",
+        ru: "Анализаторы CO₂, панель отбора проб и рабочее место внутри контейнерной лаборатории",
       },
       "lab-1",
     ),
@@ -734,10 +750,10 @@ export const ambientVaporizerCategory: SeedCategory = {
       "ca",
     ),
   ]),
-  image: img(IMG.tanks, {
-    en: "Cryogenic tanks with ambient air vaporizers at an industrial site",
-    uk: "Кріогенні ємності з атмосферними випарниками на промисловому майданчику",
-    ru: "Криогенные ёмкости с атмосферными испарителями на промышленной площадке",
+  image: img(IMG.ambientRange, {
+    en: "Ambient air vaporizers of different capacities for liquid nitrogen, oxygen and argon",
+    uk: "Атмосферні випарники різної продуктивності для рідкого азоту, кисню та аргону",
+    ru: "Атмосферные испарители разной производительности для жидкого азота, кислорода и аргона",
   }),
   faq: AMB_FAQ.map((item, index) => faq(`faq-amb-${index}`, item.q, item.a)),
   seo: {
@@ -797,20 +813,20 @@ function buildAmbientVaporizerProduct(gas: GasKey, index: number): SeedProduct {
     category: ambientVaporizerCategory,
     gallery: [
       img(
-        IMG.tanks,
+        IMG.ambientRange,
         {
-          en: `Cryogenic tank installation with ambient vaporizers for ${g.nom.en}`,
-          uk: `Установка кріогенних ємностей з атмосферними випарниками для ${gasShort.uk}`,
-          ru: `Установка криогенных ёмкостей с атмосферными испарителями для ${gasShort.ru}`,
+          en: `Ambient air vaporizers for ${g.nom.en} — finned heat-exchange tubes, capacities from 50 to 2000 kg/h`,
+          uk: `Атмосферні випарники для ${gasShort.uk} — оребрені теплообмінні труби, продуктивність від 50 до 2000 кг/год`,
+          ru: `Атмосферные испарители для ${gasShort.ru} — оребрённые теплообменные трубы, производительность от 50 до 2000 кг/ч`,
         },
         `av-${gas}-1`,
       ),
       img(
-        IMG.valves,
+        IMG.tankWithVaporizer,
         {
-          en: "Outlet valves and pressure regulator of a gas supply system",
-          uk: "Вихідна арматура та регулятор тиску системи газопостачання",
-          ru: "Выходная арматура и регулятор давления системы газоснабжения",
+          en: `Ambient vaporizer connected to a cryogenic tank for ${g.nom.en} on site`,
+          uk: `Атмосферний випарник, підключений до кріогенної ємності для ${gasShort.uk} на обʼєкті`,
+          ru: `Атмосферный испаритель, подключённый к криогенной ёмкости для ${gasShort.ru} на объекте`,
         },
         `av-${gas}-2`,
       ),
@@ -982,10 +998,10 @@ export const co2VaporizerCategory: SeedCategory = {
       "cv",
     ),
   ]),
-  image: img(IMG.engineer, {
-    en: "CO₂ storage tank with vaporizer and piping during commissioning",
-    uk: "Ємність CO₂ з випарником та обвʼязкою під час пусконалагодження",
-    ru: "Ёмкость CO₂ с испарителем и обвязкой во время пусконаладки",
+  image: img(IMG.co2Greenhouse, {
+    en: "CO₂ vaporizer installed in a greenhouse for carbon dioxide enrichment",
+    uk: "Випарник CO₂, встановлений у теплиці для вуглекислотного підживлення",
+    ru: "Испаритель CO₂, установленный в теплице для углекислотной подкормки",
   }),
   faq: CO2V_FAQ.map((item, index) => faq(`faq-co2v-${index}`, item.q, item.a)),
   seo: {
@@ -1057,20 +1073,20 @@ function buildCo2VaporizerProduct(
     category: co2VaporizerCategory,
     gallery: [
       img(
-        IMG.engineer,
+        IMG.co2Fans,
         {
-          en: `${title.en} — CO₂ tank and vaporizer piping`,
-          uk: `${title.uk} — обвʼязка ємності CO₂ та випарника`,
-          ru: `${title.ru} — обвязка ёмкости CO₂ и испарителя`,
+          en: `${title.en} — forced-draft vaporizer with fans and outlet temperature control`,
+          uk: `${title.uk} — випарник примусового обдуву з вентиляторами та контролем температури на виході`,
+          ru: `${title.ru} — испаритель принудительного обдува с вентиляторами и контролем температуры на выходе`,
         },
         `cv-${capacity}-1`,
       ),
       img(
-        IMG.valves,
+        IMG.co2Greenhouse,
         {
-          en: "Pressure-reducing unit and valves at the vaporizer outlet",
-          uk: "Редукційний вузол та арматура на виході випарника",
-          ru: "Редукционный узел и арматура на выходе испарителя",
+          en: "CO₂ vaporizer mounted in a greenhouse for carbon dioxide enrichment",
+          uk: "Випарник CO₂, змонтований у теплиці для вуглекислотного підживлення",
+          ru: "Испаритель CO₂, смонтированный в теплице для углекислотной подкормки",
         },
         `cv-${capacity}-2`,
       ),
@@ -1308,9 +1324,9 @@ export const installationCategory: SeedCategory = {
     ...INSTALL_STEPS.map((item) => li(item[lang], "ci")),
   ]),
   image: img(IMG.crane, {
-    en: "Crane installation of cryogenic tanks on a customer site",
-    uk: "Монтаж кріогенних ємностей краном на майданчику замовника",
-    ru: "Монтаж криогенных ёмкостей краном на площадке заказчика",
+    en: "Cryogenic tank delivered on a low-loader and lifted by two cranes during installation",
+    uk: "Кріогенна ємність, доставлена тралом і піднята двома кранами під час монтажу",
+    ru: "Криогенная ёмкость, доставленная тралом и поднятая двумя кранами во время монтажа",
   }),
   faq: INSTALL_FAQ.map((item, index) =>
     faq(`faq-inst-${index}`, item.q, item.a),
@@ -1359,9 +1375,9 @@ export const installationProduct: SeedProduct = {
     img(
       IMG.crane,
       {
-        en: "Lifting a cryogenic tank onto its foundation",
-        uk: "Підйом кріогенної ємності на фундамент",
-        ru: "Подъём криогенной ёмкости на фундамент",
+        en: "Lifting a cryogenic tank from a low-loader onto its foundation with two cranes",
+        uk: "Підйом кріогенної ємності з трала на фундамент двома кранами",
+        ru: "Подъём криогенной ёмкости с трала на фундамент двумя кранами",
       },
       "inst-1",
     ),
@@ -1375,11 +1391,11 @@ export const installationProduct: SeedProduct = {
       "inst-2",
     ),
     img(
-      IMG.tanks,
+      IMG.tankWithVaporizer,
       {
-        en: "Completed cryogenic storage installation",
-        uk: "Завершений монтаж кріогенного сховища",
-        ru: "Завершённый монтаж криогенного хранилища",
+        en: "Completed installation: cryogenic tank with an ambient vaporizer and process piping",
+        uk: "Завершений монтаж: кріогенна ємність з атмосферним випарником і технологічною обвʼязкою",
+        ru: "Завершённый монтаж: криогенная ёмкость с атмосферным испарителем и технологической обвязкой",
       },
       "inst-3",
     ),

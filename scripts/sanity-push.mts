@@ -19,10 +19,18 @@ import { createClient } from "@sanity/client";
 import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
-import { seedCategories, seedProducts } from "../src/lib/sanity/seed/index.ts";
+import {
+  seedAuthor,
+  seedBlogCategories,
+  seedCategories,
+  seedPosts,
+  seedProducts,
+} from "../src/lib/sanity/seed/index.ts";
 import type {
+  SeedBlogCategory,
   SeedCategory,
   SeedImage,
+  SeedPost,
   SeedProduct,
 } from "../src/lib/sanity/seed/index.ts";
 
@@ -107,6 +115,61 @@ function productDoc(product: SeedProduct, gallery: ImageRef[]) {
   };
 }
 
+function ref(id: string, key?: string) {
+  return {
+    _type: "reference" as const,
+    _ref: id,
+    ...(key ? { _key: key } : {}),
+  };
+}
+
+function authorDoc() {
+  return {
+    _id: seedAuthor._id,
+    _type: "author",
+    name: seedAuthor.name,
+    slug: { _type: "slug", current: seedAuthor.slug.current },
+    role: seedAuthor.role,
+    bio: seedAuthor.bio,
+  };
+}
+
+function blogCategoryDoc(category: SeedBlogCategory) {
+  return {
+    _id: category._id,
+    _type: "blogCategory",
+    title: category.title,
+    slug: localizedSlug(category.slug),
+    description: category.description,
+    order: category.order,
+    seo: { _type: "seoFields", ...category.seo, noIndex: false },
+  };
+}
+
+function blogPostDoc(post: SeedPost, coverImage: ImageRef) {
+  return {
+    _id: post._id,
+    _type: "blogPost",
+    title: post.title,
+    slug: localizedSlug(post.slug),
+    isPublished: true,
+    publishedAt: post.publishedAt,
+    updatedAt: post.updatedAt,
+    author: ref(post.author._id),
+    categories: post.categories.map((item, i) => ref(item._id, `c${i}`)),
+    tags: post.tags,
+    readingTimeMinutes: post.readingTimeMinutes,
+    isFeatured: post.isFeatured,
+    coverImage,
+    excerpt: post.excerpt,
+    body: post.body,
+    faq: post.faq.map((item) => ({ _type: "faqItem", ...item })),
+    relatedProducts: post.relatedProducts.map((item, i) => ref(item._id, `p${i}`)),
+    relatedPosts: post.relatedPosts.map((item, i) => ref(item._id, `r${i}`)),
+    seo: { _type: "seoFields", ...post.seo, noIndex: false },
+  };
+}
+
 /* ─── Зображення ──────────────────────────────────────────────────────── */
 
 /** Детермінований id asset-а для NDJSON-режиму (без завантаження файлів). */
@@ -120,9 +183,12 @@ async function main() {
     uniquePaths.add(category.image.asset.url);
   for (const product of seedProducts)
     for (const image of product.gallery) uniquePaths.add(image.asset.url);
+  for (const post of seedPosts) uniquePaths.add(post.coverImage.asset.url);
 
   console.log(
-    `Категорій: ${seedCategories.length}, товарів: ${seedProducts.length}, унікальних зображень: ${uniquePaths.size}`,
+    `Категорій: ${seedCategories.length}, товарів: ${seedProducts.length}, ` +
+      `категорій блогу: ${seedBlogCategories.length}, статей: ${seedPosts.length}, ` +
+      `унікальних зображень: ${uniquePaths.size}`,
   );
 
   if (NDJSON) {
@@ -141,6 +207,9 @@ async function main() {
       ...seedProducts.map((product) =>
         productDoc(product, product.gallery.map(toRef)),
       ),
+      authorDoc(),
+      ...seedBlogCategories.map(blogCategoryDoc),
+      ...seedPosts.map((post) => blogPostDoc(post, toRef(post.coverImage))),
     ].map((doc) => JSON.stringify(doc));
     await writeFile("seed.ndjson", lines.join("\n") + "\n");
     console.log(
@@ -198,9 +267,15 @@ async function main() {
     productDoc(product, product.gallery.map(toRef)),
   );
 
+  const blogDocs = [
+    ...seedBlogCategories.map(blogCategoryDoc),
+    ...seedPosts.map((post) => blogPostDoc(post, toRef(post.coverImage))),
+  ];
+
   if (DRY_RUN) {
-    for (const doc of [...categoryDocs, ...productDocs])
+    for (const doc of [...categoryDocs, ...productDocs, ...blogDocs])
       console.log(`  ${doc._type}  ${doc._id}  /${doc.slug.uk.current}`);
+    console.log(`  author  ${seedAuthor._id}  ${seedAuthor.name}`);
     console.log("Dry run — нічого не записано.");
     return;
   }
@@ -220,6 +295,20 @@ async function main() {
       `Товари записано: ${Math.min(i + 20, productDocs.length)}/${productDocs.length}`,
     );
   }
+
+  // 3. Блог: автор і категорії мають існувати до статей, які на них посилаються
+  let blogTx = client.transaction().createOrReplace(authorDoc());
+  for (const doc of seedBlogCategories.map(blogCategoryDoc))
+    blogTx = blogTx.createOrReplace(doc);
+  await blogTx.commit();
+  console.log(`Автор і категорії блогу записано: ${seedBlogCategories.length + 1}`);
+
+  // Статті посилаються одна на одну — пишемо однією транзакцією
+  let postsTx = client.transaction();
+  for (const doc of blogDocs.filter((doc) => doc._type === "blogPost"))
+    postsTx = postsTx.createOrReplace(doc);
+  await postsTx.commit();
+  console.log(`Статті записано: ${seedPosts.length}`);
 
   console.log(
     "Готово. Перевір у Studio та задай NEXT_PUBLIC_SANITY_PROJECT_ID на Vercel, щоб фронт перейшов із фолбеку на CMS.",

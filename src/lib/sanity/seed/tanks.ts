@@ -16,41 +16,42 @@ import {
 } from "./helpers.ts";
 import { GASES, type GasKey } from "./gases.ts";
 
-/* ─── Фото (з /public; замінити на реальні фото клієнта) ──────────────── */
+/* ─── Фото ─────────────────────────────────────────────────────────────
+ * `/images/catalog/*` — фото клієнта з каталогу «Кріогенне обладнання»
+ * (витягнуті з docx). Решта — знімки з маркетингових сторінок сайту.
+ */
 
 const TANK_IMAGES = {
-  yard: "/images/equipmentAndSystemsPage/criogenicTanks/image.webp",
-  one: "/images/equipmentAndSystemsPage/criogenicTanks/imageOne.webp",
-  two: "/images/equipmentAndSystemsPage/criogenicTanks/imageTwo.webp",
-  three: "/images/equipmentAndSystemsPage/criogenicTanks/imageThree.webp",
-  four: "/images/equipmentAndSystemsPage/criogenicTanks/imageFour.webp",
+  onSite: "/images/catalog/cryogenic-tank-with-ambient-vaporizer.webp",
+  vertical: "/images/catalog/cryogenic-storage-tank-vertical.webp",
+  install: "/images/catalog/cryogenic-tank-installation-crane.webp",
+  valves: "/images/equipmentAndSystemsPage/criogenicTanks/imageThree.webp",
   engineer: "/images/equipmentAndSystemsPage/engineering/imageThree.webp",
-  crane: "/images/equipmentAndSystemsPage/modular/imageThree.webp",
 };
 
 function tankGallery(gas: GasKey, title: L): SeedImage[] {
   const g = GASES[gas];
   const base = [
     img(
-      TANK_IMAGES.yard,
+      TANK_IMAGES.onSite,
       {
-        en: `Vertical cryogenic storage tanks for ${g.nom.en} on a customer site`,
-        uk: `Вертикальні кріогенні ємності для зберігання ${g.gen.uk.split(" (")[0]} на майданчику замовника`,
-        ru: `Вертикальные криогенные ёмкости для хранения ${g.gen.ru.split(" (")[0]} на площадке заказчика`,
+        en: `Vertical cryogenic tank for ${g.nom.en} with an ambient air vaporizer on a customer site`,
+        uk: `Вертикальна кріогенна ємність для ${g.gen.uk.split(" (")[0]} з атмосферним випарником на майданчику замовника`,
+        ru: `Вертикальная криогенная ёмкость для ${g.gen.ru.split(" (")[0]} с атмосферным испарителем на площадке заказчика`,
       },
       `${gas}-g1`,
     ),
     img(
-      TANK_IMAGES.one,
+      TANK_IMAGES.vertical,
       {
-        en: `${title.en} — outer shell of the vacuum-insulated vessel`,
-        uk: `${title.uk} — зовнішній кожух вакуумно-ізольованої посудини`,
-        ru: `${title.ru} — наружный кожух вакуумно-изолированного сосуда`,
+        en: `${title.en} — vacuum-insulated vessel with valve group and pressure gauge`,
+        uk: `${title.uk} — вакуумно-ізольована посудина з групою арматури та манометром`,
+        ru: `${title.ru} — вакуумно-изолированный сосуд с группой арматуры и манометром`,
       },
       `${gas}-g2`,
     ),
     img(
-      TANK_IMAGES.three,
+      TANK_IMAGES.valves,
       {
         en: "Shut-off and safety valves, pressure control unit of a cryogenic tank",
         uk: "Запірна та запобіжна арматура, вузол контролю тиску кріогенної ємності",
@@ -59,11 +60,11 @@ function tankGallery(gas: GasKey, title: L): SeedImage[] {
       `${gas}-g3`,
     ),
     img(
-      TANK_IMAGES.crane,
+      TANK_IMAGES.install,
       {
-        en: "Installation of cryogenic tanks with a crane on prepared foundations",
-        uk: "Монтаж кріогенних ємностей краном на підготовлені фундаменти",
-        ru: "Монтаж криогенных ёмкостей краном на подготовленные фундаменты",
+        en: "Delivery of a cryogenic tank on a low-loader and lifting by crane on site",
+        uk: "Доставка кріогенної ємності тралом і підйом краном на майданчику",
+        ru: "Доставка криогенной ёмкости тралом и подъём краном на площадке",
       },
       `${gas}-g4`,
     ),
@@ -441,10 +442,10 @@ export function buildTankCategory(def: TankCategoryDef): SeedCategory {
       h2(TURNKEY_HEADING[lang], `c-${def.gas}`),
       p(def.turnkey[lang], `c-${def.gas}`),
     ]),
-    image: img(TANK_IMAGES.yard, {
-      en: `Cryogenic storage tanks for ${g.nom.en}`,
-      uk: `Кріогенні ємності для зберігання ${g.gen.uk.split(" (")[0]}`,
-      ru: `Криогенные ёмкости для хранения ${g.gen.ru.split(" (")[0]}`,
+    image: img(TANK_IMAGES.onSite, {
+      en: `Cryogenic storage tank for ${g.nom.en} with an ambient air vaporizer`,
+      uk: `Кріогенна ємність для зберігання ${g.gen.uk.split(" (")[0]} з атмосферним випарником`,
+      ru: `Криогенная ёмкость для хранения ${g.gen.ru.split(" (")[0]} с атмосферным испарителем`,
     }),
     faq: def.faq.map((item, index) =>
       faq(`faq-${def.gas}-${index}`, item.q, item.a),
