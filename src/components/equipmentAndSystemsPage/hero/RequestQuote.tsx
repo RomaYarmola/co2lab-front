@@ -22,6 +22,9 @@ export default function RequestQuoteApplication() {
       <SendMessageModal
         isModalShown={isModalShown}
         setIsModalShown={setIsModalShown}
+        formName="equipment_quote"
+        leadType="quote"
+        context="Сторінка «Обладнання та системи»"
       />
       <Backdrop
         isVisible={isModalShown}

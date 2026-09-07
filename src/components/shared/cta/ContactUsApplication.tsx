@@ -17,6 +17,9 @@ export default function ContactUsApplication() {
       <SendMessageModal
         isModalShown={isModalShown}
         setIsModalShown={setIsModalShown}
+        formName="cta_build"
+        leadType="consultation"
+        context="Блок CTA «Побудувати екосистему»"
       />
       <Backdrop
         isVisible={isModalShown}

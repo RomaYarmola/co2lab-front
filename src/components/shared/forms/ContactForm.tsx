@@ -1,15 +1,18 @@
 "use client";
 
-import axios from "axios";
 import { Form, Formik, FormikHelpers } from "formik";
 import { Dispatch, SetStateAction, useState } from "react";
+import { useRouter } from "next/navigation";
 import CustomizedInput from "../formComponents/CustomizedInput";
 import { contactValidation } from "@/schemas/contactFormValidation";
 import MainButton from "../buttons/MainButton";
 import { twMerge } from "tailwind-merge";
 import SectionTitle from "../titles/SectionTitle";
-import { useTranslations } from "@/i18n/I18nProvider";
+import { useTranslations, useLocale } from "@/i18n/I18nProvider";
 import { trackEvent } from "@/lib/analytics/track";
+import { sendLead, type LeadType } from "@/lib/leads/sendLead";
+import { localizePath } from "@/i18n/config";
+import { ROUTES } from "@/constants/routes";
 
 interface ContactFormValues {
   name: string;
@@ -28,6 +31,17 @@ interface ContactFormProps {
   buttonClassName?: string;
   /** Назва форми для аналітики: contact / quote / … */
   formName?: string;
+  /** Тип заявки — визначає заголовок повідомлення менеджеру. */
+  leadType?: LeadType;
+  /** Сторінка або товар, з якого відкрили форму. */
+  context?: string;
+  /** Картка товару: потрапляє в Telegram разом із моделлю та артикулом. */
+  product?: { title: string; model?: string; sku?: string };
+  /**
+   * Після успішної відправки вести на сторінку подяки. Це єдина URL-адреса
+   * конверсії для GA4 і реклами, тому за замовчуванням увімкнено для всіх форм.
+   */
+  redirectToThanks?: boolean;
 }
 
 export default function ContactForm({
@@ -38,8 +52,14 @@ export default function ContactForm({
   titleClassName = "",
   buttonClassName = "",
   formName = "contact",
+  leadType = "contact",
+  context,
+  product,
+  redirectToThanks = true,
 }: ContactFormProps) {
   const t = useTranslations("forms");
+  const locale = useLocale();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = contactValidation(t);
@@ -58,42 +78,45 @@ export default function ContactForm({
   ) => {
     const { resetForm } = formikHelpers;
 
-    const text =
-      `<b>Заявка "Send us a message"</b>\n` +
-      `<b>Ім'я:</b> ${values.name.trim()}\n` +
-      `<b>Компанія:</b> ${values.company.trim() || "—"}\n` +
-      `<b>Телефон:</b> ${values.phone.trim().replace(/(?!^)\D/g, "")}\n` +
-      `<b>Email:</b> ${values.email.trim() || "—"}\n` +
-      `<b>Повідомлення:</b> ${values.message.trim() || "—"}\n`;
+    setIsError(false);
+    setIsLoading(true);
 
-    try {
-      setIsError(false);
-      setIsLoading(true);
-      await axios({
-        method: "post",
-        url: "/api/telegram",
-        data: text,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      resetForm();
-      trackEvent({ event: "form_submit", form_name: formName });
-      if (setIsModalShown) {
-        setIsModalShown(false);
-      }
-      setIsNotificationShown(true);
-    } catch (error) {
+    const result = await sendLead({
+      type: leadType,
+      name: values.name.trim(),
+      company: values.company.trim(),
+      phone: values.phone.trim(),
+      email: values.email.trim(),
+      message: values.message.trim(),
+      context,
+      product,
+      locale,
+    });
+
+    setIsLoading(false);
+
+    if (!result.success) {
       trackEvent({ event: "form_error", form_name: formName });
       setIsError(true);
-      if (setIsModalShown) {
-        setIsModalShown(false);
-      }
+      if (setIsModalShown) setIsModalShown(false);
       setIsNotificationShown(true);
-      return error;
-    } finally {
-      setIsLoading(false);
+      return;
     }
+
+    resetForm();
+    trackEvent({ event: "form_submit", form_name: formName });
+
+    if (redirectToThanks) {
+      // Модалку закриваємо до переходу, інакше бекдроп лишається поверх
+      // нової сторінки. Перехід клієнтським роутером: подія вже в dataLayer,
+      // GTM встигає її обробити, бо сторінка не перезавантажується.
+      if (setIsModalShown) setIsModalShown(false);
+      router.push(localizePath(locale, ROUTES.thanks));
+      return;
+    }
+
+    if (setIsModalShown) setIsModalShown(false);
+    setIsNotificationShown(true);
   };
 
   return (

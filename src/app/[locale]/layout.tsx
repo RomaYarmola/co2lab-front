@@ -16,6 +16,7 @@ import { getMessages } from "@/i18n/getMessages";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import OrganizationJsonLd from "@/components/shared/seo/OrganizationJsonLd";
 import { AnalyticsNoScript, AnalyticsScripts } from "@/components/shared/analytics/Analytics";
+import VisitTracker from "@/components/shared/analytics/VisitTracker";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -108,6 +109,7 @@ export default async function LocaleLayout({
       >
         <AnalyticsNoScript />
         <AnalyticsScripts />
+        <VisitTracker />
         <I18nProvider locale={locale} messages={messages}>
           <OrganizationJsonLd locale={locale} />
           <Header locale={locale} />

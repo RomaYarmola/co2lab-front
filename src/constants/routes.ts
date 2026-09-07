@@ -14,6 +14,8 @@ export const ROUTES = {
   industriesWeServe: "/solutions/industries-we-serve",
   termsOfUse: "/terms-of-use",
   privacyPolicy: "/privacy-policy",
+  /** Службова сторінка після відправки форми, закрита від індексації. */
+  thanks: "/thanks",
 } as const;
 
 export type RouteKey = keyof typeof ROUTES;

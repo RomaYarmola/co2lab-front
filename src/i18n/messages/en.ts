@@ -189,6 +189,16 @@ const en = {
     imageAlt: "CO₂ Lab engineering team at work",
   },
 
+  thanks: {
+    title: "Thank you for your request",
+    subtitle:
+      "We have received your enquiry. An engineer will get back to you within one business day with a solution and an estimate.",
+    step1: "We check the details and, if anything is unclear, call you back.",
+    step2: "We select the equipment for your consumption and site conditions.",
+    step3: "You get a quotation with the scope of supply and lead time.",
+    urgent: "Urgent? Call or write to us directly:",
+    readBlog: "Read the blog",
+  },
   seo: {
     siteName: "CO₂ Lab",
     home: {
@@ -245,6 +255,10 @@ const en = {
       title: "Privacy Policy",
       description:
         "How CO₂ Lab collects, uses and protects your personal data in accordance with GDPR.",
+    },
+    thanks: {
+      title: "Thank you for your request",
+      description: "Your enquiry has been received. Our engineers will contact you shortly.",
     },
     notFound: {
       title: "Page not found",

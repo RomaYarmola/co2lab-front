@@ -21,6 +21,9 @@ export default function ExploreTechnologiesApplication() {
       <SendMessageModal
         isModalShown={isModalShown}
         setIsModalShown={setIsModalShown}
+        formName="engineering_solutions"
+        leadType="consultation"
+        context="Сторінка «Інженерні рішення»"
       />
       <Backdrop
         isVisible={isModalShown}

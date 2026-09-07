@@ -66,12 +66,15 @@ export default function Header({ locale }: { locale: Locale }) {
           />
           {scrollPosition > 20 && (
             <>
+              {/* Плашка ширша за логотип і майже непрозора: інакше контент,
+                  що проїжджає під фіксованою шапкою, візуально зливається
+                  з логотипом. */}
               <div
-                className="hidden xl:block absolute w-[calc(100%+16px)] h-full top-0 -left-2 px-4 -z-10 rounded-full bg-[linear-gradient(90.95deg,rgba(231,231,231,0.8)_52.25%,rgba(255,255,255,0.8)_99.18%)] shadow-[inset_0px_4px_12.6px_0px_rgba(255,255,255,0.25)] backdrop-blur-[10px]"
+                className="hidden xl:block absolute w-[calc(100%+48px)] h-full top-0 -left-6 px-4 -z-10 rounded-full bg-[linear-gradient(90.95deg,rgba(231,231,231,0.95)_52.25%,rgba(255,255,255,0.95)_99.18%)] shadow-[inset_0px_4px_12.6px_0px_rgba(255,255,255,0.25)] backdrop-blur-[14px]"
                 aria-hidden
               />
               <div
-                className="hidden xl:block absolute w-[calc(100%+16px)] h-full top-0 -left-2 -z-10 rounded-full pointer-events-none"
+                className="hidden xl:block absolute w-[calc(100%+48px)] h-full top-0 -left-6 -z-10 rounded-full pointer-events-none"
                 style={{
                   background:
                     "linear-gradient(270.67deg, #F2F2F2 -9.58%, #C7C7C7 103.45%)",

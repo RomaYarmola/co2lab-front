@@ -21,6 +21,9 @@ export default function RequestDetailsApplication() {
       <SendMessageModal
         isModalShown={isModalShown}
         setIsModalShown={setIsModalShown}
+        formName="supply_details"
+        leadType="contact"
+        context="Сторінка «Постачання»"
       />
       <Backdrop
         isVisible={isModalShown}

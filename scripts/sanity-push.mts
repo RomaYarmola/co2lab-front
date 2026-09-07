@@ -267,13 +267,18 @@ async function main() {
     productDoc(product, product.gallery.map(toRef)),
   );
 
-  const blogDocs = [
-    ...seedBlogCategories.map(blogCategoryDoc),
-    ...seedPosts.map((post) => blogPostDoc(post, toRef(post.coverImage))),
-  ];
+  const blogCategoryDocs = seedBlogCategories.map(blogCategoryDoc);
+  const blogPostDocs = seedPosts.map((post) =>
+    blogPostDoc(post, toRef(post.coverImage)),
+  );
 
   if (DRY_RUN) {
-    for (const doc of [...categoryDocs, ...productDocs, ...blogDocs])
+    for (const doc of [
+      ...categoryDocs,
+      ...productDocs,
+      ...blogCategoryDocs,
+      ...blogPostDocs,
+    ])
       console.log(`  ${doc._type}  ${doc._id}  /${doc.slug.uk.current}`);
     console.log(`  author  ${seedAuthor._id}  ${seedAuthor.name}`);
     console.log("Dry run — нічого не записано.");
@@ -298,15 +303,13 @@ async function main() {
 
   // 3. Блог: автор і категорії мають існувати до статей, які на них посилаються
   let blogTx = client.transaction().createOrReplace(authorDoc());
-  for (const doc of seedBlogCategories.map(blogCategoryDoc))
-    blogTx = blogTx.createOrReplace(doc);
+  for (const doc of blogCategoryDocs) blogTx = blogTx.createOrReplace(doc);
   await blogTx.commit();
   console.log(`Автор і категорії блогу записано: ${seedBlogCategories.length + 1}`);
 
   // Статті посилаються одна на одну — пишемо однією транзакцією
   let postsTx = client.transaction();
-  for (const doc of blogDocs.filter((doc) => doc._type === "blogPost"))
-    postsTx = postsTx.createOrReplace(doc);
+  for (const doc of blogPostDocs) postsTx = postsTx.createOrReplace(doc);
   await postsTx.commit();
   console.log(`Статті записано: ${seedPosts.length}`);
 

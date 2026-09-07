@@ -11,7 +11,9 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         // /api — службові ендпоінти; ?q= — клієнтський пошук каталогу,
         // індексувати його немає сенсу (нескінченні комбінації параметрів).
-        disallow: ["/api/", "/*?q=", "/*&q="],
+        // /thanks — службова сторінка подяки: користі в індексі немає,
+        // а в аналітиці її перегляд рахується як конверсія.
+        disallow: ["/api/", "/thanks", "/uk/thanks", "/ru/thanks", "/*?q=", "/*&q="],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

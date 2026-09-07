@@ -20,6 +20,9 @@ export default function ContactUsApplication() {
       <SendMessageModal
         isModalShown={isModalShown}
         setIsModalShown={setIsModalShown}
+        formName="about"
+        leadType="consultation"
+        context="Сторінка «Про нас»"
       />
       <Backdrop
         isVisible={isModalShown}

@@ -18,6 +18,9 @@ export default function RequestSupportApplication() {
       <SendMessageModal
         isModalShown={isModalShown}
         setIsModalShown={setIsModalShown}
+        formName="cta_support"
+        leadType="consultation"
+        context="Блок CTA «Підтримка»"
       />
       <Backdrop
         isVisible={isModalShown}

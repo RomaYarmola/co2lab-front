@@ -7,17 +7,24 @@ import { Dispatch, SetStateAction, useState } from "react";
 import ContactForm from "../forms/ContactForm";
 import Modal from "./Modal";
 import { useTranslations } from "@/i18n/I18nProvider";
+import type { LeadType } from "@/lib/leads/sendLead";
 
 interface SendMessageModalProps {
   isModalShown: boolean;
   setIsModalShown: Dispatch<SetStateAction<boolean>>;
   formName?: string;
+  leadType?: LeadType;
+  context?: string;
+  product?: { title: string; model?: string; sku?: string };
 }
 
 export default function SendMessageModal({
   isModalShown,
   setIsModalShown,
   formName = "modal",
+  leadType = "contact",
+  context,
+  product,
 }: SendMessageModalProps) {
   const t = useTranslations("forms");
   const [isNotificationShown, setIsNotificationShown] = useState(false);
@@ -59,6 +66,9 @@ export default function SendMessageModal({
         setIsNotificationShown={setIsNotificationShown}
         setIsModalShown={setIsModalShown}
         formName={formName}
+        leadType={leadType}
+        context={context}
+        product={product}
         titleClassName="lg:text-[28px]"
         buttonClassName="sm:max-w-full sm:ml-0"
       />

@@ -17,6 +17,9 @@ export default function ContactApplication() {
       <SendMessageModal
         isModalShown={isModalShown}
         setIsModalShown={setIsModalShown}
+        formName="home_contact"
+        leadType="contact"
+        context="Головна сторінка"
       />
       <Backdrop
         isVisible={isModalShown}

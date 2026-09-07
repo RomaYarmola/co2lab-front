@@ -306,7 +306,11 @@ export default async function ProductPage({ params }: Props) {
                   {t("ctaText")}
                 </p>
                 <div className="mt-6">
-                  <ProductQuoteApplication productTitle={product.title} />
+                  <ProductQuoteApplication
+                    productTitle={product.title}
+                    model={product.model || undefined}
+                    sku={product.sku || undefined}
+                  />
                 </div>
               </div>
             </aside>

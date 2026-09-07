@@ -9,8 +9,12 @@ import { trackEvent } from "@/lib/analytics/track";
 
 export default function ProductQuoteApplication({
   productTitle,
+  model,
+  sku,
 }: {
   productTitle: string;
+  model?: string;
+  sku?: string;
 }) {
   const t = useTranslations("product");
   const [isModalShown, setIsModalShown] = useState(false);
@@ -34,6 +38,8 @@ export default function ProductQuoteApplication({
         isModalShown={isModalShown}
         setIsModalShown={setIsModalShown}
         formName="quote"
+        leadType="quote"
+        product={{ title: productTitle, model, sku }}
       />
       <Backdrop
         isVisible={isModalShown}
