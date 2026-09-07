@@ -181,12 +181,12 @@ export const postSafety: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "CO₂ hazards on site: concentration table and the safety checklist",
-      uk: "Чим небезпечний CO₂: таблиця концентрацій і чекліст безпеки майданчика",
-      ru: "Чем опасен CO₂: таблица концентраций и чек-лист безопасности площадки",
+      en: "CO₂ hazards: concentrations and checklist",
+      uk: "Чим небезпечний CO₂: концентрації й чекліст",
+      ru: "Чем опасен CO₂: концентрации и чек-лист",
     },
     metaDescription: {
-      en: "Why CO₂ is more dangerous than an inert gas, what each concentration does, the three real hazards on site, and the minimum set of detection, ventilation and PPE.",
+      en: "Why CO₂ is more dangerous than an inert gas, what each concentration does, and the minimum set of detection, ventilation and PPE.",
       uk: "Чому CO₂ небезпечніший за інертний газ, що робить кожна концентрація, три реальні небезпеки на майданчику й мінімальний набір газоаналізу, вентиляції та ЗІЗ.",
       ru: "Почему CO₂ опаснее инертного газа, что делает каждая концентрация, три реальные опасности на площадке и минимальный набор газоанализа, вентиляции и СИЗ.",
     },
@@ -331,14 +331,14 @@ export const postFoodVsTechnical: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "Food-grade vs technical CO₂: limits table, documents, where each is allowed",
-      uk: "Харчова чи технічна вуглекислота: таблиця норм, документи й де яку можна",
-      ru: "Пищевая или техническая углекислота: таблица норм, документы и где какую можно",
+      en: "Food-grade vs technical CO₂",
+      uk: "Харчова чи технічна вуглекислота",
+      ru: "Пищевая или техническая углекислота",
     },
     metaDescription: {
-      en: "The difference is a list of impurities limited at ppm level, not a purity percentage. Comparison table, the applications that require food grade, and what a certificate does not cover.",
-      uk: "Різниця — це перелік домішок, нормованих на рівні ppm, а не відсоток чистоти. Таблиця порівняння, застосування, що вимагають харчової марки, і що не покриває сертифікат.",
-      ru: "Разница — это перечень примесей, нормируемых на уровне ppm, а не процент чистоты. Таблица сравнения, применения, требующие пищевой марки, и что не покрывает сертификат.",
+      en: "The difference is a list of impurities limited at ppm level, not a purity percentage. Comparison table and the uses that require food grade.",
+      uk: "Різниця — це перелік домішок, нормованих на рівні ppm, а не відсоток чистоти. Таблиця порівняння і застосування, що вимагають харчової марки.",
+      ru: "Разница — это перечень примесей, нормируемых на уровне ppm, а не процент чистоты. Таблица сравнения и применения, требующие пищевой марки.",
     },
     keywords: {
       en: "food grade vs technical CO2, ISBT CO2 limits, beverage grade carbon dioxide",

@@ -212,7 +212,7 @@ const en = {
         "CO₂ Lab designs, builds and supports carbon capture and reuse systems. Engineering-first approach, end-to-end responsibility, certified quality.",
     },
     contacts: {
-      title: "Contact CO₂ Lab",
+      title: "Contacts and technical enquiries",
       description:
         "Talk to our CO₂ engineers about capture, purification, liquefaction and supply. Get a technical consultation and a project quote.",
     },
@@ -237,12 +237,12 @@ const en = {
         "CO₂ solutions for biogas, food and beverage, chemical, recycling and logistics industries. Sector-specific capture, supply and utilisation systems.",
     },
     catalog: {
-      title: "Cryogenic tanks, vaporizers and CO₂ equipment catalog",
+      title: "Cryogenic tanks, vaporizers and CO₂ equipment",
       description:
-        "Cryogenic storage tanks for liquid CO₂, nitrogen, oxygen and argon (10–100 m³), cryogenic cylinders, ambient and CO₂ vaporizers, CO₂ quality control and turnkey installation. Supply across Ukraine.",
+        "Cryogenic tanks for liquid CO₂, nitrogen, oxygen and argon (10–100 m³), cryogenic cylinders, vaporizers and turnkey installation across Ukraine.",
     },
     blog: {
-      title: "CO₂ and cryogenic equipment blog — calculations and field experience",
+      title: "CO₂ and cryogenic equipment blog",
       description:
         "How much CO₂ is in a cylinder, price per kg and m³, sizing tanks and vaporizers, food-grade versus technical CO₂, and site safety — from the CO₂ Lab engineers.",
     },

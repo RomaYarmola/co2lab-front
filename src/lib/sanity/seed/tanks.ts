@@ -222,14 +222,14 @@ const TANK_CATEGORY_DEFS: TankCategoryDef[] = [
       ru: "Поставка стационарных вакуумно-изолированных криогенных ёмкостей для хранения жидкого CO₂ объёмом 10, 20, 30, 50, 80 и 100 м³. Комплектация запорной и предохранительной арматурой, системами контроля давления, испарителями и редукционными узлами. Подбор оборудования, поставка, монтаж, технологическая обвязка и запуск системы CO₂ под ключ.",
     },
     metaTitle: {
-      en: "Cryogenic CO₂ storage tanks 10–100 m³ — supply and installation",
-      uk: "Кріогенні ємності для рідкого CO₂ 10–100 м³ — постачання та монтаж",
-      ru: "Криогенные ёмкости для жидкого CO₂ 10–100 м³ — поставка и монтаж",
+      en: "Cryogenic CO₂ storage tanks 10–100 m³",
+      uk: "Кріогенні ємності для рідкого CO₂ 10–100 м³",
+      ru: "Криогенные ёмкости для жидкого CO₂ 10–100 м³",
     },
     metaDescription: {
-      en: "Vacuum-insulated cryogenic tanks for liquid CO₂ of 10, 20, 30, 50, 80 and 100 m³ with valves, vaporizers and pressure control. Selection, supply and turnkey installation in Ukraine.",
-      uk: "Вакуумно-ізольовані кріогенні ємності для рідкої вуглекислоти на 10, 20, 30, 50, 80 та 100 м³ з арматурою, випарниками та контролем тиску. Підбір, постачання і монтаж під ключ по Україні.",
-      ru: "Вакуумно-изолированные криогенные ёмкости для жидкой углекислоты на 10, 20, 30, 50, 80 и 100 м³ с арматурой, испарителями и контролем давления. Подбор, поставка и монтаж под ключ по Украине.",
+            en: "Vacuum-insulated tanks for liquid CO₂: 10, 20, 30, 50, 80 and 100 m³ with valves and vaporizers. Selection, supply and installation in Ukraine.",
+      uk: "Вакуумно-ізольовані ємності для рідкого CO₂ на 10, 20, 30, 50, 80 і 100 м³ з арматурою та випарниками. Підбір, постачання й монтаж по Україні.",
+      ru: "Вакуумно-изолированные ёмкости для жидкого CO₂ на 10, 20, 30, 50, 80 и 100 м³ с арматурой и испарителями. Подбор, поставка и монтаж по Украине.",
     },
     keywords: {
       en: "cryogenic CO2 tank, liquid CO2 storage tank, carbon dioxide tank, CO2 tank 30 m3",
@@ -279,14 +279,14 @@ const TANK_CATEGORY_DEFS: TankCategoryDef[] = [
       ru: "Поставка вакуумно-изолированных криогенных резервуаров для хранения жидкого азота LIN (N₂) объёмом 10, 20, 30 и 50 м³. Комплектация атмосферными испарителями, регуляторами давления, запорной и предохранительной арматурой и трубопроводами. Монтаж и запуск систем газоснабжения азотом под ключ.",
     },
     metaTitle: {
-      en: "Liquid nitrogen storage tanks 10–50 m³ — supply and installation",
-      uk: "Кріогенні ємності для рідкого азоту 10–50 м³ — постачання та монтаж",
-      ru: "Криогенные ёмкости для жидкого азота 10–50 м³ — поставка и монтаж",
+      en: "Liquid nitrogen storage tanks 10–50 m³",
+      uk: "Кріогенні ємності для рідкого азоту 10–50 м³",
+      ru: "Криогенные ёмкости для жидкого азота 10–50 м³",
     },
     metaDescription: {
-      en: "Vacuum-insulated cryogenic tanks for liquid nitrogen (LIN) of 10, 20, 30 and 50 m³ with ambient vaporizers and pressure regulators. Turnkey nitrogen supply systems in Ukraine.",
-      uk: "Вакуумно-ізольовані кріогенні резервуари для рідкого азоту (LIN) на 10, 20, 30 та 50 м³ з атмосферними випарниками та регуляторами тиску. Системи азотного газопостачання під ключ по Україні.",
-      ru: "Вакуумно-изолированные криогенные резервуары для жидкого азота (LIN) на 10, 20, 30 и 50 м³ с атмосферными испарителями и регуляторами давления. Системы азотного газоснабжения под ключ по Украине.",
+            en: "Vacuum-insulated tanks for liquid nitrogen (LIN): 10, 20, 30 and 50 m³ with ambient vaporizers. Selection, supply and installation in Ukraine.",
+      uk: "Вакуумно-ізольовані резервуари для рідкого азоту (LIN) на 10, 20, 30 і 50 м³ з атмосферними випарниками. Підбір, постачання й монтаж по Україні.",
+      ru: "Вакуумно-изолированные резервуары для жидкого азота (LIN) на 10, 20, 30 и 50 м³ с атмосферными испарителями. Подбор, поставка и монтаж.",
     },
     keywords: {
       en: "liquid nitrogen storage tank, LIN tank, cryogenic nitrogen tank",
@@ -322,14 +322,14 @@ const TANK_CATEGORY_DEFS: TankCategoryDef[] = [
       ru: "Поставка вакуумно-изолированных криогенных резервуаров для приёма и хранения жидкого кислорода LOX (O₂) объёмом 10, 20, 30 и 50 м³. Комплектация атмосферными испарителями, регуляторами давления, запорной и предохранительной арматурой и трубопроводами. Поставка, монтаж и ввод систем кислородного газоснабжения в эксплуатацию.",
     },
     metaTitle: {
-      en: "Liquid oxygen storage tanks 10–50 m³ — supply and installation",
-      uk: "Кріогенні ємності для рідкого кисню 10–50 м³ — постачання та монтаж",
-      ru: "Криогенные ёмкости для жидкого кислорода 10–50 м³ — поставка и монтаж",
+      en: "Liquid oxygen storage tanks 10–50 m³",
+      uk: "Кріогенні ємності для рідкого кисню 10–50 м³",
+      ru: "Криогенные ёмкости для жидкого кислорода 10–50 м³",
     },
     metaDescription: {
-      en: "Vacuum-insulated cryogenic tanks for liquid oxygen (LOX) of 10, 20, 30 and 50 m³ with oxygen-service valves, vaporizers and regulators. Turnkey oxygen supply systems for hospitals and industry.",
-      uk: "Вакуумно-ізольовані кріогенні резервуари для рідкого кисню (LOX) на 10, 20, 30 та 50 м³ з кисневою арматурою, випарниками та регуляторами. Кисневе газопостачання під ключ для лікарень і промисловості.",
-      ru: "Вакуумно-изолированные криогенные резервуары для жидкого кислорода (LOX) на 10, 20, 30 и 50 м³ с кислородной арматурой, испарителями и регуляторами. Кислородное газоснабжение под ключ для больниц и промышленности.",
+            en: "Vacuum-insulated tanks for liquid oxygen (LOX): 10, 20, 30 and 50 m³ with oxygen-service valves. Selection, supply and installation in Ukraine.",
+      uk: "Вакуумно-ізольовані резервуари для рідкого кисню (LOX) на 10, 20, 30 і 50 м³ з кисневою арматурою. Підбір, постачання й монтаж по Україні.",
+      ru: "Вакуумно-изолированные резервуары для жидкого кислорода (LOX) на 10, 20, 30 и 50 м³ с кислородной арматурой. Подбор, поставка и монтаж.",
     },
     keywords: {
       en: "liquid oxygen storage tank, LOX tank, cryogenic oxygen tank hospital",
@@ -365,14 +365,14 @@ const TANK_CATEGORY_DEFS: TankCategoryDef[] = [
       ru: "Поставка вакуумно-изолированных криогенных ёмкостей для хранения жидкого аргона LAR (Ar) объёмом 10, 20, 30 и 50 м³. Комплектация атмосферными испарителями, регуляторами давления, запорной и предохранительной арматурой. Монтаж систем газоснабжения аргоном под ключ.",
     },
     metaTitle: {
-      en: "Liquid argon storage tanks 10–50 m³ — supply and installation",
-      uk: "Кріогенні ємності для рідкого аргону 10–50 м³ — постачання та монтаж",
-      ru: "Криогенные ёмкости для жидкого аргона 10–50 м³ — поставка и монтаж",
+      en: "Liquid argon storage tanks 10–50 m³",
+      uk: "Кріогенні ємності для рідкого аргону 10–50 м³",
+      ru: "Криогенные ёмкости для жидкого аргона 10–50 м³",
     },
     metaDescription: {
-      en: "Vacuum-insulated cryogenic tanks for liquid argon (LAR) of 10, 20, 30 and 50 m³ with ambient vaporizers and regulators. Turnkey argon supply for welding and metallurgy in Ukraine.",
-      uk: "Вакуумно-ізольовані кріогенні ємності для рідкого аргону (LAR) на 10, 20, 30 та 50 м³ з атмосферними випарниками та регуляторами. Аргонове газопостачання під ключ для зварювання й металургії по Україні.",
-      ru: "Вакуумно-изолированные криогенные ёмкости для жидкого аргона (LAR) на 10, 20, 30 и 50 м³ с атмосферными испарителями и регуляторами. Аргоновое газоснабжение под ключ для сварки и металлургии по Украине.",
+            en: "Vacuum-insulated tanks for liquid argon (LAR): 10, 20, 30 and 50 m³ with ambient vaporizers. Selection, supply and installation in Ukraine.",
+      uk: "Вакуумно-ізольовані ємності для рідкого аргону (LAR) на 10, 20, 30 і 50 м³ з атмосферними випарниками. Підбір, постачання й монтаж по Україні.",
+      ru: "Вакуумно-изолированные ёмкости для жидкого аргона (LAR) на 10, 20, 30 и 50 м³ с атмосферными испарителями. Подбор, поставка и монтаж.",
     },
     keywords: {
       en: "liquid argon storage tank, LAR tank, cryogenic argon tank",
@@ -619,14 +619,14 @@ function buildTankProduct(
     currency: "EUR",
     seo: {
       metaTitle: {
-        en: `${title.en} — supply and installation`,
-        uk: `${title.uk} — постачання та монтаж`,
-        ru: `${title.ru} — поставка и монтаж`,
+        en: title.en,
+        uk: title.uk,
+        ru: title.ru,
       },
       metaDescription: {
-        en: `Vacuum-insulated cryogenic tank for ${g.gen.en}, ${volume} m³, with valves, vaporizers and pressure control. Selection, supply, installation and commissioning in Ukraine.`,
-        uk: `Вакуумно-ізольована кріогенна ємність для ${g.gen.uk} на ${volume} м³ з арматурою, випарниками та контролем тиску. Підбір, постачання, монтаж і запуск по Україні.`,
-        ru: `Вакуумно-изолированная криогенная ёмкость для ${g.gen.ru} на ${volume} м³ с арматурой, испарителями и контролем давления. Подбор, поставка, монтаж и запуск по Украине.`,
+                en: `Vacuum-insulated cryogenic tank for ${g.gen.en}, ${volume} m³, with valves and vaporizers. Selection, supply and commissioning in Ukraine.`,
+        uk: `Вакуумно-ізольована кріогенна ємність для ${g.gen.uk} на ${volume} м³ з арматурою та випарниками. Підбір, постачання й монтаж.`,
+        ru: `Вакуумно-изолированная криогенная ёмкость для ${g.gen.ru} на ${volume} м³ с арматурой и испарителями. Подбор, поставка и монтаж.`,
       },
       keywords: {
         en: `cryogenic tank ${volume} m3, ${g.nom.en} tank ${volume} m3`,

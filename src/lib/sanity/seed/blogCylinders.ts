@@ -193,9 +193,9 @@ export const postCylinderCapacity: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "How much CO₂ is in a cylinder: 10, 20, 40 and 50 litres compared",
-      uk: "Скільки CO₂ в балоні: 10, 20, 40 і 50 літрів у таблиці",
-      ru: "Сколько CO₂ в баллоне: 10, 20, 40 и 50 литров в таблице",
+      en: "How much CO₂ is in a cylinder",
+      uk: "Скільки CO₂ в балоні 10, 20, 40, 50 л",
+      ru: "Сколько CO₂ в баллоне 10, 20, 40, 50 л",
     },
     metaDescription: {
       en: "A 40 l cylinder holds 24–28 kg, not 40. Tables of mass, gas output and monthly cylinder count, plus the consumption level at which a tank becomes cheaper.",
@@ -346,9 +346,9 @@ export const postCylinderMarking: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "Gas cylinder colour coding: CO₂, nitrogen, oxygen, argon — full table",
-      uk: "Колір балонів: CO₂, азот, кисень, аргон — повна таблиця маркування",
-      ru: "Цвет баллонов: CO₂, азот, кислород, аргон — полная таблица маркировки",
+      en: "Gas cylinder colour coding: full table",
+      uk: "Колір балонів: таблиця маркування",
+      ru: "Цвет баллонов: таблица маркировки",
     },
     metaDescription: {
       en: "Shoulder colours to EN 1089-3 next to the legacy full-body scheme, what the neck stamp contains, and the three marking mistakes that cause accidents.",

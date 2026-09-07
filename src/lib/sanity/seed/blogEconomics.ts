@@ -186,9 +186,9 @@ export const postPriceUnits: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "CO₂ price per kg, m³ and tonne: conversion tables and how to compare",
-      uk: "Ціна CO₂ за кг, м³ і тонну: таблиці перерахунку й як порівнювати",
-      ru: "Цена CO₂ за кг, м³ и тонну: таблицы пересчёта и как сравнивать",
+      en: "CO₂ price per kg, m³ and tonne",
+      uk: "Ціна CO₂ за кг, м³ і тонну",
+      ru: "Цена CO₂ за кг, м³ и тонну",
     },
     metaDescription: {
       en: "1 kg of CO₂ = 0.54 m³ of gas, 1 m³ of liquid ≈ 1.03 t. Conversion tables for CO₂, N₂, O₂ and Ar plus the traps hidden in cylinder, tanker and rental quotes.",
@@ -360,9 +360,9 @@ export const postRentOrBuy: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "Rent or buy a cryogenic tank: cost comparison over five years",
-      uk: "Оренда чи купівля кріогенної ємності: порівняння вартості на пʼять років",
-      ru: "Аренда или покупка криогенной ёмкости: сравнение стоимости на пять лет",
+      en: "Rent or buy a cryogenic tank",
+      uk: "Оренда чи купівля кріогенної ємності",
+      ru: "Аренда или покупка криогенной ёмкости",
     },
     metaDescription: {
       en: "Supplier's tank, long-term rental or your own vessel: what each model costs, where the crossover point sits, and what a turnkey installation must include.",

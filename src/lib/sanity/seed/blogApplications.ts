@@ -194,14 +194,14 @@ export const postWelding: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "CO₂ or Ar/CO₂ mix for welding: comparison, consumption, cylinder count",
-      uk: "Вуглекислота чи суміш Ar/CO₂ для зварювання: порівняння й витрата газу",
-      ru: "Углекислота или смесь Ar/CO₂ для сварки: сравнение и расход газа",
+      en: "CO₂ or Ar/CO₂ mix for welding",
+      uk: "Вуглекислота чи суміш Ar/CO₂ для зварювання",
+      ru: "Углекислота или смесь Ar/CO₂ для сварки",
     },
     metaDescription: {
-      en: "How pure CO₂ and argon mixtures differ in spatter, penetration and total cost, how much gas one welding post uses per month, and when a shop should move to a tank.",
-      uk: "Чим чиста вуглекислота відрізняється від сумішей з аргоном за розбризкуванням, проплавленням і сумарною вартістю, скільки газу витрачає пост і коли цеху час на ємність.",
-      ru: "Чем чистая углекислота отличается от смесей с аргоном по разбрызгиванию, проплавлению и суммарной стоимости, сколько газа тратит пост и когда цеху пора на ёмкость.",
+      en: "How pure CO₂ and argon mixtures differ in spatter, penetration and cost, how much gas one welding post uses, and when to move to a tank.",
+      uk: "Чим чиста вуглекислота відрізняється від сумішей з аргоном, скільки газу витрачає один пост і коли цеху час переходити на ємність.",
+      ru: "Чем чистая углекислота отличается от смесей с аргоном, сколько газа тратит один пост и когда цеху пора переходить на ёмкость.",
     },
     keywords: {
       en: "CO2 for welding, argon CO2 mix, MAG shielding gas consumption",
@@ -341,9 +341,9 @@ export const postBeverages: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "CO₂ for a brewery: consumption per hectolitre, purity and equipment",
-      uk: "CO₂ для пивоварні: витрата на гектолітр, чистота й обладнання",
-      ru: "CO₂ для пивоварни: расход на гектолитр, чистота и оборудование",
+      en: "CO₂ for a brewery: consumption and purity",
+      uk: "CO₂ для пивоварні: витрата й чистота",
+      ru: "CO₂ для пивоварни: расход и чистота",
     },
     metaDescription: {
       en: "Where a brewery's CO₂ really goes, 0.5–4 kg per hectolitre explained, tank and vaporizer sizing by monthly output, and what food-grade purity has to cover.",
@@ -503,14 +503,14 @@ export const postDryIce: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "Liquid CO₂ per tonne of dry ice: conversion ratio and tank sizing",
-      uk: "Скільки рідкого CO₂ на тонну сухого льоду: норма витрати й підбір ємності",
-      ru: "Сколько жидкого CO₂ на тонну сухого льда: норма расхода и подбор ёмкости",
+      en: "Liquid CO₂ per tonne of dry ice",
+      uk: "Рідкий CO₂ на тонну сухого льоду",
+      ru: "Жидкий CO₂ на тонну сухого льда",
     },
     metaDescription: {
-      en: "A pelletizer needs 2.2–2.5 kg of liquid CO₂ per kilogram of pellets. Demand tables by capacity, the inlet pressure band, and what the workshop needs besides the machine.",
+      en: "A pelletizer needs 2.2–2.5 kg of liquid CO₂ per kilogram of pellets. Demand tables by capacity, the inlet pressure band and workshop needs.",
       uk: "Гранулятору потрібно 2,2–2,5 кг рідкого CO₂ на кілограм гранул. Таблиці потреби за продуктивністю, діапазон тиску на вході й що потрібно цеху крім машини.",
-      ru: "Гранулятору нужно 2,2–2,5 кг жидкого CO₂ на килограмм гранул. Таблицы потребности по производительности, диапазон давления на входе и что нужно цеху кроме машины.",
+      ru: "Гранулятору нужно 2,2–2,5 кг жидкого CO₂ на килограмм гранул. Таблицы потребности по производительности и диапазон давления на входе.",
     },
     keywords: {
       en: "dry ice production CO2 consumption, pelletizer liquid CO2, dry ice plant",

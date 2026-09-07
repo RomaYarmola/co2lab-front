@@ -366,9 +366,9 @@ export const postTankVolume: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "How to choose CO₂ tank volume: calculation and typical configurations",
-      uk: "Як підібрати обʼєм кріогенної ємності для CO₂: розрахунок і типові конфігурації",
-      ru: "Как подобрать объём криогенной ёмкости для CO₂: расчёт и типовые конфигурации",
+      en: "How to size a CO₂ storage tank",
+      uk: "Як підібрати обʼєм ємності для CO₂",
+      ru: "Как подобрать объём ёмкости для CO₂",
     },
     metaDescription: {
       en: "Consumption, delivery interval, boil-off: how to size a liquid CO₂ tank from 10 to 100 m³ and not overpay for volume you will not use.",
@@ -531,7 +531,7 @@ export const postCylinderVsTank: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "Cryogenic cylinder or stationary tank — what to choose",
+      en: "Cryogenic cylinder or stationary tank",
       uk: "Кріоциліндр чи стаціонарна ємність — що обрати",
       ru: "Криоцилиндр или стационарная ёмкость — что выбрать",
     },
@@ -694,14 +694,14 @@ export const postGreenhouseVaporizer: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "CO₂ vaporizer for a greenhouse: ambient or electric",
-      uk: "Випарник CO₂ для теплиці: атмосферний чи електричний",
-      ru: "Испаритель CO₂ для теплицы: атмосферный или электрический",
+      en: "CO₂ vaporizer for a greenhouse",
+      uk: "Випарник CO₂ для теплиці",
+      ru: "Испаритель CO₂ для теплицы",
     },
     metaDescription: {
       en: "Why CO₂ needs heat to vaporize, how much power an electric unit draws, and how to size capacity from greenhouse area and target concentration.",
-      uk: "Чому CO₂ потребує тепла для випаровування, скільки електрики бере електричний апарат і як розрахувати продуктивність за площею теплиці та цільовою концентрацією.",
-      ru: "Почему CO₂ нужно тепло для испарения, сколько электричества берёт электрический аппарат и как рассчитать производительность по площади теплицы и целевой концентрации.",
+      uk: "Чому CO₂ потребує тепла для випаровування, скільки бере електричний апарат і як розрахувати продуктивність за площею теплиці.",
+      ru: "Почему CO₂ нужно тепло для испарения, сколько берёт электрический аппарат и как рассчитать производительность по площади теплицы.",
     },
     keywords: {
       en: "CO2 vaporizer greenhouse, CO2 enrichment",
@@ -883,9 +883,9 @@ export const postFoundation: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "Foundation and site for a cryogenic tank — installation checklist",
-      uk: "Фундамент і майданчик під кріогенну ємність — чекліст монтажу",
-      ru: "Фундамент и площадка под криогенную ёмкость — чек-лист монтажа",
+      en: "Foundation for a cryogenic tank: checklist",
+      uk: "Фундамент під кріогенну ємність: чекліст",
+      ru: "Фундамент под криогенную ёмкость: чек-лист",
     },
     metaDescription: {
       en: "Foundation loads, tanker access, safety distances, utilities and permits: what to prepare so installation of a cryogenic tank is not delayed.",
@@ -1072,14 +1072,14 @@ export const postIsbt: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "ISBT and EIGA requirements for beverage CO₂ quality",
+      en: "ISBT and EIGA requirements for CO₂",
       uk: "Вимоги ISBT та EIGA до якості CO₂ для напоїв",
       ru: "Требования ISBT и EIGA к качеству CO₂ для напитков",
     },
     metaDescription: {
-      en: "Purity, moisture, oxygen, hydrocarbons, benzene and sulphur compounds: which CO₂ parameters are limited for beverages and what a minimum incoming-inspection laboratory needs.",
-      uk: "Чистота, волога, кисень, вуглеводні, бензол і сірчисті сполуки: які параметри CO₂ обмежують для напоїв і що потрібно для мінімальної лабораторії вхідного контролю.",
-      ru: "Чистота, влага, кислород, углеводороды, бензол и сернистые соединения: какие параметры CO₂ ограничивают для напитков и что нужно для минимальной лаборатории входного контроля.",
+      en: "Purity, moisture, oxygen, hydrocarbons, benzene and sulphur: which CO₂ parameters are limited for beverages and what incoming inspection needs.",
+      uk: "Чистота, волога, кисень, вуглеводні, бензол і сірка: які параметри CO₂ обмежують для напоїв і що потрібно для вхідного контролю.",
+      ru: "Чистота, влага, кислород, углеводороды, бензол и сера: какие параметры CO₂ ограничивают для напитков и что нужно для входного контроля.",
     },
     keywords: {
       en: "ISBT CO2 specification, EIGA CO2, beverage grade CO2",

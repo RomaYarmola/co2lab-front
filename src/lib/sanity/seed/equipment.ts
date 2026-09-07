@@ -188,12 +188,12 @@ function buildCylinderCategory(def: CylinderDef): SeedCategory {
     ),
     seo: {
       metaTitle: {
-        en: `Cryogenic cylinders for ${g.nom.en} — supply and selection`,
-        uk: `Кріоциліндри для ${gasShort.uk} — постачання та підбір`,
-        ru: `Криоцилиндры для ${gasShort.ru} — поставка и подбор`,
+        en: `Cryogenic cylinders for ${g.nom.en}`,
+        uk: `Кріоциліндри для ${gasShort.uk}`,
+        ru: `Криоцилиндры для ${gasShort.ru}`,
       },
       metaDescription: {
-        en: `Cryogenic cylinders and small vacuum-insulated tanks for ${g.gen.en}: volume, pressure and configuration selected for your process. Supply across Ukraine.`,
+        en: `Cryogenic cylinders and small vacuum vessels for ${g.gen.en}: volume, pressure and configuration selected for your process. Supply in Ukraine.`,
         uk: `Кріоциліндри та малі вакуумно-ізольовані ємності для ${g.gen.uk}: обʼєм, тиск і комплектація під ваш процес. Постачання по Україні.`,
         ru: `Криоцилиндры и малые вакуумно-изолированные ёмкости для ${g.gen.ru}: объём, давление и комплектация под ваш процесс. Поставка по Украине.`,
       },
@@ -355,9 +355,9 @@ function buildCylinderProduct(
     currency: "EUR",
     seo: {
       metaTitle: {
-        en: `${title.en} — supply in Ukraine`,
-        uk: `${title.uk} — постачання по Україні`,
-        ru: `${title.ru} — поставка по Украине`,
+        en: title.en,
+        uk: title.uk,
+        ru: title.ru,
       },
       metaDescription: {
         en: `Cryogenic cylinder for ${g.gen.en} with gas or liquid withdrawal, vaporizer and regulator. Volume and pressure selected for your consumption.`,
@@ -485,14 +485,14 @@ export const labCategory: SeedCategory = {
   faq: LAB_FAQ.map((item, index) => faq(`faq-lab-${index}`, item.q, item.a)),
   seo: {
     metaTitle: {
-      en: "CO₂ quality control laboratory equipment — ISBT, EIGA, DSTU",
-      uk: "Лабораторне обладнання для контролю якості CO₂ — ISBT, EIGA, ДСТУ",
-      ru: "Лабораторное оборудование для контроля качества CO₂ — ISBT, EIGA, ДСТУ",
+      en: "CO₂ quality control lab equipment — ISBT, EIGA",
+      uk: "Обладнання контролю якості CO₂ — ISBT, EIGA",
+      ru: "Оборудование контроля качества CO₂ — ISBT, EIGA",
     },
     metaDescription: {
-      en: "Analysers for CO₂ purity, dew point, moisture and trace impurities to ISBT, EIGA and DSTU. Laboratory setups for CO₂ producers, breweries, bottlers and food plants.",
-      uk: "Аналізатори чистоти CO₂, точки роси, вологи та домішок за ISBT, EIGA і ДСТУ. Комплектація лабораторій для виробників CO₂, пивоварень, заводів напоїв і харчових підприємств.",
-      ru: "Анализаторы чистоты CO₂, точки росы, влаги и примесей по ISBT, EIGA и ДСТУ. Комплектация лабораторий для производителей CO₂, пивоварен, заводов напитков и пищевых предприятий.",
+            en: "Analysers for CO₂ purity, dew point, moisture and trace impurities to ISBT, EIGA and DSTU. Laboratory setups for breweries and bottling plants.",
+      uk: "Аналізатори чистоти CO₂, точки роси, вологи та домішок за ISBT, EIGA і ДСТУ. Комплектація лабораторій для пивоварень і заводів напоїв.",
+      ru: "Анализаторы чистоты CO₂, точки росы, влаги и примесей по ISBT, EIGA и ДСТУ. Комплектация лабораторий для пивоварен и заводов напитков.",
     },
     keywords: {
       en: "CO2 quality testing, CO2 purity analyser, ISBT CO2, EIGA CO2, beverage grade CO2",
@@ -631,14 +631,14 @@ export const labProduct: SeedProduct = {
   currency: "EUR",
   seo: {
     metaTitle: {
-      en: "CO₂ quality control laboratory kit — ISBT / EIGA / DSTU",
-      uk: "Комплект лабораторного контролю якості CO₂ — ISBT / EIGA / ДСТУ",
-      ru: "Комплект лабораторного контроля качества CO₂ — ISBT / EIGA / ДСТУ",
+      en: "CO₂ quality control laboratory kit",
+      uk: "Комплект контролю якості CO₂ — ISBT / EIGA",
+      ru: "Комплект контроля качества CO₂ — ISBT / EIGA",
     },
     metaDescription: {
-      en: "Analysers and sampling equipment for CO₂ purity, dew point, moisture and impurities. Laboratory kits for CO₂ producers and beverage plants, configured to ISBT, EIGA and DSTU.",
-      uk: "Аналізатори та обладнання для відбору проб: чистота CO₂, точка роси, волога, домішки. Комплекти лабораторій для виробників CO₂ і заводів напоїв за ISBT, EIGA та ДСТУ.",
-      ru: "Анализаторы и оборудование для отбора проб: чистота CO₂, точка росы, влага, примеси. Комплекты лабораторий для производителей CO₂ и заводов напитков по ISBT, EIGA и ДСТУ.",
+            en: "Analysers and sampling equipment for CO₂ purity, dew point, moisture and impurities. Laboratory kits for CO₂ producers and beverage plants.",
+      uk: "Аналізатори та обладнання для відбору проб: чистота CO₂, точка роси, волога, домішки. Комплекти лабораторій під ISBT і EIGA.",
+      ru: "Анализаторы и оборудование для отбора проб: чистота CO₂, точка росы, влага, примеси. Комплекты лабораторий под ISBT и EIGA.",
     },
     keywords: {
       en: "CO2 analyser, CO2 dew point analyser, ISBT CO2 testing kit",
@@ -758,14 +758,14 @@ export const ambientVaporizerCategory: SeedCategory = {
   faq: AMB_FAQ.map((item, index) => faq(`faq-amb-${index}`, item.q, item.a)),
   seo: {
     metaTitle: {
-      en: "Ambient air vaporizers for LIN, LOX, LAR 50–2000 kg/h — supply",
-      uk: "Атмосферні випарники (газифікатори) азоту, кисню, аргону 50–2000 кг/год",
-      ru: "Атмосферные испарители (газификаторы) азота, кислорода, аргона 50–2000 кг/ч",
+      en: "Ambient air vaporizers 50–2000 kg/h",
+      uk: "Атмосферні випарники азоту, кисню, аргону",
+      ru: "Атмосферные испарители азота, кислорода, аргона",
     },
     metaDescription: {
-      en: "Ambient air vaporizers for liquid nitrogen, oxygen and argon with capacities of 50–2000 kg/h. Selection by gas, capacity, pressure and climate; supply and installation in Ukraine.",
-      uk: "Атмосферні випарники для рідкого азоту, кисню та аргону продуктивністю 50–2000 кг/год. Підбір за газом, продуктивністю, тиском і кліматом; постачання та монтаж по Україні.",
-      ru: "Атмосферные испарители для жидкого азота, кислорода и аргона производительностью 50–2000 кг/ч. Подбор по газу, производительности, давлению и климату; поставка и монтаж по Украине.",
+            en: "Ambient air vaporizers for liquid nitrogen, oxygen and argon, 50–2000 kg/h. Selection by gas, capacity, pressure and climate; supply in Ukraine.",
+      uk: "Атмосферні випарники для рідкого азоту, кисню та аргону, 50–2000 кг/год. Підбір за газом, продуктивністю, тиском і кліматом.",
+      ru: "Атмосферные испарители для жидкого азота, кислорода и аргона, 50–2000 кг/ч. Подбор по газу, производительности, давлению и климату.",
     },
     keywords: {
       en: "ambient air vaporizer, LIN vaporizer, LOX vaporizer, cryogenic gasifier",
@@ -896,12 +896,12 @@ function buildAmbientVaporizerProduct(gas: GasKey, index: number): SeedProduct {
     currency: "EUR",
     seo: {
       metaTitle: {
-        en: `${title.en} — supply`,
-        uk: `${title.uk} — постачання`,
-        ru: `${title.ru} — поставка`,
+        en: `Ambient air vaporizer for ${g.nom.en}`,
+        uk: `Атмосферний випарник для ${gasShort.uk}`,
+        ru: `Атмосферный испаритель для ${gasShort.ru}`,
       },
       metaDescription: {
-        en: `Ambient air vaporizer for ${g.gen.en}, 50–2000 kg/h, selected for pressure and climate. Supply, installation and tie-in to the cryogenic tank in Ukraine.`,
+        en: `Ambient air vaporizer for ${g.gen.en}, 50–2000 kg/h, selected for pressure and climate. Supply, installation and tie-in to the tank.`,
         uk: `Атмосферний випарник для ${g.gen.uk}, 50–2000 кг/год, підбір під тиск і клімат. Постачання, монтаж і підключення до кріогенної ємності по Україні.`,
         ru: `Атмосферный испаритель для ${g.gen.ru}, 50–2000 кг/ч, подбор под давление и климат. Поставка, монтаж и подключение к криогенной ёмкости по Украине.`,
       },
@@ -1006,14 +1006,14 @@ export const co2VaporizerCategory: SeedCategory = {
   faq: CO2V_FAQ.map((item, index) => faq(`faq-co2v-${index}`, item.q, item.a)),
   seo: {
     metaTitle: {
-      en: "CO₂ vaporizers (gasifiers) 100–1000 kg/h — supply and installation",
-      uk: "Випарники CO₂ (газифікатори вуглекислоти) 100–1000 кг/год — постачання",
-      ru: "Испарители CO₂ (газификаторы углекислоты) 100–1000 кг/ч — поставка",
+      en: "CO₂ vaporizers (gasifiers) 100–1000 kg/h",
+      uk: "Випарники CO₂ 100–1000 кг/год",
+      ru: "Испарители CO₂ 100–1000 кг/ч",
     },
     metaDescription: {
-      en: "Vaporizers for liquid CO₂ with capacities of 100, 200, 300, 500, 800 and 1000 kg/h for greenhouses, beverage plants and industry. Selection, supply, installation and integration in Ukraine.",
-      uk: "Випарники для рідкого CO₂ продуктивністю 100, 200, 300, 500, 800 та 1000 кг/год для теплиць, заводів напоїв і промисловості. Підбір, постачання, монтаж та інтеграція по Україні.",
-      ru: "Испарители для жидкого CO₂ производительностью 100, 200, 300, 500, 800 и 1000 кг/ч для теплиц, заводов напитков и промышленности. Подбор, поставка, монтаж и интеграция по Украине.",
+            en: "Vaporizers for liquid CO₂ of 100, 200, 300, 500, 800 and 1000 kg/h for greenhouses, beverage plants and industry. Supply and installation.",
+      uk: "Випарники для рідкого CO₂ на 100, 200, 300, 500, 800 і 1000 кг/год для теплиць, заводів напоїв і промисловості. Постачання та монтаж.",
+      ru: "Испарители для жидкого CO₂ на 100, 200, 300, 500, 800 и 1000 кг/ч для теплиц, заводов напитков и промышленности. Поставка и монтаж.",
     },
     keywords: {
       en: "CO2 vaporizer, electric CO2 vaporizer, CO2 gasifier greenhouse",
@@ -1195,14 +1195,14 @@ function buildCo2VaporizerProduct(
     currency: "EUR",
     seo: {
       metaTitle: {
-        en: `${title.en} — supply and installation`,
-        uk: `${title.uk} — постачання та монтаж`,
-        ru: `${title.ru} — поставка и монтаж`,
+        en: title.en,
+        uk: title.uk,
+        ru: title.ru,
       },
       metaDescription: {
-        en: `Vaporizer for liquid CO₂ with a capacity of ${capacity} kg/h for greenhouses, beverage and food plants. Selection, supply, installation and integration into the CO₂ system in Ukraine.`,
-        uk: `Випарник для рідкого CO₂ продуктивністю ${capacity} кг/год для теплиць, заводів напоїв і харчових підприємств. Підбір, постачання, монтаж та інтеграція в систему CO₂ по Україні.`,
-        ru: `Испаритель для жидкого CO₂ производительностью ${capacity} кг/ч для теплиц, заводов напитков и пищевых предприятий. Подбор, поставка, монтаж и интеграция в систему CO₂ по Украине.`,
+                en: `Vaporizer for liquid CO₂ with a capacity of ${capacity} kg/h for greenhouses, beverage and food plants. Supply, installation and integration.`,
+        uk: `Випарник для рідкого CO₂ продуктивністю ${capacity} кг/год для теплиць, заводів напоїв і харчових виробництв. Постачання та монтаж.`,
+        ru: `Испаритель для жидкого CO₂ производительностью ${capacity} кг/ч для теплиц, заводов напитков и пищевых производств. Поставка и монтаж.`,
       },
       keywords: {
         en: `CO2 vaporizer ${capacity} kg/h, CO2 gasifier`,
@@ -1333,14 +1333,14 @@ export const installationCategory: SeedCategory = {
   ),
   seo: {
     metaTitle: {
-      en: "Installation of cryogenic tanks and gas supply systems — turnkey",
-      uk: "Монтаж кріогенних ємностей і систем газопостачання під ключ",
-      ru: "Монтаж криогенных ёмкостей и систем газоснабжения под ключ",
+      en: "Installation of cryogenic gas supply systems",
+      uk: "Монтаж кріогенних систем газопостачання",
+      ru: "Монтаж криогенных систем газоснабжения",
     },
     metaDescription: {
-      en: "Installation of cryogenic tanks, vaporizers, pipelines and valves for CO₂, N₂, O₂ and Ar: supply, foundations tie-in, process piping, commissioning and start-up across Ukraine.",
-      uk: "Монтаж кріогенних ємностей, випарників, трубопроводів та арматури для CO₂, N₂, O₂ та Ar: постачання, встановлення на фундаменти, обвʼязка, пусконалагодження та запуск по Україні.",
-      ru: "Монтаж криогенных ёмкостей, испарителей, трубопроводов и арматуры для CO₂, N₂, O₂ и Ar: поставка, установка на фундаменты, обвязка, пусконаладка и запуск по Украине.",
+            en: "Installation of cryogenic tanks, vaporizers, pipelines and valves for CO₂, N₂, O₂ and Ar: foundations, piping, commissioning and start-up.",
+      uk: "Монтаж кріогенних ємностей, випарників, трубопроводів та арматури для CO₂, N₂, O₂ і Ar: фундаменти, обвʼязка, пусконалагодження.",
+      ru: "Монтаж криогенных ёмкостей, испарителей, трубопроводов и арматуры для CO₂, N₂, O₂ и Ar: фундаменты, обвязка, пусконаладка.",
     },
     keywords: {
       en: "cryogenic tank installation, gas supply system installation, cryogenic piping",
@@ -1482,14 +1482,14 @@ export const installationProduct: SeedProduct = {
   currency: "EUR",
   seo: {
     metaTitle: {
-      en: "Turnkey installation of cryogenic gas supply systems — CO₂, N₂, O₂, Ar",
-      uk: "Монтаж кріогенної системи газопостачання під ключ — CO₂, N₂, O₂, Ar",
-      ru: "Монтаж криогенной системы газоснабжения под ключ — CO₂, N₂, O₂, Ar",
+      en: "Turnkey cryogenic gas supply installation",
+      uk: "Монтаж кріогенної системи під ключ",
+      ru: "Монтаж криогенной системы под ключ",
     },
     metaDescription: {
-      en: "Installation of cryogenic tanks, vaporizers, pipelines, reducers and valves with commissioning and start-up. One contractor for equipment and installation across Ukraine.",
-      uk: "Монтаж кріогенних ємностей, випарників, трубопроводів, редукторів та арматури з пусконалагодженням і запуском. Один підрядник на обладнання і монтаж по Україні.",
-      ru: "Монтаж криогенных ёмкостей, испарителей, трубопроводов, редукторов и арматуры с пусконаладкой и запуском. Один подрядчик на оборудование и монтаж по Украине.",
+            en: "Installation of cryogenic tanks, vaporizers, pipelines and valves with commissioning. One contractor for both equipment and installation.",
+      uk: "Монтаж кріогенних ємностей, випарників, трубопроводів та арматури з пусконалагодженням. Один підрядник на обладнання і монтаж.",
+      ru: "Монтаж криогенных ёмкостей, испарителей, трубопроводов и арматуры с пусконаладкой. Один подрядчик на оборудование и монтаж.",
     },
     keywords: {
       en: "cryogenic system installation, gas supply installation turnkey",
