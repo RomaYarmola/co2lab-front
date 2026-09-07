@@ -8,8 +8,8 @@
  * Автор — інженерна команда, а не вигадана людина: підставляти неіснуючого
  * експерта під статті не можна, це підриває E-E-A-T, щойно хтось перевірить.
  */
-import { SEED_UPDATED_AT, faq, h2, img, li, p, slugs, type L, type SeedFaq, type SeedImage } from "./helpers.ts";
-import type { SeedBlock, SeedProduct } from "./helpers.ts";
+import { SEED_UPDATED_AT, body, faq, img, slugs, type L, type SeedFaq, type SeedImage } from "./helpers.ts";
+import type { SeedContent, SeedProduct } from "./helpers.ts";
 import { tankProducts } from "./tanks.ts";
 import {
   ambientVaporizerProducts,
@@ -23,7 +23,7 @@ import {
  * Товари беремо напряму з модулів каталогу, а не з `./index.ts`:
  * index імпортує цей файл, тож звернення назад дало б цикл і TDZ на старті.
  */
-const ALL_PRODUCTS: SeedProduct[] = [
+export const ALL_PRODUCTS: SeedProduct[] = [
   ...tankProducts,
   ...cylinderProducts,
   labProduct,
@@ -32,7 +32,7 @@ const ALL_PRODUCTS: SeedProduct[] = [
   installationProduct,
 ];
 
-function seedProduct(id: string): SeedProduct {
+export function seedProduct(id: string): SeedProduct {
   const found = ALL_PRODUCTS.find((item) => item._id === id);
   if (!found) throw new Error(`Seed product not found: ${id}`);
   return found;
@@ -75,26 +75,12 @@ export type SeedPost = {
   tags: string[];
   coverImage: SeedImage;
   excerpt: L;
-  body: { en: SeedBlock[]; uk: SeedBlock[]; ru: SeedBlock[] };
+  body: { en: SeedContent[]; uk: SeedContent[]; ru: SeedContent[] };
   faq: SeedFaq[];
   relatedProducts: SeedProduct[];
   relatedPosts: SeedPost[];
   seo: { metaTitle: L; metaDescription: L; keywords: L };
 };
-
-/** Рядок тіла статті: абзац, підзаголовок або пункт списку. */
-type Line = ["p" | "h2" | "li", string];
-
-function body(
-  src: { en: Line[]; uk: Line[]; ru: Line[] },
-  prefix: string,
-): { en: SeedBlock[]; uk: SeedBlock[]; ru: SeedBlock[] } {
-  const build = (lines: Line[]) =>
-    lines.map(([style, text]) =>
-      style === "h2" ? h2(text, prefix) : style === "li" ? li(text, prefix) : p(text, prefix),
-    );
-  return { en: build(src.en), uk: build(src.uk), ru: build(src.ru) };
-}
 
 const PHOTO = {
   tank: "/images/catalog/cryogenic-tank-with-ambient-vaporizer.webp",
@@ -231,7 +217,7 @@ export const seedBlogCategories: SeedBlogCategory[] = [catSelection, catInstalla
 
 /* ─── Стаття 1: обʼєм ємності для CO₂ ──────────────────────────────────── */
 
-const postTankVolume: SeedPost = {
+export const postTankVolume: SeedPost = {
   _id: "post-co2-tank-volume",
   _updatedAt: SEED_UPDATED_AT,
   title: {
@@ -399,7 +385,7 @@ const postTankVolume: SeedPost = {
 
 /* ─── Стаття 2: кріоциліндр чи стаціонарна ємність ─────────────────────── */
 
-const postCylinderVsTank: SeedPost = {
+export const postCylinderVsTank: SeedPost = {
   _id: "post-cylinder-vs-tank",
   _updatedAt: SEED_UPDATED_AT,
   title: {
@@ -564,7 +550,7 @@ const postCylinderVsTank: SeedPost = {
 
 /* ─── Стаття 3: випарник CO₂ для теплиці ───────────────────────────────── */
 
-const postGreenhouseVaporizer: SeedPost = {
+export const postGreenhouseVaporizer: SeedPost = {
   _id: "post-greenhouse-co2-vaporizer",
   _updatedAt: SEED_UPDATED_AT,
   title: {
@@ -727,7 +713,7 @@ const postGreenhouseVaporizer: SeedPost = {
 
 /* ─── Стаття 4: фундамент і майданчик ──────────────────────────────────── */
 
-const postFoundation: SeedPost = {
+export const postFoundation: SeedPost = {
   _id: "post-tank-foundation-checklist",
   _updatedAt: SEED_UPDATED_AT,
   title: {
@@ -916,7 +902,7 @@ const postFoundation: SeedPost = {
 
 /* ─── Стаття 5: ISBT / EIGA ────────────────────────────────────────────── */
 
-const postIsbt: SeedPost = {
+export const postIsbt: SeedPost = {
   _id: "post-isbt-eiga-co2-quality",
   _updatedAt: SEED_UPDATED_AT,
   title: {

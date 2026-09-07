@@ -287,6 +287,8 @@ export const pagesEn = {
       title: "Dry Ice Production and Applications",
       text: "We provide complete dry ice solutions — from equipment selection to full system setup. Our scope includes dry ice pelletizers, storage boxes, packaging solutions, and production line configuration. We handle installation, CO₂ cylinder integration, pelletizer connection, and process tuning to ensure stable and efficient dry ice production tailored to your application.",
       imageAlt: "Dry ice production line",
+      articleLink: "How much liquid CO₂ a tonne of dry ice takes →",
+      producerLink: "A working dry ice plant in Ukraine →",
     },
     utilization: {
       title: "CO₂ Utilization Across Industries",

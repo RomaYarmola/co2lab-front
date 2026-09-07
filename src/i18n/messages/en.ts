@@ -154,9 +154,9 @@ const en = {
 
   blog: {
     title: "Blog",
-    heading: "CO₂ insights, engineering and industry news",
+    heading: "CO₂ in practice: equipment selection, calculations and safety",
     intro:
-      "Practical articles on carbon capture, CO₂ purification, dry ice, cryogenic storage and decarbonisation of industrial processes.",
+      "Articles from the CO₂ Lab engineers: how to size consumption and tank volume, what a kilogram of gas really costs, how food-grade CO₂ differs from technical, and what a site needs to be safe.",
     allPosts: "All posts",
     categories: "Categories",
     readingTime: "{minutes} min read",
@@ -242,9 +242,9 @@ const en = {
         "Cryogenic storage tanks for liquid CO₂, nitrogen, oxygen and argon (10–100 m³), cryogenic cylinders, ambient and CO₂ vaporizers, CO₂ quality control and turnkey installation. Supply across Ukraine.",
     },
     blog: {
-      title: "CO₂ Blog — Carbon Capture Insights and Industry News",
+      title: "CO₂ and cryogenic equipment blog — calculations and field experience",
       description:
-        "Articles on carbon capture, CO₂ purification, dry ice, cryogenic storage and decarbonisation of industrial processes from the CO₂ Lab engineering team.",
+        "How much CO₂ is in a cylinder, price per kg and m³, sizing tanks and vaporizers, food-grade versus technical CO₂, and site safety — from the CO₂ Lab engineers.",
     },
     termsOfUse: {
       title: "Terms of Use",

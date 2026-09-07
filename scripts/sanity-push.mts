@@ -66,7 +66,11 @@ function localizedSlug(slug: SeedCategory["slug"]) {
   };
 }
 
-function categoryDoc(category: SeedCategory, image: ImageRef) {
+function categoryDoc(
+  category: SeedCategory,
+  image: ImageRef,
+  description: LocalizedBody,
+) {
   return {
     _id: category._id,
     _type: "productCategory",
@@ -75,14 +79,18 @@ function categoryDoc(category: SeedCategory, image: ImageRef) {
     order: category.order,
     isVisible: true,
     shortDescription: category.shortDescription,
-    description: category.description,
+    description,
     image,
     faq: category.faq.map((item) => ({ _type: "faqItem", ...item })),
     seo: { _type: "seoFields", ...category.seo, noIndex: false },
   };
 }
 
-function productDoc(product: SeedProduct, gallery: ImageRef[]) {
+function productDoc(
+  product: SeedProduct,
+  gallery: ImageRef[],
+  description: LocalizedBody,
+) {
   return {
     _id: product._id,
     _type: "product",
@@ -97,7 +105,7 @@ function productDoc(product: SeedProduct, gallery: ImageRef[]) {
     publishedAt: product.publishedAt,
     gallery,
     shortDescription: product.shortDescription,
-    description: product.description,
+    description,
     features: product.features.map((item, index) => ({
       _key: `f${index}`,
       ...item,
@@ -146,7 +154,11 @@ function blogCategoryDoc(category: SeedBlogCategory) {
   };
 }
 
-function blogPostDoc(post: SeedPost, coverImage: ImageRef) {
+function blogPostDoc(
+  post: SeedPost,
+  coverImage: ImageRef,
+  body: LocalizedBody,
+) {
   return {
     _id: post._id,
     _type: "blogPost",
@@ -162,12 +174,51 @@ function blogPostDoc(post: SeedPost, coverImage: ImageRef) {
     isFeatured: post.isFeatured,
     coverImage,
     excerpt: post.excerpt,
-    body: post.body,
+    body,
     faq: post.faq.map((item) => ({ _type: "faqItem", ...item })),
     relatedProducts: post.relatedProducts.map((item, i) => ref(item._id, `p${i}`)),
     relatedPosts: post.relatedPosts.map((item, i) => ref(item._id, `r${i}`)),
     seo: { _type: "seoFields", ...post.seo, noIndex: false },
   };
+}
+
+/* ─── Portable Text: фото всередині тіла статті ───────────────────────── */
+
+type LocalizedBody = { en: unknown[]; uk: unknown[]; ru: unknown[] };
+
+/** Шляхи всіх `imageWithAlt`, які лежать у тілі — їх теж треба залити як assets. */
+function collectBodyImages(body: LocalizedBody, into: Set<string>): void {
+  for (const lang of ["en", "uk", "ru"] as const) {
+    for (const block of body[lang] ?? []) {
+      const node = block as { _type?: string; asset?: { url?: string } };
+      if (node._type === "imageWithAlt" && node.asset?.url) into.add(node.asset.url);
+    }
+  }
+}
+
+/**
+ * Підміняє шлях у /public на реальний asset-референс Sanity.
+ * Решта блоків (текст, таблиці, CTA) віддаються як є — вони вже у форматі схеми.
+ */
+function mapBody(
+  body: LocalizedBody,
+  assetRef: Map<string, string>,
+): LocalizedBody {
+  const mapLang = (list: unknown[]) =>
+    (list ?? []).map((block) => {
+      const node = block as { _type?: string; asset?: { url?: string } };
+      if (node._type !== "imageWithAlt" || !node.asset?.url) return block;
+      const { asset, ...rest } = node as Record<string, unknown> & {
+        asset: { url: string };
+      };
+      return {
+        ...rest,
+        _type: "imageWithAlt",
+        asset: { _type: "reference", _ref: assetRef.get(asset.url)! },
+      };
+    });
+
+  return { en: mapLang(body.en), uk: mapLang(body.uk), ru: mapLang(body.ru) };
 }
 
 /* ─── Зображення ──────────────────────────────────────────────────────── */
@@ -184,6 +235,13 @@ async function main() {
   for (const product of seedProducts)
     for (const image of product.gallery) uniquePaths.add(image.asset.url);
   for (const post of seedPosts) uniquePaths.add(post.coverImage.asset.url);
+  // Фото всередині текстів — інакше блок у Studio лишиться без картинки
+  for (const category of seedCategories)
+    collectBodyImages(category.description as LocalizedBody, uniquePaths);
+  for (const product of seedProducts)
+    collectBodyImages(product.description as LocalizedBody, uniquePaths);
+  for (const post of seedPosts)
+    collectBodyImages(post.body as LocalizedBody, uniquePaths);
 
   console.log(
     `Категорій: ${seedCategories.length}, товарів: ${seedProducts.length}, ` +
@@ -202,14 +260,28 @@ async function main() {
     });
     const lines = [
       ...seedCategories.map((category) =>
-        categoryDoc(category, toRef(category.image)),
+        categoryDoc(
+          category,
+          toRef(category.image),
+          mapBody(category.description as LocalizedBody, assetRef),
+        ),
       ),
       ...seedProducts.map((product) =>
-        productDoc(product, product.gallery.map(toRef)),
+        productDoc(
+          product,
+          product.gallery.map(toRef),
+          mapBody(product.description as LocalizedBody, assetRef),
+        ),
       ),
       authorDoc(),
       ...seedBlogCategories.map(blogCategoryDoc),
-      ...seedPosts.map((post) => blogPostDoc(post, toRef(post.coverImage))),
+      ...seedPosts.map((post) =>
+        blogPostDoc(
+          post,
+          toRef(post.coverImage),
+          mapBody(post.body as LocalizedBody, assetRef),
+        ),
+      ),
     ].map((doc) => JSON.stringify(doc));
     await writeFile("seed.ndjson", lines.join("\n") + "\n");
     console.log(
@@ -261,15 +333,27 @@ async function main() {
 
   // 2. Спочатку категорії (на них посилаються товари), потім товари
   const categoryDocs = seedCategories.map((category) =>
-    categoryDoc(category, toRef(category.image)),
+    categoryDoc(
+      category,
+      toRef(category.image),
+      mapBody(category.description as LocalizedBody, assetRef),
+    ),
   );
   const productDocs = seedProducts.map((product) =>
-    productDoc(product, product.gallery.map(toRef)),
+    productDoc(
+      product,
+      product.gallery.map(toRef),
+      mapBody(product.description as LocalizedBody, assetRef),
+    ),
   );
 
   const blogCategoryDocs = seedBlogCategories.map(blogCategoryDoc);
   const blogPostDocs = seedPosts.map((post) =>
-    blogPostDoc(post, toRef(post.coverImage)),
+    blogPostDoc(
+      post,
+      toRef(post.coverImage),
+      mapBody(post.body as LocalizedBody, assetRef),
+    ),
   );
 
   if (DRY_RUN) {
