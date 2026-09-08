@@ -226,7 +226,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div
             className={
               related.length > 0
-                ? "mt-8 grid grid-cols-1 gap-10 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-14"
+                ? "mt-8 grid grid-cols-1 gap-10 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-14"
                 : "mt-8 lg:mt-12"
             }
           >
@@ -268,17 +268,21 @@ export default async function BlogPostPage({ params }: Props) {
               )}
             </div>
 
+            {/* sticky: бічна колонка їде разом із текстом довгої статті,
+                top-28 — щоб не залазила під фіксовану шапку. */}
             {related.length > 0 && (
-              <aside>
-                <h2 className="mb-5 text-[16px] lg:text-[20px] font-medium uppercase leading-[120%]">
-                  {t("relatedPosts")}
-                </h2>
-                <div className="flex flex-col gap-5">
-                  {related.map((item) => (
-                    <PostCard key={item.id} post={item} locale={locale} />
-                  ))}
-                </div>
-              </aside>
+              <div>
+                <aside className="lg:sticky lg:top-28">
+                  <h2 className="mb-5 text-[16px] lg:text-[20px] font-medium uppercase leading-[120%]">
+                    {t("relatedPosts")}
+                  </h2>
+                  <div className="flex flex-col gap-5">
+                    {related.map((item) => (
+                      <PostCard key={item.id} post={item} locale={locale} />
+                    ))}
+                  </div>
+                </aside>
+              </div>
             )}
           </div>
 

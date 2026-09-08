@@ -23,7 +23,11 @@
   html,
   body {
     max-width: 100vw;
+    /* hidden робить body контейнером прокрутки, і будь-який position: sticky
+       всередині перестає липнути. clip обрізає так само, але контейнера не
+       створює. Перший рядок — фолбек для браузерів без підтримки clip. */
     overflow-x: hidden;
+    overflow-x: clip;
   }
 
   body {
