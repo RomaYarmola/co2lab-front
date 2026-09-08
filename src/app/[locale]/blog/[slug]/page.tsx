@@ -135,7 +135,11 @@ export default async function BlogPostPage({ params }: Props) {
 
       <article className="pt-22 pb-12 lg:pt-32 lg:pb-16">
         <Container>
-          <Breadcrumbs locale={locale} items={crumbs} className="mb-5 lg:mb-8" />
+          <Breadcrumbs
+            locale={locale}
+            items={crumbs}
+            className="mb-5 lg:mb-8"
+          />
 
           <header>
             {post.categories.length > 0 && (
@@ -211,47 +215,70 @@ export default async function BlogPostPage({ params }: Props) {
                 alt={post.coverAlt}
                 fill
                 priority
-                sizes="(min-width: 1024px) 980px, 100vw"
+                sizes="(min-width: 1280px) 1216px, (min-width: 1024px) 90vw, 100vw"
                 className="object-cover object-center"
               />
             </div>
           )}
 
-          <div className="mt-8 lg:mt-12">
-            <TableOfContents
-              headings={headings}
-              title={t("tableOfContents")}
-              className="mb-10"
-            />
-
-            {post.excerpt && (
-              <p className="mb-8 border-l-2 border-black pl-5 text-[15px] lg:text-[20px] font-light leading-[155%] text-black/85">
-                {post.excerpt}
-              </p>
-            )}
-
-            <PortableTextRenderer blocks={post.bodyBlocks} locale={locale} />
-
-            {post.author?.name && post.authorBio && (
-              <aside className="mt-12 rounded-[18px] border border-black/10 p-5 lg:p-6">
-                <p className="mb-2 text-[12px] font-medium uppercase leading-[120%] tracking-[0.08em] text-black/50">
-                  {t("author")}
-                </p>
-                <p className="mb-1 text-[16px] font-medium leading-[120%]">
-                  {post.author.name}
-                </p>
-                <p className="text-[12px] lg:text-[14px] font-light leading-[150%] text-black/70">
-                  {post.authorBio}
-                </p>
-              </aside>
-            )}
-
-            {post.faq.length > 0 && (
-              <FaqSection
-                items={post.faq}
-                title={tProduct("faq")}
-                className="mt-14"
+          {/* Контент і бічна колонка: на десктопі стаття лишає 320px під
+              «Схожі статті», на мобільному колонки складаються одна під одну. */}
+          <div
+            className={
+              related.length > 0
+                ? "mt-8 grid grid-cols-1 gap-10 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-14"
+                : "mt-8 lg:mt-12"
+            }
+          >
+            <div className="min-w-0">
+              <TableOfContents
+                headings={headings}
+                title={t("tableOfContents")}
+                className="mb-10"
               />
+
+              {post.excerpt && (
+                <p className="mb-8 border-l-2 border-black pl-5 text-[15px] lg:text-[20px] font-light leading-[155%] text-black/85">
+                  {post.excerpt}
+                </p>
+              )}
+
+              <PortableTextRenderer blocks={post.bodyBlocks} locale={locale} />
+
+              {post.author?.name && post.authorBio && (
+                <aside className="mt-12 rounded-[18px] border border-black/10 p-5 lg:p-6">
+                  <p className="mb-2 text-[12px] font-medium uppercase leading-[120%] tracking-[0.08em] text-black/50">
+                    {t("author")}
+                  </p>
+                  <p className="mb-1 text-[16px] font-medium leading-[120%]">
+                    {post.author.name}
+                  </p>
+                  <p className="text-[12px] lg:text-[14px] font-light leading-[150%] text-black/70">
+                    {post.authorBio}
+                  </p>
+                </aside>
+              )}
+
+              {post.faq.length > 0 && (
+                <FaqSection
+                  items={post.faq}
+                  title={tProduct("faq")}
+                  className="mt-14"
+                />
+              )}
+            </div>
+
+            {related.length > 0 && (
+              <aside>
+                <h2 className="mb-5 text-[16px] lg:text-[20px] font-medium uppercase leading-[120%]">
+                  {t("relatedPosts")}
+                </h2>
+                <div className="flex flex-col gap-5">
+                  {related.map((item) => (
+                    <PostCard key={item.id} post={item} locale={locale} />
+                  ))}
+                </div>
+              </aside>
             )}
           </div>
 
@@ -264,21 +291,6 @@ export default async function BlogPostPage({ params }: Props) {
                 {relatedProducts.map((product) => (
                   <li key={product.id} className="h-full">
                     <ProductCard product={product} locale={locale} />
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {related.length > 0 && (
-            <section className="mt-14 border-t border-black/10 pt-10 lg:mt-20 lg:pt-14">
-              <SectionTitle className="mb-6 lg:mb-8">
-                {t("relatedPosts")}
-              </SectionTitle>
-              <ul className="grid grid-cols-1 gap-4 xs:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-                {related.map((item) => (
-                  <li key={item.id} className="h-full">
-                    <PostCard post={item} locale={locale} />
                   </li>
                 ))}
               </ul>
