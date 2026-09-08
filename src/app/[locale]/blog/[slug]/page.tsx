@@ -137,7 +137,7 @@ export default async function BlogPostPage({ params }: Props) {
         <Container>
           <Breadcrumbs locale={locale} items={crumbs} className="mb-5 lg:mb-8" />
 
-          <header className="mx-auto max-w-[820px]">
+          <header>
             {post.categories.length > 0 && (
               <p className="mb-3 flex flex-wrap gap-x-4 gap-y-1">
                 {post.categories.map((category) => (
@@ -205,7 +205,7 @@ export default async function BlogPostPage({ params }: Props) {
           </header>
 
           {post.coverUrl && (
-            <div className="relative mx-auto mt-8 aspect-[16/9] w-full max-w-[980px] overflow-hidden rounded-[18px] bg-black/5 lg:mt-10">
+            <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-[18px] bg-black/5 lg:mt-10">
               <Image
                 src={post.coverUrl}
                 alt={post.coverAlt}
@@ -217,7 +217,7 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
           )}
 
-          <div className="mx-auto mt-8 max-w-[820px] lg:mt-12">
+          <div className="mt-8 lg:mt-12">
             <TableOfContents
               headings={headings}
               title={t("tableOfContents")}
