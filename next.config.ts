@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { buildLegacyRedirects } from "./src/constants/legacyRedirects";
 
 const nextConfig: NextConfig = {
   images: {
@@ -16,6 +17,11 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
   poweredByHeader: false,
   compress: true,
+  // 301 зі старих адрес каталогу й блогу: Google досі тримає їх в індексі
+  // й шле на них трафік, а після зміни slug-ів вони віддавали 404.
+  async redirects() {
+    return buildLegacyRedirects();
+  },
   async headers() {
     return [
       {
