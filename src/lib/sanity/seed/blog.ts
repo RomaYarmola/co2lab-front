@@ -9,7 +9,7 @@
  * експерта під статті не можна, це підриває E-E-A-T, щойно хтось перевірить.
  */
 import { SEED_UPDATED_AT, body, faq, img, slugs, type L, type SeedFaq, type SeedImage } from "./helpers.ts";
-import type { SeedContent, SeedProduct } from "./helpers.ts";
+import type { SeedContent, SeedProduct, SeedSeo } from "./helpers.ts";
 import { tankProducts } from "./tanks.ts";
 import {
   ambientVaporizerProducts,
@@ -56,7 +56,7 @@ export type SeedBlogCategory = {
   slug: ReturnType<typeof slugs>;
   description: L;
   order: number;
-  seo: { metaTitle: L; metaDescription: L; keywords: L };
+  seo: SeedSeo;
   postCount?: number;
 };
 
@@ -79,7 +79,7 @@ export type SeedPost = {
   faq: SeedFaq[];
   relatedProducts: SeedProduct[];
   relatedPosts: SeedPost[];
-  seo: { metaTitle: L; metaDescription: L; keywords: L };
+  seo: SeedSeo;
 };
 
 const PHOTO = {
@@ -127,6 +127,8 @@ export const catSelection: SeedBlogCategory = {
   },
   order: 10,
   seo: {
+    // Список статей без власного тексту: у пошуку нічим не допоможе.
+    noIndex: true,
     metaTitle: {
       en: "Cryogenic equipment selection — guides from CO₂ Lab engineers",
       uk: "Підбір кріогенного обладнання — матеріали інженерів CO₂ Lab",
@@ -161,6 +163,8 @@ export const catInstallation: SeedBlogCategory = {
   },
   order: 20,
   seo: {
+    // Список статей без власного тексту: у пошуку нічим не допоможе.
+    noIndex: true,
     metaTitle: {
       en: "Installation and operation of cryogenic systems — CO₂ Lab",
       uk: "Монтаж та експлуатація кріогенних систем — CO₂ Lab",
@@ -195,6 +199,8 @@ export const catQuality: SeedBlogCategory = {
   },
   order: 30,
   seo: {
+    // Список статей без власного тексту: у пошуку нічим не допоможе.
+    noIndex: true,
     metaTitle: {
       en: "CO₂ quality and standards: ISBT, EIGA, DSTU — CO₂ Lab",
       uk: "Якість CO₂ і стандарти: ISBT, EIGA, ДСТУ — CO₂ Lab",
@@ -1072,9 +1078,9 @@ export const postIsbt: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "ISBT and EIGA requirements for CO₂",
-      uk: "Вимоги ISBT та EIGA до якості CO₂ для напоїв",
-      ru: "Требования ISBT и EIGA к качеству CO₂ для напитков",
+      en: "ISBT and EIGA CO₂ requirements: limits in ppm",
+      uk: "Вимоги ISBT та EIGA до CO₂: межі домішок у ppm",
+      ru: "Требования ISBT и EIGA к CO₂: пределы примесей в ppm",
     },
     metaDescription: {
       en: "Purity, moisture, oxygen, hydrocarbons, benzene and sulphur: which CO₂ parameters are limited for beverages and what incoming inspection needs.",

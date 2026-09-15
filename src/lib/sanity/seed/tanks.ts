@@ -9,6 +9,7 @@ import {
   p,
   slugs,
   spec,
+  table,
   type L,
   type SeedCategory,
   type SeedImage,
@@ -422,6 +423,66 @@ function volumesSentence(def: TankCategoryDef, lang: keyof L): string {
   }[lang];
 }
 
+/**
+ * Густина рідини (кг/м³) і вихід газу з 1 кг (м³ за 15 °C, 1 бар) — для
+ * таблиці «скільки вміщає ємність». Ті самі значення, що в статті
+ * «Ціна CO₂ за кг, м³ і тонну», щоб цифри на сайті не розходились.
+ */
+const LIQUID = {
+  co2: { density: 1030, gasPerKg: 0.54 },
+  n2: { density: 809, gasPerKg: 0.84 },
+  o2: { density: 1141, gasPerKg: 0.74 },
+  ar: { density: 1394, gasPerKg: 0.59 },
+} as const;
+
+/** Типове застосування за обʼємом — однакове для всіх газів. */
+function volumeUse(volume: number): L {
+  if (volume <= 10)
+    return { en: "pilot lines, small workshops and laboratories", uk: "пілотні лінії, невеликі цехи й лабораторії", ru: "пилотные линии, небольшие цеха и лаборатории" };
+  if (volume <= 20)
+    return { en: "medium plants with steady consumption", uk: "середні виробництва з рівномірним споживанням", ru: "средние производства с равномерным потреблением" };
+  if (volume <= 30)
+    return { en: "continuous consumption, takes a full road tanker", uk: "безперервне споживання, приймає повну автоцистерну", ru: "непрерывное потребление, принимает полную автоцистерну" };
+  if (volume <= 50)
+    return { en: "large plants, several consumers on one site", uk: "великі виробництва, кілька споживачів на майданчику", ru: "крупные производства, несколько потребителей на площадке" };
+  return { en: "producers and distributors, buffer storage", uk: "виробники й дистрибʼютори, буферне зберігання", ru: "производители и дистрибьюторы, буферное хранение" };
+}
+
+const fmt = (value: number, lang: keyof L) =>
+  lang === "en" ? value.toFixed(1) : value.toFixed(1).replace(".", ",");
+
+function volumeTable(def: TankCategoryDef, lang: keyof L) {
+  const { density, gasPerKg } = LIQUID[def.gas];
+  const head = {
+    en: "Volume | Liquid, t | Gas, thousand m³ | Typical use",
+    uk: "Обʼєм | Рідини, т | Газу, тис. м³ | Типове застосування",
+    ru: "Объём | Жидкости, т | Газа, тыс. м³ | Типовое применение",
+  }[lang];
+  const rows = def.volumes.map((volume) => {
+    const tonnes = (volume * density * 0.92) / 1000;
+    return `${volume} ${lang === "en" ? "m³" : "м³"} | ${fmt(tonnes, lang)} | ${fmt(tonnes * gasPerKg, lang)} | ${volumeUse(volume)[lang]}`;
+  });
+  return table([head, ...rows], {
+    en: "How much product a tank holds at about 92% fill; gas at 15 °C and 1 bar",
+    uk: "Скільки продукту вміщає ємність за заповнення близько 92%; газ за 15 °C і 1 бар",
+    ru: "Сколько продукта вмещает ёмкость при заполнении около 92%; газ при 15 °C и 1 бар",
+  }, `c-${def.gas}`);
+}
+
+const PRICE_HEADING: L = { en: "What drives the price", uk: "Від чого залежить ціна", ru: "От чего зависит цена" };
+const PRICE_ITEMS: L[] = [
+  { en: "Volume and working pressure of the vessel — the largest part of the cost.", uk: "Обʼєм і робочий тиск посудини — найбільша частина вартості.", ru: "Объём и рабочее давление сосуда — самая большая часть стоимости." },
+  { en: "Scope: vaporizer, pressure building, valves and metering.", uk: "Комплектація: випарник, система підняття тиску, арматура й прилади обліку.", ru: "Комплектация: испаритель, система подъёма давления, арматура и приборы учёта." },
+  { en: "Vertical or horizontal design, dictated by the site.", uk: "Вертикальне чи горизонтальне виконання — диктує майданчик.", ru: "Вертикальное или горизонтальное исполнение — диктует площадка." },
+  { en: "Installation: foundation, piping, tanker access, commissioning.", uk: "Монтаж: фундамент, обвʼязка, підʼїзд для автоцистерни, пусконалагодження.", ru: "Монтаж: фундамент, обвязка, подъезд для автоцистерны, пусконаладка." },
+  { en: "Oversized cargo delivery to the site.", uk: "Доставка негабаритного вантажу до майданчика.", ru: "Доставка негабаритного груза до площадки." },
+];
+const PRICE_NOTE: L = {
+  en: "We fix the price in a quotation after sizing the tank to your consumption — so you do not pay for volume you will not use.",
+  uk: "Ціну фіксуємо в комерційній пропозиції після підбору під ваше споживання — так ви не платите за обʼєм, який не використаєте.",
+  ru: "Цену фиксируем в коммерческом предложении после подбора под ваше потребление — так вы не платите за объём, который не используете.",
+};
+
 export function buildTankCategory(def: TankCategoryDef): SeedCategory {
   const g = GASES[def.gas];
   return {
@@ -437,10 +498,14 @@ export function buildTankCategory(def: TankCategoryDef): SeedCategory {
       p(g.storageNote[lang], `c-${def.gas}`),
       h2(VOLUMES_HEADING[lang], `c-${def.gas}`),
       p(volumesSentence(def, lang), `c-${def.gas}`),
+      volumeTable(def, lang),
       h2(SCOPE_HEADING[lang], `c-${def.gas}`),
       ...def.scopeItems.map((item) => li(item[lang], `c-${def.gas}`)),
       h2(TURNKEY_HEADING[lang], `c-${def.gas}`),
       p(def.turnkey[lang], `c-${def.gas}`),
+      h2(PRICE_HEADING[lang], `c-${def.gas}`),
+      ...PRICE_ITEMS.map((item) => li(item[lang], `c-${def.gas}`)),
+      p(PRICE_NOTE[lang], `c-${def.gas}`),
     ]),
     image: img(TANK_IMAGES.onSite, {
       en: `Cryogenic storage tank for ${g.nom.en} with an ambient air vaporizer`,
@@ -618,6 +683,8 @@ function buildTankProduct(
     availability: "madeToOrder",
     currency: "EUR",
     seo: {
+      // Варіант у сімействі однотипних товарів: хабом для пошуку є категорія.
+      noIndex: true,
       metaTitle: {
         en: title.en,
         uk: title.uk,

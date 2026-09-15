@@ -33,6 +33,12 @@ import { postCylinderCapacity, postCylinderMarking } from "./blogCylinders.ts";
 import { postPriceUnits, postRentOrBuy } from "./blogEconomics.ts";
 import { postBeverages, postDryIce, postWelding } from "./blogApplications.ts";
 import { postFoodVsTechnical, postSafety } from "./blogSafety.ts";
+import {
+  postGasGrades,
+  postGasProperties,
+  postNitrogenStorage,
+  postNitrogenVsDryIce,
+} from "./blogGases.ts";
 import type { SeedCategory, SeedProduct } from "./helpers.ts";
 
 export type {
@@ -80,6 +86,10 @@ export const seedPosts: SeedPost[] = [
   postDryIce,
   postSafety,
   postFoodVsTechnical,
+  postNitrogenStorage,
+  postNitrogenVsDryIce,
+  postGasGrades,
+  postGasProperties,
 ];
 
 /**
@@ -92,19 +102,23 @@ export const seedPosts: SeedPost[] = [
  */
 const RELATED: Array<[SeedPost, SeedPost[]]> = [
   [postTankVolume, [postPriceUnits, postCylinderCapacity, postRentOrBuy]],
-  [postCylinderVsTank, [postCylinderCapacity, postPriceUnits, postRentOrBuy]],
+  [postCylinderVsTank, [postCylinderCapacity, postNitrogenStorage, postRentOrBuy]],
   [postGreenhouseVaporizer, [postBeverages, postSafety, postTankVolume]],
   [postFoundation, [postSafety, postRentOrBuy, postTankVolume]],
-  [postIsbt, [postFoodVsTechnical, postBeverages, postDryIce]],
+  [postIsbt, [postFoodVsTechnical, postGasGrades, postBeverages]],
   [postCylinderCapacity, [postPriceUnits, postCylinderVsTank, postCylinderMarking]],
   [postCylinderMarking, [postCylinderCapacity, postSafety, postFoodVsTechnical]],
-  [postPriceUnits, [postCylinderCapacity, postRentOrBuy, postTankVolume]],
+  [postPriceUnits, [postGasProperties, postCylinderCapacity, postRentOrBuy]],
   [postRentOrBuy, [postPriceUnits, postFoundation, postTankVolume]],
   [postWelding, [postCylinderCapacity, postPriceUnits, postCylinderMarking]],
   [postBeverages, [postIsbt, postFoodVsTechnical, postTankVolume]],
-  [postDryIce, [postFoodVsTechnical, postTankVolume, postIsbt]],
+  [postDryIce, [postNitrogenVsDryIce, postFoodVsTechnical, postTankVolume]],
   [postSafety, [postFoundation, postCylinderMarking, postDryIce]],
-  [postFoodVsTechnical, [postIsbt, postBeverages, postDryIce]],
+  [postFoodVsTechnical, [postIsbt, postGasGrades, postDryIce]],
+  [postNitrogenStorage, [postNitrogenVsDryIce, postGasProperties, postCylinderVsTank]],
+  [postNitrogenVsDryIce, [postNitrogenStorage, postDryIce, postGasProperties]],
+  [postGasGrades, [postIsbt, postFoodVsTechnical, postGasProperties]],
+  [postGasProperties, [postPriceUnits, postGasGrades, postNitrogenStorage]],
 ];
 
 for (const [post, related] of RELATED) {

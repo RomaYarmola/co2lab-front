@@ -27,8 +27,10 @@ import {
   type SeedPost,
 } from "./blog.ts";
 import { tankCategories } from "./tanks.ts";
+import { labCategory } from "./equipment.ts";
 
 const catTanksCo2 = tankCategories.find((c) => c._id === "cat-tanks-co2")!;
+const catTanksN2 = tankCategories.find((c) => c._id === "cat-tanks-n2")!;
 
 const tank10 = seedProduct("product-tank-co2-10");
 const tank20 = seedProduct("product-tank-co2-20");
@@ -61,9 +63,9 @@ export const postWelding: SeedPost = {
   _id: "post-co2-for-welding",
   _updatedAt: SEED_UPDATED_AT,
   title: {
-    en: "CO₂ or an argon mix for welding: what changes in the weld and in the budget",
-    uk: "Вуглекислота чи суміш з аргоном для зварювання: що змінюється у шві та в бюджеті",
-    ru: "Углекислота или смесь с аргоном для сварки: что меняется в шве и в бюджете",
+    en: "CO₂ for welding: pure carbon dioxide or an argon mix",
+    uk: "Вуглекислота для зварювання: чиста CO₂ чи суміш з аргоном",
+    ru: "Углекислота для сварки: чистая CO₂ или смесь с аргоном",
   },
   slug: {
     en: { current: "co2-or-argon-mix-for-welding" },
@@ -96,6 +98,8 @@ export const postWelding: SeedPost = {
         ["tbl", "Shielding gases for MAG welding of carbon steel", "Gas | Arc behaviour | Spatter | Penetration | Where it fits", "100% CO₂ | coarse droplet transfer | high | deep, narrow | thick sections, structural work, low cosmetic demands", "82% Ar / 18% CO₂ | stable spray transfer possible | low | wide, shallower | general fabrication, visible welds", "92% Ar / 8% CO₂ | very stable spray | very low | wide | thin sheet, robotic and semi-automatic lines", "98% Ar / 2% O₂ | spray | minimal | wide | stainless steel"],
         ["p", "The arithmetic that decides is not the price of the cylinder. Pure CO₂ produces spatter, and spatter is wire you bought, melted and then removed by hand. On visible welds and thin sheet the argon mix usually wins on total cost even though the gas itself costs more."],
         ["p", "One physical detail that catches people out: CO₂ expands from liquid at the regulator and cools sharply. On a cold day and at high flow, a plain regulator freezes over. Welding posts on pure CO₂ need a heated regulator — or a proper vaporizer if the gas comes from a tank."],
+        ["h2", "Which CO₂ a semi-automatic welder needs"],
+        ["p", "Technical grade is enough — food grade costs more and gives the weld nothing. What matters is dry gas: moisture is the main cause of porosity. In EN ISO 14175 pure carbon dioxide is designated C1; the cylinder or certificate should say so. And one gas per line: a half-used CO₂ cylinder topped up from another source is how moisture and air end up in the weld."],
         ["h2", "How much gas one post actually uses"],
         ["p", "The consumption calculation is simple and almost always surprising. Take flow rate in litres per minute, multiply by arc-on time, and convert to kilograms at 0.54 m³ per kilogram."],
         ["tbl", "One post, 12 l/min, eight-hour shift, 22 working days", "Arc-on time | Gas per shift | Per month, one post | 40 l cylinders per month", "30% | 1.7 m³ ≈ 3.2 kg | ≈ 70 kg | 3", "50% | 2.9 m³ ≈ 5.3 kg | ≈ 117 kg | 5", "70% | 4.0 m³ ≈ 7.5 kg | ≈ 165 kg | 7"],
@@ -110,7 +114,7 @@ export const postWelding: SeedPost = {
         ["h2", "When a workshop outgrows cylinders"],
         ["p", `From about a tonne a month, cylinders start costing more in handling than in gas. The usual step is a [stationary tank](${categoryPath(catTanksCo2, "en")}) of 10–20 m³ with a vaporizer and a distribution ring around the shop, so every post takes gas from a wall socket instead of a cylinder standing beside it.`],
         ["p", `For a shop of that size a [10 m³ tank](${productPath(tank10, "en")}) covers eight to nine months of supply at one tonne a month, which is too slow a turnover — a [20 m³ vessel](${productPath(tank20, "en")}) shared with other processes, or a smaller microbulk unit, usually fits better. Sizing here follows delivery logistics rather than the tank catalogue.`],
-        ["p", `The vaporizer matters more than the tank in this application. Welding demand is spiky: all posts strike an arc at the start of a shift. A [100 kg/h vaporizer](${productPath(vap100, "en")}) covers roughly twenty simultaneous posts at peak; below that the pressure sags and the shielding suffers.`],
+        ["p", `The vaporizer matters more than the tank in this application. Welding demand is spiky: all posts strike an arc at the start of a shift. One post at 12 l/min draws only about 1.3 kg/h, so a [100 kg/h vaporizer](${productPath(vap100, "en")}) covers several dozen simultaneous posts; what sizes it is the peak at shift start plus a frost reserve, not the number of welders.`],
         ["cta", "Sizing a supply for a welding shop?", "Tell us the number of posts, the flow rate and the arc-on time — we will calculate consumption, the vessel and the vaporizer, and show what the distribution ring should look like.", "Request a calculation", "/contacts"],
       ],
       uk: [
@@ -119,6 +123,8 @@ export const postWelding: SeedPost = {
         ["tbl", "Захисні гази для зварювання вуглецевої сталі в середовищі активного газу", "Газ | Поведінка дуги | Розбризкування | Проплавлення | Де доречний", "100% CO₂ | крупнокрапельний перенос | високе | глибоке, вузьке | товстий метал, металоконструкції, невисокі вимоги до вигляду", "82% Ar / 18% CO₂ | можливий струминний перенос | низьке | ширше, менш глибоке | загальне виробництво, видимі шви", "92% Ar / 8% CO₂ | дуже стабільний струминний | дуже низьке | широке | тонкий лист, роботизовані та напівавтоматичні лінії", "98% Ar / 2% O₂ | струминний | мінімальне | широке | неіржавна сталь"],
         ["p", "Вирішує тут не ціна балона. Чистий CO₂ дає бризки, а бризки — це дріт, який ви купили, розплавили й потім зняли вручну. На видимих швах і тонкому листі суміш з аргоном зазвичай виграє за сумарними витратами, попри дорожчий газ."],
         ["p", "Фізична деталь, на якій часто спотикаються: CO₂ розширюється з рідини на редукторі й сильно охолоджується. У холодний день і на великій витраті звичайний редуктор обмерзає. Пости на чистій вуглекислоті потребують підігрітого редуктора — або повноцінного випарника, якщо газ іде з ємності."],
+        ["h2", "Яка вуглекислота потрібна для напівавтомата"],
+        ["p", "Достатньо технічної — харчова дорожча й шву нічого не додає. Важлива сухість газу: саме волога найчастіше дає пористість. За EN ISO 14175 чиста вуглекислота позначається C1; це має бути вказано на балоні чи в сертифікаті. І один газ на лінію: балон, дозаправлений «з іншого джерела», — прямий шлях вологи й повітря у шов."],
         ["h2", "Скільки газу насправді витрачає один пост"],
         ["p", "Розрахунок простий і майже завжди несподіваний. Візьміть витрату в літрах за хвилину, помножте на час горіння дуги й переведіть у кілограми за співвідношенням 0,54 м³ на кілограм."],
         ["tbl", "Один пост, 12 л/хв, восьмигодинна зміна, 22 робочі дні", "Час горіння дуги | Газу за зміну | За місяць, один пост | Балонів 40 л на місяць", "30% | 1,7 м³ ≈ 3,2 кг | ≈ 70 кг | 3", "50% | 2,9 м³ ≈ 5,3 кг | ≈ 117 кг | 5", "70% | 4,0 м³ ≈ 7,5 кг | ≈ 165 кг | 7"],
@@ -133,7 +139,7 @@ export const postWelding: SeedPost = {
         ["h2", "Коли цех переростає балони"],
         ["p", `Приблизно від тонни на місяць балони починають коштувати більше в обслуговуванні, ніж у газі. Звичайний крок — [стаціонарна ємність](${categoryPath(catTanksCo2, "uk")}) на 10–20 м³ з випарником і розвідним кільцем по цеху, щоб кожен пост брав газ із настінного посту, а не з балона поруч.`],
         ["p", `Для цеху такого розміру [ємність на 10 м³](${productPath(tank10, "uk")}) — це вісім-девʼять місяців запасу за тонни на місяць, тобто надто повільна оборотність. Краще підходить [посудина на 20 м³](${productPath(tank20, "uk")}), розділена з іншими процесами, або менший мікробалк. Обʼєм тут диктує логістика поставок, а не каталог.`],
-        ["p", `У цьому застосуванні випарник важливіший за ємність. Споживання зварювання пікове: на початку зміни дугу запалюють усі пости одночасно. [Випарник на 100 кг/год](${productPath(vap100, "uk")}) закриває приблизно двадцять одночасних постів у піку; нижче цього тиск просідає й захист псується.`],
+        ["p", `У цьому застосуванні випарник важливіший за ємність. Споживання зварювання пікове: на початку зміни дугу запалюють усі пости одночасно. Один пост на 12 л/хв відбирає лише близько 1,3 кг/год, тож [випарник на 100 кг/год](${productPath(vap100, "uk")}) закриває кілька десятків одночасних постів; розмір визначає пік на початку зміни й запас на мороз, а не кількість зварників.`],
         ["cta", "Підбираєте постачання для зварювального цеху?", "Напишіть кількість постів, витрату й частку часу горіння дуги — порахуємо споживання, посудину та випарник і покажемо, як має виглядати розвідне кільце.", "Замовити розрахунок", "/uk/contacts"],
       ],
       ru: [
@@ -142,6 +148,8 @@ export const postWelding: SeedPost = {
         ["tbl", "Защитные газы для сварки углеродистой стали в среде активного газа", "Газ | Поведение дуги | Разбрызгивание | Проплавление | Где уместен", "100% CO₂ | крупнокапельный перенос | высокое | глубокое, узкое | толстый металл, металлоконструкции, невысокие требования к виду", "82% Ar / 18% CO₂ | возможен струйный перенос | низкое | шире, менее глубокое | общее производство, видимые швы", "92% Ar / 8% CO₂ | очень стабильный струйный | очень низкое | широкое | тонкий лист, роботизированные и полуавтоматические линии", "98% Ar / 2% O₂ | струйный | минимальное | широкое | нержавеющая сталь"],
         ["p", "Решает здесь не цена баллона. Чистый CO₂ даёт брызги, а брызги — это проволока, которую вы купили, расплавили и потом сняли вручную. На видимых швах и тонком листе смесь с аргоном обычно выигрывает по суммарным затратам, несмотря на более дорогой газ."],
         ["p", "Физическая деталь, на которой часто спотыкаются: CO₂ расширяется из жидкости на редукторе и сильно охлаждается. В холодный день и на большом расходе обычный редуктор обмерзает. Посты на чистой углекислоте требуют подогреваемого редуктора — или полноценного испарителя, если газ идёт из ёмкости."],
+        ["h2", "Какая углекислота нужна для полуавтомата"],
+        ["p", "Достаточно технической — пищевая дороже и шву ничего не добавляет. Важна сухость газа: именно влага чаще всего даёт пористость. По EN ISO 14175 чистая углекислота обозначается C1; это должно быть указано на баллоне или в сертификате. И один газ на линию: баллон, дозаправленный «из другого источника», — прямой путь влаги и воздуха в шов."],
         ["h2", "Сколько газа на самом деле тратит один пост"],
         ["p", "Расчёт простой и почти всегда неожиданный. Возьмите расход в литрах в минуту, умножьте на время горения дуги и переведите в килограммы по соотношению 0,54 м³ на килограмм."],
         ["tbl", "Один пост, 12 л/мин, восьмичасовая смена, 22 рабочих дня", "Время горения дуги | Газа за смену | За месяц, один пост | Баллонов 40 л в месяц", "30% | 1,7 м³ ≈ 3,2 кг | ≈ 70 кг | 3", "50% | 2,9 м³ ≈ 5,3 кг | ≈ 117 кг | 5", "70% | 4,0 м³ ≈ 7,5 кг | ≈ 165 кг | 7"],
@@ -156,7 +164,7 @@ export const postWelding: SeedPost = {
         ["h2", "Когда цех перерастает баллоны"],
         ["p", `Примерно от тонны в месяц баллоны начинают стоить больше в обслуживании, чем в газе. Обычный шаг — [стационарная ёмкость](${categoryPath(catTanksCo2, "ru")}) на 10–20 м³ с испарителем и разводящим кольцом по цеху, чтобы каждый пост брал газ из настенного поста, а не из баллона рядом.`],
         ["p", `Для цеха такого размера [ёмкость на 10 м³](${productPath(tank10, "ru")}) — это восемь-девять месяцев запаса при тонне в месяц, то есть слишком медленная оборачиваемость. Лучше подходит [сосуд на 20 м³](${productPath(tank20, "ru")}), разделённый с другими процессами, или меньший микробалк. Объём здесь диктует логистика поставок, а не каталог.`],
-        ["p", `В этом применении испаритель важнее ёмкости. Потребление сварки пиковое: в начале смены дугу зажигают все посты одновременно. [Испаритель на 100 кг/ч](${productPath(vap100, "ru")}) закрывает примерно двадцать одновременных постов в пике; ниже этого давление проседает и защита портится.`],
+        ["p", `В этом применении испаритель важнее ёмкости. Потребление сварки пиковое: в начале смены дугу зажигают все посты одновременно. Один пост на 12 л/мин отбирает лишь около 1,3 кг/ч, поэтому [испаритель на 100 кг/ч](${productPath(vap100, "ru")}) закрывает несколько десятков одновременных постов; размер определяет пик в начале смены и запас на мороз, а не количество сварщиков.`],
         ["cta", "Подбираете снабжение для сварочного цеха?", "Напишите количество постов, расход и долю времени горения дуги — посчитаем потребление, сосуд и испаритель и покажем, как должно выглядеть разводящее кольцо.", "Заказать расчёт", "/ru/contacts"],
       ],
     },
@@ -177,6 +185,19 @@ export const postWelding: SeedPost = {
       },
     ),
     faq(
+      "faq-weld-3",
+      {
+        en: "Does welding CO₂ burn or explode?",
+        uk: "Чи горить і чи вибухає вуглекислота для зварювання?",
+        ru: "Горит ли и взрывается ли углекислота для сварки?",
+      },
+      {
+        en: "Neither: carbon dioxide does not burn and does not support combustion. The real hazards are the pressure in the cylinder and gas collecting in pits and closed rooms, where a few percent in the air already affects breathing.",
+        uk: "Ні те, ні інше: вуглекислота не горить і не підтримує горіння. Реальні небезпеки — тиск у балоні й накопичення газу в приямках і закритих приміщеннях, де вже кілька відсотків у повітрі впливають на дихання.",
+        ru: "Ни то, ни другое: углекислота не горит и не поддерживает горение. Реальные опасности — давление в баллоне и скопление газа в приямках и закрытых помещениях, где уже несколько процентов в воздухе влияют на дыхание.",
+      },
+    ),
+    faq(
       "faq-weld-2",
       {
         en: "Why does the regulator freeze on pure CO₂?",
@@ -194,9 +215,9 @@ export const postWelding: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "CO₂ or Ar/CO₂ mix for welding",
-      uk: "Вуглекислота чи суміш Ar/CO₂ для зварювання",
-      ru: "Углекислота или смесь Ar/CO₂ для сварки",
+      en: "CO₂ for welding: pure gas or an Ar/CO₂ mix",
+      uk: "Вуглекислота для зварювання: чиста чи суміш Ar/CO₂",
+      ru: "Углекислота для сварки: чистая или смесь Ar/CO₂",
     },
     metaDescription: {
       en: "How pure CO₂ and argon mixtures differ in spatter, penetration and cost, how much gas one welding post uses, and when to move to a tank.",
@@ -256,9 +277,11 @@ export const postBeverages: SeedPost = {
         ["tbl", "Monthly demand and the equipment behind it", "Output | At 2 kg/hl | At 1 kg/hl | Typical supply", "500 hl/month | 1.0 t | 0.5 t | cylinders or microbulk", "2 000 hl/month | 4.0 t | 2.0 t | tank 10–20 m³", "8 000 hl/month | 16 t | 8 t | tank 20–30 m³", "20 000 hl/month | 40 t | 20 t | tank 50 m³ and above"],
         ["p", `For a plant packaging 8 000 hl a month, a [30 m³ tank](${productPath(tank30, "en")}) holds about 29 tonnes — roughly two months of supply at the efficient rate, or one full road tanker delivery with reserve. That is the ratio worth aiming at: one delivery must fit, and turnover must stay fast enough that boil-off does not eat the margin.`],
         ["img", PHOTO.lab, "Laboratory equipment for incoming inspection of carbon dioxide quality", "Incoming inspection is what turns a supplier certificate into evidence you can show an auditor"],
-        ["h2", "Purity: what «food grade» has to mean"],
+        ["h2", "Which CO₂ beer needs: what «food grade» has to mean"],
         ["p", `The reference documents are the ISBT quality guidelines for beverage-grade carbon dioxide and the EIGA specification. They limit not only total purity but individual contaminants — moisture, oxygen, total hydrocarbons, sulphur compounds, acetaldehyde, benzene. A single number like «99.9%» says nothing on its own, because the compounds that ruin taste act at parts-per-million level. We covered the parameter list in a [separate article on ISBT and EIGA requirements](${postPath(postIsbt, "en")}).`],
-        ["p", `A supplier certificate covers the batch as it left the filling plant, not what arrived in your tank after a tanker that previously carried something else. A [minimum incoming inspection kit](${productPath(labKit, "en")}) — moisture, oxygen, a sensory check — pays for itself the first time it stops a bad batch before it reaches a fermenter.`],
+        ["p", `A supplier certificate covers the batch as it left the filling plant, not what arrived in your tank after a tanker that previously carried something else. A [minimum incoming inspection kit](${categoryPath(labCategory, "en")}) — moisture, oxygen, a sensory check — pays for itself the first time it stops a bad batch before it reaches a fermenter.`],
+        ["h2", "Nitrogen for nitro beer and still drinks"],
+        ["p", `Nitro stouts, liquid nitrogen dosing before can seaming and pressurising still drinks run on nitrogen, not CO₂. Beer gas mixes for dispensing stouts are mostly nitrogen with a quarter to a third of CO₂. If your range includes these, a [liquid nitrogen tank](${categoryPath(catTanksN2, "en")}) with an ambient vaporizer sits next to the CO₂ installation.`],
         ["h2", "Sizing the vaporizer, not just the tank"],
         ["p", `Brewery demand is bursty. A filling line starting up, a tank being purged and a transfer running at the same time can triple the average draw for twenty minutes. Size the vaporizer for that peak: a [300 kg/h unit](${productPath(vap300, "en")}) suits most mid-size plants, while a large bottling operation with several lines needs [1000 kg/h](${productPath(vap1000, "en")}).`],
         ["li", "Measure the peak, not the monthly average divided by hours."],
@@ -276,9 +299,11 @@ export const postBeverages: SeedPost = {
         ["tbl", "Місячна потреба й обладнання під неї", "Обсяг | За 2 кг/гл | За 1 кг/гл | Типове постачання", "500 гл/міс | 1,0 т | 0,5 т | балони або мікробалк", "2 000 гл/міс | 4,0 т | 2,0 т | ємність 10–20 м³", "8 000 гл/міс | 16 т | 8 т | ємність 20–30 м³", "20 000 гл/міс | 40 т | 20 т | ємність 50 м³ і більше"],
         ["p", `Для виробництва, що розливає 8 000 гл на місяць, [ємність на 30 м³](${productPath(tank30, "uk")}) вміщає близько 29 тонн — приблизно два місяці запасу за ощадливої витрати або одна повна поставка автоцистерною із резервом. Саме до такого співвідношення варто прагнути: повна поставка має поміститись, а оборотність — лишатись достатньо швидкою, щоб втрати на випаровування не зʼїдали маржу.`],
         ["img", PHOTO.lab, "Лабораторне обладнання для вхідного контролю якості вуглекислоти", "Вхідний контроль перетворює сертифікат постачальника на доказ, який можна показати аудитору"],
-        ["h2", "Чистота: що має означати «харчова»"],
+        ["h2", "Яка вуглекислота потрібна для пива: що означає «харчова»"],
         ["p", `Опорні документи — настанови ISBT щодо якості вуглекислоти для напоїв і специфікація EIGA. Вони обмежують не лише загальну чистоту, а й окремі домішки: вологу, кисень, сумарні вуглеводні, сірковмісні сполуки, ацетальдегід, бензол. Сама по собі цифра на кшталт «99,9%» не каже нічого, бо сполуки, які псують смак, працюють на рівні мільйонних часток. Перелік параметрів ми розібрали в [окремій статті про вимоги ISBT та EIGA](${postPath(postIsbt, "uk")}).`],
-        ["p", `Сертифікат постачальника описує партію на момент виходу з наповнювальної станції, а не те, що приїхало у вашу ємність після цистерни, яка перед тим везла щось інше. [Мінімальний комплект вхідного контролю](${productPath(labKit, "uk")}) — волога, кисень, органолептична перевірка — окупається першого ж разу, коли зупинить погану партію до потрапляння у ферментер.`],
+        ["p", `Сертифікат постачальника описує партію на момент виходу з наповнювальної станції, а не те, що приїхало у вашу ємність після цистерни, яка перед тим везла щось інше. [Мінімальний комплект вхідного контролю](${categoryPath(labCategory, "uk")}) — волога, кисень, органолептична перевірка — окупається першого ж разу, коли зупинить погану партію до потрапляння у ферментер.`],
+        ["h2", "Азот для нітро-пива й негазованих напоїв"],
+        ["p", `Нітро-стаути, дозування рідкого азоту перед закупорюванням банок і створення тиску в негазованих напоях працюють на азоті, а не на CO₂. Пивні суміші для розливу стаутів — здебільшого азот із чвертю-третиною CO₂. Якщо такі напої є у вашій лінійці, поруч із CO₂-установкою ставлять [ємність для рідкого азоту](${categoryPath(catTanksN2, "uk")}) з атмосферним випарником.`],
         ["h2", "Підбирати треба випарник, а не лише ємність"],
         ["p", `Споживання пивоварні рвучке. Запуск лінії розливу, продування танка й перекачування, які збіглись у часі, здатні втричі перевищити середній відбір на двадцять хвилин. Випарник підбирають саме під цей пік: [апарат на 300 кг/год](${productPath(vap300, "uk")}) закриває більшість середніх виробництв, а великому розливу з кількома лініями потрібен [1000 кг/год](${productPath(vap1000, "uk")}).`],
         ["li", "Міряйте пік, а не місячне споживання, поділене на години."],
@@ -296,9 +321,11 @@ export const postBeverages: SeedPost = {
         ["tbl", "Месячная потребность и оборудование под неё", "Объём | При 2 кг/гл | При 1 кг/гл | Типовое снабжение", "500 гл/мес | 1,0 т | 0,5 т | баллоны или микробалк", "2 000 гл/мес | 4,0 т | 2,0 т | ёмкость 10–20 м³", "8 000 гл/мес | 16 т | 8 т | ёмкость 20–30 м³", "20 000 гл/мес | 40 т | 20 т | ёмкость 50 м³ и больше"],
         ["p", `Для производства, разливающего 8 000 гл в месяц, [ёмкость на 30 м³](${productPath(tank30, "ru")}) вмещает около 29 тонн — примерно два месяца запаса при экономном расходе или одна полная поставка автоцистерной с резервом. Именно к такому соотношению стоит стремиться: полная поставка должна поместиться, а оборачиваемость — оставаться достаточно быстрой, чтобы потери на испарение не съедали маржу.`],
         ["img", PHOTO.lab, "Лабораторное оборудование для входного контроля качества углекислоты", "Входной контроль превращает сертификат поставщика в доказательство, которое можно показать аудитору"],
-        ["h2", "Чистота: что должно означать «пищевая»"],
+        ["h2", "Какая углекислота нужна для пива: что должна означать «пищевая»"],
         ["p", `Опорные документы — руководства ISBT по качеству углекислоты для напитков и спецификация EIGA. Они ограничивают не только общую чистоту, но и отдельные примеси: влагу, кислород, суммарные углеводороды, серосодержащие соединения, ацетальдегид, бензол. Сама по себе цифра вроде «99,9%» не говорит ничего, потому что соединения, портящие вкус, работают на уровне миллионных долей. Перечень параметров мы разобрали в [отдельной статье о требованиях ISBT и EIGA](${postPath(postIsbt, "ru")}).`],
-        ["p", `Сертификат поставщика описывает партию на момент выхода с наполнительной станции, а не то, что приехало в вашу ёмкость после цистерны, которая перед этим везла что-то другое. [Минимальный комплект входного контроля](${productPath(labKit, "ru")}) — влага, кислород, органолептическая проверка — окупается в первый же раз, когда остановит плохую партию до попадания в ферментер.`],
+        ["p", `Сертификат поставщика описывает партию на момент выхода с наполнительной станции, а не то, что приехало в вашу ёмкость после цистерны, которая перед этим везла что-то другое. [Минимальный комплект входного контроля](${categoryPath(labCategory, "ru")}) — влага, кислород, органолептическая проверка — окупается в первый же раз, когда остановит плохую партию до попадания в ферментер.`],
+        ["h2", "Азот для нитро-пива и негазированных напитков"],
+        ["p", `Нитро-стауты, дозирование жидкого азота перед закаткой банок и создание давления в негазированных напитках работают на азоте, а не на CO₂. Пивные смеси для розлива стаутов — в основном азот с четвертью-третью CO₂. Если такие напитки есть в вашей линейке, рядом с CO₂-установкой ставят [ёмкость для жидкого азота](${categoryPath(catTanksN2, "ru")}) с атмосферным испарителем.`],
         ["h2", "Подбирать надо испаритель, а не только ёмкость"],
         ["p", `Потребление пивоварни рывковое. Запуск линии розлива, продувка танка и перекачивание, совпавшие во времени, способны втрое превысить средний отбор на двадцать минут. Испаритель подбирают именно под этот пик: [аппарат на 300 кг/ч](${productPath(vap300, "ru")}) закрывает большинство средних производств, а крупному розливу с несколькими линиями нужен [1000 кг/ч](${productPath(vap1000, "ru")}).`],
         ["li", "Меряйте пик, а не месячное потребление, делённое на часы."],
@@ -341,9 +368,9 @@ export const postBeverages: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "CO₂ for a brewery: consumption and purity",
-      uk: "CO₂ для пивоварні: витрата й чистота",
-      ru: "CO₂ для пивоварни: расход и чистота",
+      en: "Which CO₂ a brewery needs: consumption and purity",
+      uk: "Яка вуглекислота потрібна для пива: витрата й чистота",
+      ru: "Какая углекислота нужна для пива: расход и чистота",
     },
     metaDescription: {
       en: "Where a brewery's CO₂ really goes, 0.5–4 kg per hectolitre explained, tank and vaporizer sizing by monthly output, and what food-grade purity has to cover.",
@@ -408,7 +435,7 @@ export const postDryIce: SeedPost = {
         ["li", "A vent line for the flash gas, routed outdoors — this is a large, continuous gas flow, not a trickle."],
         ["li", "Gas detection in the workshop, because both the pelletizer and the stored product release CO₂ continuously."],
         ["h2", "Purity: the ice inherits it from the liquid"],
-        ["p", `Dry ice used for food cooling, transporting pharmaceuticals or blasting food equipment is in contact with the product, so the liquid CO₂ behind it has to be food grade to ISBT. Nothing in the pelletizing process removes contamination — whatever is in the liquid ends up in the pellet and then sublimates directly onto the product. [Incoming inspection](${productPath(labKit, "en")}) belongs at the tank, before the liquid reaches the machine.`],
+        ["p", `Dry ice used for food cooling, transporting pharmaceuticals or blasting food equipment is in contact with the product, so the liquid CO₂ behind it has to be food grade to ISBT. Nothing in the pelletizing process removes contamination — whatever is in the liquid ends up in the pellet and then sublimates directly onto the product. [Incoming inspection](${categoryPath(labCategory, "en")}) belongs at the tank, before the liquid reaches the machine.`],
         ["p", `In Ukraine dry ice is produced industrially by, among others, [IceLab](${ICELAB.en}) — plants in Kyiv and Lviv with an output of up to 400 kg/h and a 60-tonne raw material store. That store is the point: at that capacity the CO₂ supply has to be sized as a continuous industrial feed, not as a periodic purchase.`],
         ["h2", "What to work out before ordering a pelletizer"],
         ["no", "The pellet output you actually need per shift, including seasonal peaks."],
@@ -433,7 +460,7 @@ export const postDryIce: SeedPost = {
         ["li", "Лінія скидання газу скипання, виведена назовні: це великий безперервний потік, а не цівка."],
         ["li", "Газоаналіз у цеху, бо CO₂ безперервно виділяють і гранулятор, і складований продукт."],
         ["h2", "Чистота: лід успадковує її від рідини"],
-        ["p", `Сухий лід для охолодження харчових продуктів, перевезення фармацевтики чи очищення харчового обладнання контактує з продуктом, тож рідкий CO₂ за ним має бути харчовим за ISBT. Ніщо в процесі грануляції не очищує газ — усе, що є в рідині, потрапляє в гранулу, а потім сублімує просто на продукт. [Вхідний контроль](${productPath(labKit, "uk")}) має стояти біля ємності, до того як рідина дійде до машини.`],
+        ["p", `Сухий лід для охолодження харчових продуктів, перевезення фармацевтики чи очищення харчового обладнання контактує з продуктом, тож рідкий CO₂ за ним має бути харчовим за ISBT. Ніщо в процесі грануляції не очищує газ — усе, що є в рідині, потрапляє в гранулу, а потім сублімує просто на продукт. [Вхідний контроль](${categoryPath(labCategory, "uk")}) має стояти біля ємності, до того як рідина дійде до машини.`],
         ["p", `В Україні сухий лід у промислових обсягах виробляє, зокрема, [IceLab](${ICELAB.uk}) — виробництва в Києві та Львові з потужністю до 400 кг/год і складом сировини на 60 тонн. Саме цей склад тут показовий: за такої продуктивності постачання CO₂ доводиться будувати як безперервне промислове живлення, а не як періодичну закупівлю.`],
         ["h2", "Що порахувати до замовлення гранулятора"],
         ["no", "Реальний потрібний вихід гранул за зміну, включно із сезонними піками."],
@@ -458,7 +485,7 @@ export const postDryIce: SeedPost = {
         ["li", "Линия сброса газа вскипания, выведенная наружу: это большой непрерывный поток, а не струйка."],
         ["li", "Газоанализ в цехе, потому что CO₂ непрерывно выделяют и гранулятор, и складируемый продукт."],
         ["h2", "Чистота: лёд наследует её от жидкости"],
-        ["p", `Сухой лёд для охлаждения пищевых продуктов, перевозки фармацевтики или очистки пищевого оборудования контактирует с продуктом, поэтому жидкий CO₂ за ним должен быть пищевым по ISBT. Ничто в процессе грануляции не очищает газ — всё, что есть в жидкости, попадает в гранулу, а потом сублимирует прямо на продукт. [Входной контроль](${productPath(labKit, "ru")}) должен стоять у ёмкости, до того как жидкость дойдёт до машины.`],
+        ["p", `Сухой лёд для охлаждения пищевых продуктов, перевозки фармацевтики или очистки пищевого оборудования контактирует с продуктом, поэтому жидкий CO₂ за ним должен быть пищевым по ISBT. Ничто в процессе грануляции не очищает газ — всё, что есть в жидкости, попадает в гранулу, а потом сублимирует прямо на продукт. [Входной контроль](${categoryPath(labCategory, "ru")}) должен стоять у ёмкости, до того как жидкость дойдёт до машины.`],
         ["p", `В Украине сухой лёд в промышленных объёмах производит, в частности, [IceLab](${ICELAB.ru}) — производства в Киеве и Львове с мощностью до 400 кг/ч и складом сырья на 60 тонн. Именно этот склад здесь показателен: при такой производительности снабжение CO₂ приходится строить как непрерывное промышленное питание, а не как периодическую закупку.`],
         ["h2", "Что посчитать до заказа гранулятора"],
         ["no", "Реальный нужный выход гранул за смену, включая сезонные пики."],

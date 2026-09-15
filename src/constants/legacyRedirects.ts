@@ -62,7 +62,7 @@ const ENTRIES: LegacyEntry[] = [
       uk: "obladnannya-dlya-suhogo-lodu",
       ru: "oborudovanie-dlya-suhogo-lda",
     },
-    to: { path: "/solutions/engineering-solutions" },
+    to: { path: "/solutions/dry-ice-production" },
   },
 
   /* ── Товари ─────────────────────────────────────────────────────────── */
@@ -97,7 +97,7 @@ const ENTRIES: LegacyEntry[] = [
       uk: "pelletaizer-suhogo-lodu-dp-120",
       ru: "pelletaizer-suhogo-lda-dp-120",
     },
-    to: { path: "/solutions/engineering-solutions" },
+    to: { path: "/solutions/dry-ice-production" },
   },
 
   /* ── Категорії блогу ────────────────────────────────────────────────── */

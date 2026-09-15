@@ -20,6 +20,7 @@ import {
   type SeedPost,
 } from "./blog.ts";
 import { tankCategories } from "./tanks.ts";
+import { installationCategory } from "./equipment.ts";
 
 const catTanksCo2 = tankCategories.find((c) => c._id === "cat-tanks-co2")!;
 
@@ -41,9 +42,9 @@ export const postPriceUnits: SeedPost = {
   _id: "post-co2-price-units",
   _updatedAt: SEED_UPDATED_AT,
   title: {
-    en: "CO₂ price per kilogram, litre, cubic metre or tonne: how to compare quotes",
-    uk: "Ціна CO₂ за кілограм, літр, кубометр чи тонну: як порівнювати пропозиції",
-    ru: "Цена CO₂ за килограмм, литр, кубометр или тонну: как сравнивать предложения",
+    en: "Price of CO₂, nitrogen and argon per kilogram, litre, m³ or tonne",
+    uk: "Ціна CO₂, азоту й аргону за кілограм, літр, м³ чи тонну",
+    ru: "Цена CO₂, азота и аргона за килограмм, литр, м³ или тонну",
   },
   slug: {
     en: { current: "co2-price-per-kg-m3-tonne" },
@@ -79,6 +80,9 @@ export const postPriceUnits: SeedPost = {
         ["h2", "The same arithmetic for other gases"],
         ["p", "If you buy nitrogen, oxygen or argon as well, the conversion factors differ — and the difference is large. A cubic metre of liquid argon holds nearly twice the mass of a cubic metre of liquid nitrogen."],
         ["tbl", "Liquid density and gas yield at 15 °C, 1 bar", "Gas | Liquid density, kg/m³ | 1 kg gives | Boiling point at 1 bar", "CO₂ | ≈ 1030 (at −20 °C, 20 bar) | 0.54 m³ | −78.5 °C, sublimation", "Nitrogen N₂ | 809 | 0.84 m³ | −196 °C", "Oxygen O₂ | 1141 | 0.74 m³ | −183 °C", "Argon Ar | 1394 | 0.59 m³ | −186 °C"],
+        ["h2", "Nitrogen, oxygen and argon: litre, tonne and cylinder"],
+        ["tbl", "What a quote for nitrogen, oxygen or argon actually contains", "Gas | 1 l of liquid | 1 t of liquid | 40 l cylinder at 150 bar", "Nitrogen N₂ | 0.81 kg ≈ 0.68 m³ of gas | 1,236 l ≈ 844 m³ | ≈ 6 m³ ≈ 7 kg", "Oxygen O₂ | 1.14 kg ≈ 0.84 m³ | 876 l ≈ 739 m³ | ≈ 6 m³ ≈ 8 kg", "Argon Ar | 1.39 kg ≈ 0.82 m³ | 717 l ≈ 592 m³ | ≈ 6 m³ ≈ 10 kg"],
+        ["p", "Two common surprises follow from the table. A price per litre of liquid nitrogen looks low because a litre weighs only 0.81 kg, while a litre of argon weighs 1.39 kg — compare per kilogram or per cubic metre of gas. And a compressed 40 l cylinder of nitrogen or argon holds only about 6 m³ of gas, the equivalent of roughly nine litres of liquid, which is why cylinder gas costs many times more per cubic metre than bulk supply."],
         ["img", PHOTO.distribution, "Road tanker delivering liquefied gas to a customer site", "Bulk delivery is where the price per kilogram drops the most — provided the minimum shipment fits your consumption"],
         ["h2", "What a quote hides"],
         ["tbl", "", "Supply model | Quoted in | Convert to | The trap", "Cylinder refill | UAH per cylinder | UAH per kg | 1–2 kg heel stays in the cylinder", "Cylinder exchange | UAH per cylinder | UAH per kg | the fleet is not yours; damage is charged to you", "Road tanker | UAH per kg or per t | UAH per kg | minimum shipment of 5–20 t", "Tank rental | UAH per month | add to UAH per kg | ties you to one supplier's gas price"],
@@ -106,6 +110,9 @@ export const postPriceUnits: SeedPost = {
         ["h2", "Та сама арифметика для інших газів"],
         ["p", "Якщо ви купуєте ще й азот, кисень або аргон, коефіцієнти перерахунку інші — і різниця велика. Кубометр рідкого аргону містить майже вдвічі більшу масу, ніж кубометр рідкого азоту."],
         ["tbl", "Густина рідини й вихід газу за 15 °C і 1 бар", "Газ | Густина рідини, кг/м³ | 1 кг дає | Т кипіння за 1 бар", "CO₂ | ≈ 1030 (за −20 °C, 20 бар) | 0,54 м³ | −78,5 °C, сублімація", "Азот N₂ | 809 | 0,84 м³ | −196 °C", "Кисень O₂ | 1141 | 0,74 м³ | −183 °C", "Аргон Ar | 1394 | 0,59 м³ | −186 °C"],
+        ["h2", "Азот, кисень, аргон: літр, тонна й балон"],
+        ["tbl", "Що насправді стоїть за ціною на азот, кисень чи аргон", "Газ | 1 л рідини | 1 т рідини | Балон 40 л, 150 бар", "Азот N₂ | 0,81 кг ≈ 0,68 м³ газу | 1 236 л ≈ 844 м³ | ≈ 6 м³ ≈ 7 кг", "Кисень O₂ | 1,14 кг ≈ 0,84 м³ | 876 л ≈ 739 м³ | ≈ 6 м³ ≈ 8 кг", "Аргон Ar | 1,39 кг ≈ 0,82 м³ | 717 л ≈ 592 м³ | ≈ 6 м³ ≈ 10 кг"],
+        ["p", "З таблиці випливають дві часті несподіванки. Ціна за літр рідкого азоту здається низькою, бо літр важить лише 0,81 кг, а літр аргону — 1,39 кг: порівнюйте за кілограм або за кубометр газу. А стиснений балон азоту чи аргону на 40 л вміщує лише близько 6 м³ газу — це приблизно девʼять літрів рідини, тому газ у балонах за кубометр коштує в рази дорожче, ніж навалом."],
         ["img", PHOTO.distribution, "Автоцистерна доставляє зріджений газ на майданчик замовника", "Саме на доставці автоцистерною ціна за кілограм падає найбільше — якщо мінімальна партія відповідає вашому споживанню"],
         ["h2", "Що ховається в пропозиції"],
         ["tbl", "", "Модель постачання | У чому ціна | До чого звести | Пастка", "Заправка балонів | грн за балон | грн за кг | 1–2 кг залишку лишаються в балоні", "Обмін балонів | грн за балон | грн за кг | парк не ваш, за пошкодження платите ви", "Автоцистерна | грн за кг або за т | грн за кг | мінімальна партія 5–20 т", "Оренда ємності | грн на місяць | додати до грн за кг | привʼязує до ціни газу одного постачальника"],
@@ -133,6 +140,9 @@ export const postPriceUnits: SeedPost = {
         ["h2", "Та же арифметика для других газов"],
         ["p", "Если вы покупаете ещё и азот, кислород или аргон, коэффициенты пересчёта другие — и разница велика. Кубометр жидкого аргона содержит почти вдвое большую массу, чем кубометр жидкого азота."],
         ["tbl", "Плотность жидкости и выход газа при 15 °C и 1 бар", "Газ | Плотность жидкости, кг/м³ | 1 кг даёт | Т кипения при 1 бар", "CO₂ | ≈ 1030 (при −20 °C, 20 бар) | 0,54 м³ | −78,5 °C, сублимация", "Азот N₂ | 809 | 0,84 м³ | −196 °C", "Кислород O₂ | 1141 | 0,74 м³ | −183 °C", "Аргон Ar | 1394 | 0,59 м³ | −186 °C"],
+        ["h2", "Азот, кислород, аргон: литр, тонна и баллон"],
+        ["tbl", "Что на самом деле стоит за ценой на азот, кислород или аргон", "Газ | 1 л жидкости | 1 т жидкости | Баллон 40 л, 150 бар", "Азот N₂ | 0,81 кг ≈ 0,68 м³ газа | 1 236 л ≈ 844 м³ | ≈ 6 м³ ≈ 7 кг", "Кислород O₂ | 1,14 кг ≈ 0,84 м³ | 876 л ≈ 739 м³ | ≈ 6 м³ ≈ 8 кг", "Аргон Ar | 1,39 кг ≈ 0,82 м³ | 717 л ≈ 592 м³ | ≈ 6 м³ ≈ 10 кг"],
+        ["p", "Из таблицы следуют две частые неожиданности. Цена за литр жидкого азота кажется низкой, потому что литр весит всего 0,81 кг, а литр аргона — 1,39 кг: сравнивайте за килограмм или за кубометр газа. А сжатый баллон азота или аргона на 40 л вмещает лишь около 6 м³ газа — это примерно девять литров жидкости, поэтому газ в баллонах за кубометр стоит в разы дороже, чем навалом."],
         ["img", PHOTO.distribution, "Автоцистерна доставляет сжиженный газ на площадку заказчика", "Именно на доставке автоцистерной цена за килограмм падает сильнее всего — если минимальная партия соответствует вашему потреблению"],
         ["h2", "Что прячется в предложении"],
         ["tbl", "", "Модель поставки | В чём цена | К чему свести | Ловушка", "Заправка баллонов | грн за баллон | грн за кг | 1–2 кг остатка остаются в баллоне", "Обмен баллонов | грн за баллон | грн за кг | парк не ваш, за повреждения платите вы", "Автоцистерна | грн за кг или за т | грн за кг | минимальная партия 5–20 т", "Аренда ёмкости | грн в месяц | добавить к грн за кг | привязывает к цене газа одного поставщика"],
@@ -186,9 +196,9 @@ export const postPriceUnits: SeedPost = {
   relatedPosts: [],
   seo: {
     metaTitle: {
-      en: "CO₂ price per kg, m³ and tonne",
-      uk: "Ціна CO₂ за кг, м³ і тонну",
-      ru: "Цена CO₂ за кг, м³ и тонну",
+      en: "Price of CO₂, nitrogen, argon per kg, litre, m³",
+      uk: "Ціна CO₂, азоту, аргону за кг, літр, м³",
+      ru: "Цена CO₂, азота, аргона за кг, литр, м³",
     },
     metaDescription: {
       en: "1 kg of CO₂ = 0.54 m³ of gas, 1 m³ of liquid ≈ 1.03 t. Conversion tables for CO₂, N₂, O₂ and Ar plus the traps hidden in cylinder, tanker and rental quotes.",
@@ -254,7 +264,7 @@ export const postRentOrBuy: SeedPost = {
         ["li", "Trained personnel and a written procedure for receiving deliveries from a tanker."],
         ["p", "None of this is heavy, but it is not nothing. A service contract usually covers it for a fixed annual fee, and that fee belongs in the comparison alongside the rent it replaces."],
         ["h2", "What «turnkey» has to include"],
-        ["p", `Whichever model you choose, the scope of works on site is the same. When you compare proposals, check that all of it is priced — a [turnkey installation](${productPath(install, "en")}) that quietly excludes the foundation or the commissioning is not comparable with one that includes them.`],
+        ["p", `Whichever model you choose, the scope of works on site is the same. When you compare proposals, check that all of it is priced — a [turnkey installation](${categoryPath(installationCategory, "en")}) that quietly excludes the foundation or the commissioning is not comparable with one that includes them.`],
         ["li", "Foundation and site preparation, including tanker access."],
         ["li", "Delivery, lifting and setting of the vessel."],
         ["li", `The [vaporizer](${productPath(vaporizer300, "en")}) sized for peak demand, not average.`],
@@ -283,7 +293,7 @@ export const postRentOrBuy: SeedPost = {
         ["li", "Навчений персонал і письмовий порядок приймання поставки з автоцистерни."],
         ["p", "Нічого з цього не є важким, але й безкоштовним теж не є. Сервісний договір зазвичай закриває весь перелік за фіксовану річну суму, і ця сума має стояти в порівнянні поруч з орендою, яку вона заміщує."],
         ["h2", "Що має входити в «під ключ»"],
-        ["p", `Яку б модель ви не обрали, обсяг робіт на майданчику однаковий. Порівнюючи пропозиції, перевірте, що враховано все: [монтаж під ключ](${productPath(install, "uk")}), із якого тихо випав фундамент або пусконалагодження, не можна порівнювати з тим, де вони є.`],
+        ["p", `Яку б модель ви не обрали, обсяг робіт на майданчику однаковий. Порівнюючи пропозиції, перевірте, що враховано все: [монтаж під ключ](${categoryPath(installationCategory, "uk")}), із якого тихо випав фундамент або пусконалагодження, не можна порівнювати з тим, де вони є.`],
         ["li", "Фундамент і підготовка майданчика разом із підʼїздом для автоцистерни."],
         ["li", "Доставка, підйом і встановлення посудини."],
         ["li", `[Випарник](${productPath(vaporizer300, "uk")}), підібраний під пікове, а не середнє споживання.`],
@@ -312,7 +322,7 @@ export const postRentOrBuy: SeedPost = {
         ["li", "Обученный персонал и письменный порядок приёмки поставки из автоцистерны."],
         ["p", "Ничто из этого не является тяжёлым, но и бесплатным тоже не является. Сервисный договор обычно закрывает весь перечень за фиксированную годовую сумму, и эта сумма должна стоять в сравнении рядом с арендой, которую она замещает."],
         ["h2", "Что должно входить в «под ключ»"],
-        ["p", `Какую бы модель вы ни выбрали, объём работ на площадке одинаков. Сравнивая предложения, проверьте, что учтено всё: [монтаж под ключ](${productPath(install, "ru")}), из которого тихо выпал фундамент или пусконаладка, нельзя сравнивать с тем, где они есть.`],
+        ["p", `Какую бы модель вы ни выбрали, объём работ на площадке одинаков. Сравнивая предложения, проверьте, что учтено всё: [монтаж под ключ](${categoryPath(installationCategory, "ru")}), из которого тихо выпал фундамент или пусконаладка, нельзя сравнивать с тем, где они есть.`],
         ["li", "Фундамент и подготовка площадки вместе с подъездом для автоцистерны."],
         ["li", "Доставка, подъём и установка сосуда."],
         ["li", `[Испаритель](${productPath(vaporizer300, "ru")}), подобранный под пиковое, а не среднее потребление.`],

@@ -5,8 +5,10 @@
 export const pagesEn = {
   home: {
     hero: {
-      title: "Turning emissions into opportunity",
-      subtitle: "Complete CO₂ solutions — from capture to application",
+      title: "Cryogenic equipment for CO₂ and gases",
+      subtitle:
+        "Tanks from 10 to 100 m³, vaporizers from 100 to 1000 kg/h, quality control and turnkey installation — from sizing to commissioning.",
+      cta: "View the catalogue",
       badges: [
         "Efficiency",
         "Versatility",

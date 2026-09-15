@@ -38,6 +38,7 @@ const en = {
     engineeringSolutions: "Engineering Solutions",
     equipmentAndSystems: "Equipment and systems",
     industriesWeServe: "Industries we serve",
+    dryIceProduction: "Dry ice production",
     blog: "Blog",
     about: "About",
     contacts: "Contacts",
@@ -117,6 +118,7 @@ const en = {
     inCategory: "In category",
     productsIn: "Products in {category}",
     breadcrumb: "Catalog",
+    beforeChoosing: "Before you choose",
   },
 
   product: {
@@ -168,15 +170,16 @@ const en = {
     noPosts: "No articles published yet",
     noPostsHint: "Come back soon — we publish new material regularly.",
     tableOfContents: "Table of contents",
+    readNext: "Read next",
     share: "Share",
     breadcrumb: "Blog",
     latest: "Latest articles",
   },
 
   cta: {
-    consultationTitle: "Ready to build your CO₂ ecosystem?",
+    consultationTitle: "Let us size the equipment for your consumption",
     consultationText:
-      "Get a tailored solution for your production, purification or utilization needs.",
+      "Send your monthly gas consumption and site conditions — an engineer will work out the tank volume, vaporizer capacity and scope of supply.",
     consultationButton: "Request consultation",
     supportTitle: "Start your CO₂ project with expert support",
     supportText:
@@ -199,12 +202,24 @@ const en = {
     urgent: "Urgent? Call or write to us directly:",
     readBlog: "Read the blog",
   },
+  hubs: {
+    homeTitle: "Cryogenic equipment in the catalogue",
+    homeText:
+      "Tanks for liquid CO₂, nitrogen, oxygen and argon from 10 to 100 m³, vaporizers from 100 to 1000 kg/h, cryogenic cylinders, quality control labs and turnkey installation.",
+    industriesTitle: "Solutions by industry",
+    industriesText: "Typical configurations, consumption calculations and scope of supply for your application.",
+    catalogTitle: "Equipment in the catalogue",
+    equipmentForSolution: "Equipment for this solution",
+    equipmentForSupply: "Equipment for storing and supplying CO₂",
+    relatedArticles: "Related articles",
+  },
+
   seo: {
     siteName: "CO₂ Lab",
     home: {
-      title: "CO₂ Capture & Reuse Solutions for Industry",
+      title: "Cryogenic tanks and vaporizers for CO₂ and industrial gases",
       description:
-        "Capture, purify and reuse CO₂ at the source. Closing the carbon loop with efficient, scalable clean-tech solutions for industry.",
+        "Liquid CO₂, nitrogen, oxygen and argon tanks from 10 to 100 m³, vaporizers from 100 to 1000 kg/h, CO₂ quality control and turnkey installation in Ukraine.",
     },
     about: {
       title: "About CO₂ Lab — Engineering-First CO₂ Technology",

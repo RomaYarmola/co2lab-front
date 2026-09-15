@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { buildStaticPageMetadata, resolveLocale } from "@/utils/pageMetadata";
 import { ROUTES } from "@/constants/routes";
+import Container from "@/components/shared/container/Container";
+import HubLinks from "@/components/shared/hubLinks/HubLinks";
+import { getTranslator } from "@/i18n/server";
 
 type Props = { params: Promise<{ locale: string }> };
 import Hero from "@/components/aboutPage/hero/Hero";
@@ -17,6 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function About({ params }: Props) {
   const locale = await resolveLocale(params);
+  const tHubs = getTranslator(locale, "hubs");
 
   return (
     <>
@@ -25,6 +29,14 @@ export default async function About({ params }: Props) {
       <WhatWeDo locale={locale} />
       <Approach locale={locale} />
       <WhyChoose locale={locale} />
+      <Container>
+        <HubLinks
+          locale={locale}
+          title={tHubs("catalogTitle")}
+          categoryIds={["cat-tanks-co2", "cat-tanks-n2", "cat-co2-vaporizers", "cat-installation"]}
+          columns={4}
+        />
+      </Container>
       <BuildCTA locale={locale} />
     </>
   );

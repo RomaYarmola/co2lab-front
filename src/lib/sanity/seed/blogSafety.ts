@@ -22,7 +22,7 @@ import {
   seedProduct,
   type SeedPost,
 } from "./blog.ts";
-import { labCategory } from "./equipment.ts";
+import { installationCategory, labCategory } from "./equipment.ts";
 
 const tank30 = seedProduct("product-tank-co2-30");
 const labKit = seedProduct("product-co2-lab-kit");
@@ -79,6 +79,7 @@ export const postSafety: SeedPost = {
     {
       en: [
         ["p", "Carbon dioxide does not burn, does not explode and does not smell. That combination is why it is the industrial gas people are least careful around — and why the incidents that do happen tend to be serious. The gas is heavier than air, invisible, and gives almost no warning before it takes someone down."],
+        ["p", "**The short answers.** Does CO₂ burn? No, and it does not support combustion — that is why it is used in fire extinguishers. Is it explosive? The gas itself is not; a cylinder or vessel can rupture if it is heated or its relief path is blocked. Transport hazard class: ADR class 2, non-flammable non-toxic gas. Is it harmful? Yes, in a confined space — from a few percent in the air."],
         ["h2", "It is not just an asphyxiant"],
         ["p", "Nitrogen kills by displacing oxygen. CO₂ does that too, but it also acts on the body directly: it drives up the breathing rate, then causes headache, confusion and loss of consciousness at concentrations where there is still plenty of oxygen. That is why the exposure limits for CO₂ are far lower than for inert gases."],
         ["tbl", "Effect of CO₂ concentration in air", "Concentration | What happens", "0.04% (400 ppm) | Normal atmospheric background", "0.5% (5 000 ppm) | Occupational exposure limit, 8-hour average", "1.5% (15 000 ppm) | Short-term exposure limit; noticeably faster breathing", "3% | Headache and shortness of breath within minutes", "5% | Severe breathlessness and confusion in 10–15 minutes", "8–10% | Loss of consciousness within a few minutes", "above 17% | Loss of consciousness in under a minute, fatal without rescue"],
@@ -93,7 +94,7 @@ export const postSafety: SeedPost = {
         ["p", "Two rules that matter more than any single piece of equipment: **never enter a pit or a closed gas room alone**, and **never trust your own perception of the air**. There is no smell, no irritation and no visible cloud until it is far too late — the detector is the only honest witness."],
         ["h2", "Transport and documents"],
         ["p", "In road transport CO₂ falls under ADR class 2: UN 1013 for compressed gas in cylinders and UN 2187 for refrigerated liquid in a tanker. Both are non-flammable, non-toxic gases by classification code — a wording that regularly misleads people into treating a delivery as routine cargo. The classification describes fire risk, not the risk of a confined space."],
-        ["p", `The site documentation that follows the equipment matters too. A [turnkey installation](${productPath(install, "en")}) should hand over the vessel passport, the relief valve settings, the commissioning report and the operating procedure — not just a working system. If the operating procedure is missing, the site is running on the memory of whoever was present at start-up.`],
+        ["p", `The site documentation that follows the equipment matters too. A [turnkey installation](${categoryPath(installationCategory, "en")}) should hand over the vessel passport, the relief valve settings, the commissioning report and the operating procedure — not just a working system. If the operating procedure is missing, the site is running on the memory of whoever was present at start-up.`],
         ["h2", "Seasonal points people forget"],
         ["li", "In frost an ambient vaporizer ices up and loses capacity, and staff are tempted to bypass it. The bypass is what delivers liquid into a gas line."],
         ["li", "In heat the pressure in the vessel rises and the relief valve operates more often. If the discharge is routed badly, the summer is when it becomes obvious."],
@@ -102,6 +103,7 @@ export const postSafety: SeedPost = {
       ],
       uk: [
         ["p", "Вуглекислота не горить, не вибухає й не має запаху. Саме через це поєднання це найменш обережно використовуваний промисловий газ — і саме тому інциденти з ним зазвичай виходять важкими. Газ важчий за повітря, невидимий і майже не попереджає, перш ніж звалити людину."],
+        ["p", "**Коротко.** Чи горить CO₂? Ні, і не підтримує горіння — тому його використовують у вогнегасниках. Чи вибухонебезпечний? Сам газ — ні; балон чи посудина можуть зруйнуватися від нагрівання або якщо перекрито шлях скидання. Клас небезпеки під час перевезення: клас 2 ADR, негорючий нетоксичний газ. Чи шкідливий? Так, у замкненому просторі — уже від кількох відсотків у повітрі."],
         ["h2", "Це не просто задушливий газ"],
         ["p", "Азот убиває, витісняючи кисень. CO₂ робить те саме, але ще й діє на організм напряму: прискорює дихання, далі викликає головний біль, сплутаність і втрату свідомості за концентрацій, коли кисню в повітрі ще вдосталь. Тому гранично допустимі рівні для CO₂ значно нижчі, ніж для інертних газів."],
         ["tbl", "Вплив концентрації CO₂ в повітрі", "Концентрація | Що відбувається", "0,04% (400 ppm) | Звичайне атмосферне тло", "0,5% (5 000 ppm) | Межа професійного впливу, середня за 8 годин", "1,5% (15 000 ppm) | Короткочасна межа; помітно прискорене дихання", "3% | Головний біль і задишка за кілька хвилин", "5% | Сильна задишка й сплутаність за 10–15 хвилин", "8–10% | Втрата свідомості за кілька хвилин", "понад 17% | Втрата свідомості менш ніж за хвилину, смерть без порятунку"],
@@ -116,7 +118,7 @@ export const postSafety: SeedPost = {
         ["p", "Два правила, які важать більше за будь-яке окреме обладнання: **ніколи не заходити в приямок чи закрите газове приміщення наодинці** і **ніколи не довіряти власному відчуттю повітря**. Ні запаху, ні подразнення, ні видимої хмари не буде, поки не стане надто пізно — єдиний чесний свідок тут датчик."],
         ["h2", "Перевезення й документи"],
         ["p", "У дорожньому перевезенні CO₂ належить до класу 2 ADR: UN 1013 для стисненого газу в балонах і UN 2187 для охолодженої рідини в автоцистерні. Обидва за класифікаційним кодом — негорючі нетоксичні гази, і це формулювання регулярно вводить в оману, змушуючи ставитись до поставки як до звичайного вантажу. Класифікація описує ризик пожежі, а не ризик замкненого простору."],
-        ["p", `Документація майданчика теж має значення. [Монтаж під ключ](${productPath(install, "uk")}) передає паспорт посудини, уставки запобіжних клапанів, акт пусконалагодження й інструкцію з експлуатації, а не лише працюючу систему. Якщо інструкції немає, майданчик працює на памʼяті того, хто був присутній під час запуску.`],
+        ["p", `Документація майданчика теж має значення. [Монтаж під ключ](${categoryPath(installationCategory, "uk")}) передає паспорт посудини, уставки запобіжних клапанів, акт пусконалагодження й інструкцію з експлуатації, а не лише працюючу систему. Якщо інструкції немає, майданчик працює на памʼяті того, хто був присутній під час запуску.`],
         ["h2", "Сезонні речі, про які забувають"],
         ["li", "У мороз атмосферний випарник обмерзає й втрачає продуктивність, і в персоналу зʼявляється спокуса його обійти. Саме байпас і подає рідину в газову лінію."],
         ["li", "У спеку тиск у посудині зростає, а запобіжний клапан спрацьовує частіше. Якщо скидання виведене погано, влітку це стає очевидним."],
@@ -125,6 +127,7 @@ export const postSafety: SeedPost = {
       ],
       ru: [
         ["p", "Углекислота не горит, не взрывается и не имеет запаха. Именно из-за этого сочетания это наименее осторожно используемый промышленный газ — и именно поэтому инциденты с ним обычно выходят тяжёлыми. Газ тяжелее воздуха, невидим и почти не предупреждает, прежде чем свалить человека."],
+        ["p", "**Коротко.** Горит ли CO₂? Нет и не поддерживает горение — поэтому его используют в огнетушителях. Взрывоопасен ли? Сам газ — нет; баллон или сосуд может разрушиться от нагрева или если перекрыт путь сброса. Класс опасности при перевозке: класс 2 ADR, негорючий нетоксичный газ. Вреден ли? Да, в замкнутом пространстве — уже от нескольких процентов в воздухе."],
         ["h2", "Это не просто удушающий газ"],
         ["p", "Азот убивает, вытесняя кислород. CO₂ делает то же самое, но ещё и действует на организм напрямую: ускоряет дыхание, дальше вызывает головную боль, спутанность и потерю сознания при концентрациях, когда кислорода в воздухе ещё достаточно. Поэтому предельно допустимые уровни для CO₂ значительно ниже, чем для инертных газов."],
         ["tbl", "Влияние концентрации CO₂ в воздухе", "Концентрация | Что происходит", "0,04% (400 ppm) | Обычный атмосферный фон", "0,5% (5 000 ppm) | Предел профессионального воздействия, средний за 8 часов", "1,5% (15 000 ppm) | Кратковременный предел; заметно ускоренное дыхание", "3% | Головная боль и одышка за несколько минут", "5% | Сильная одышка и спутанность за 10–15 минут", "8–10% | Потеря сознания за несколько минут", "свыше 17% | Потеря сознания менее чем за минуту, смерть без спасения"],
@@ -139,7 +142,7 @@ export const postSafety: SeedPost = {
         ["p", "Два правила, которые весят больше любого отдельного оборудования: **никогда не заходить в приямок или закрытое газовое помещение в одиночку** и **никогда не доверять собственному ощущению воздуха**. Ни запаха, ни раздражения, ни видимого облака не будет, пока не станет слишком поздно — единственный честный свидетель здесь датчик."],
         ["h2", "Перевозка и документы"],
         ["p", "В дорожной перевозке CO₂ относится к классу 2 ADR: UN 1013 для сжатого газа в баллонах и UN 2187 для охлаждённой жидкости в автоцистерне. Оба по классификационному коду — негорючие нетоксичные газы, и эта формулировка регулярно вводит в заблуждение, заставляя относиться к поставке как к обычному грузу. Классификация описывает риск пожара, а не риск замкнутого пространства."],
-        ["p", `Документация площадки тоже имеет значение. [Монтаж под ключ](${productPath(install, "ru")}) передаёт паспорт сосуда, уставки предохранительных клапанов, акт пусконаладки и инструкцию по эксплуатации, а не только работающую систему. Если инструкции нет, площадка работает на памяти того, кто присутствовал при запуске.`],
+        ["p", `Документация площадки тоже имеет значение. [Монтаж под ключ](${categoryPath(installationCategory, "ru")}) передаёт паспорт сосуда, уставки предохранительных клапанов, акт пусконаладки и инструкцию по эксплуатации, а не только работающую систему. Если инструкции нет, площадка работает на памяти того, кто присутствовал при запуске.`],
         ["h2", "Сезонные вещи, о которых забывают"],
         ["li", "В мороз атмосферный испаритель обмерзает и теряет производительность, и у персонала появляется соблазн его обойти. Именно байпас и подаёт жидкость в газовую линию."],
         ["li", "В жару давление в сосуде растёт, а предохранительный клапан срабатывает чаще. Если сброс выведен плохо, летом это становится очевидным."],
@@ -248,7 +251,7 @@ export const postFoodVsTechnical: SeedPost = {
         ["li", "Ask for a certificate for every delivery, not a one-off specification sheet."],
         ["li", "Check that the parameters listed match the ISBT list, not just total purity."],
         ["li", "Record the certificate against the delivery in your traceability system — an auditor will ask for the link between a batch of product and a batch of gas."],
-        ["li", `Run [incoming inspection](${productPath(labKit, "en")}) on moisture, oxygen and a sensory check at minimum. See the [equipment for CO₂ quality control](${categoryPath(labCategory, "en")}).`],
+        ["li", `Run incoming inspection on moisture, oxygen and a sensory check at minimum. See the [equipment for CO₂ quality control](${categoryPath(labCategory, "en")}).`],
         ["p", `The full parameter list and how the ISBT and EIGA documents relate to each other is covered in a [separate article](${postPath(postIsbt, "en")}).`],
         ["h2", "The practical rule"],
         ["p", "If a site handles food or beverages at all, keep one grade on the whole site. Two grades in one yard means that sooner or later the wrong cylinder is connected to the wrong line, and the saving on technical gas for purging turns into a recalled batch. The price difference between grades is small compared with the cost of finding out the hard way."],
@@ -269,7 +272,7 @@ export const postFoodVsTechnical: SeedPost = {
         ["li", "Вимагайте сертифікат на кожну поставку, а не одноразовий бланк специфікації."],
         ["li", "Перевіряйте, що перелічені параметри збігаються з переліком ISBT, а не лише із загальною чистотою."],
         ["li", "Заносьте сертифікат у систему простежуваності поруч із поставкою — аудитор попросить звʼязок між партією продукту й партією газу."],
-        ["li", `Робіть [вхідний контроль](${productPath(labKit, "uk")}) щонайменше на вологу, кисень і органолептику. Див. [обладнання для контролю якості CO₂](${categoryPath(labCategory, "uk")}).`],
+        ["li", `Робіть вхідний контроль щонайменше на вологу, кисень і органолептику. Див. [обладнання для контролю якості CO₂](${categoryPath(labCategory, "uk")}).`],
         ["p", `Повний перелік параметрів і те, як співвідносяться документи ISBT та EIGA, ми розібрали в [окремій статті](${postPath(postIsbt, "uk")}).`],
         ["h2", "Практичне правило"],
         ["p", "Якщо на майданчику взагалі є харчові продукти чи напої, тримайте одну марку на всьому майданчику. Дві марки в одному дворі означають, що рано чи пізно не той балон під'єднають не до тієї лінії, і економія на технічному газі для продування обернеться відкликаною партією. Різниця в ціні між марками мала порівняно з вартістю дізнатись це на практиці."],
@@ -290,7 +293,7 @@ export const postFoodVsTechnical: SeedPost = {
         ["li", "Требуйте сертификат на каждую поставку, а не разовый бланк спецификации."],
         ["li", "Проверяйте, что перечисленные параметры совпадают с перечнем ISBT, а не только с общей чистотой."],
         ["li", "Заносите сертификат в систему прослеживаемости рядом с поставкой — аудитор попросит связь между партией продукта и партией газа."],
-        ["li", `Делайте [входной контроль](${productPath(labKit, "ru")}) как минимум на влагу, кислород и органолептику. См. [оборудование для контроля качества CO₂](${categoryPath(labCategory, "ru")}).`],
+        ["li", `Делайте входной контроль как минимум на влагу, кислород и органолептику. См. [оборудование для контроля качества CO₂](${categoryPath(labCategory, "ru")}).`],
         ["p", `Полный перечень параметров и то, как соотносятся документы ISBT и EIGA, мы разобрали в [отдельной статье](${postPath(postIsbt, "ru")}).`],
         ["h2", "Практическое правило"],
         ["p", "Если на площадке вообще есть пищевые продукты или напитки, держите одну марку на всей площадке. Две марки в одном дворе означают, что рано или поздно не тот баллон подключат не к той линии, и экономия на техническом газе для продувки обернётся отозванной партией. Разница в цене между марками мала по сравнению со стоимостью узнать это на практике."],
@@ -336,9 +339,9 @@ export const postFoodVsTechnical: SeedPost = {
       ru: "Пищевая или техническая углекислота",
     },
     metaDescription: {
-      en: "The difference is a list of impurities limited at ppm level, not a purity percentage. Comparison table and the uses that require food grade.",
-      uk: "Різниця — це перелік домішок, нормованих на рівні ppm, а не відсоток чистоти. Таблиця порівняння і застосування, що вимагають харчової марки.",
-      ru: "Разница — это перечень примесей, нормируемых на уровне ppm, а не процент чистоты. Таблица сравнения и применения, требующие пищевой марки.",
+      en: "Food grade is 99.9% with each impurity limited in ppm; technical is 99.5% with no such limits. Comparison table, uses that require food grade, what a certificate misses.",
+      uk: "Харчова — 99,9% і кожна домішка нормована в ppm; технічна — 99,5% без таких меж. Таблиця порівняння, де потрібна харчова марка й чого не покриває сертифікат.",
+      ru: "Пищевая — 99,9% и каждая примесь нормирована в ppm; техническая — 99,5% без таких пределов. Таблица сравнения, где нужна пищевая марка и чего не покрывает сертификат.",
     },
     keywords: {
       en: "food grade vs technical CO2, ISBT CO2 limits, beverage grade carbon dioxide",

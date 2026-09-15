@@ -10,6 +10,8 @@ import FaqSection from "@/components/shared/faq/FaqSection";
 import PortableTextRenderer from "@/components/shared/portableText/PortableTextRenderer";
 import CatalogGrid from "@/components/catalog/CatalogGrid";
 import ConsultationCTA from "@/components/shared/cta/ConsultationCTA";
+import SectionTitle from "@/components/shared/titles/SectionTitle";
+import PostCard from "@/components/blog/PostCard";
 import { isLocale, locales, type Locale } from "@/i18n/config";
 import { getTranslator } from "@/i18n/server";
 import { createPageMetadata } from "@/utils/createMetadata";
@@ -17,10 +19,12 @@ import { ROUTES } from "@/constants/routes";
 import {
   fetchProductCategories,
   fetchProductCategoryBySlug,
+  fetchPostsForProductCategory,
   fetchProductsByCategory,
 } from "@/lib/sanity/fetchers";
 import {
   mapCategory,
+  mapPostCard,
   mapProductCard,
   resolveDocumentSeo,
   type FaqEntry,
@@ -92,10 +96,14 @@ export default async function CategoryPage({ params }: Props) {
   const tProduct = getTranslator(locale, "product");
 
   const category = mapCategory(doc, locale);
-  const [allCategoryDocs, productDocs] = await Promise.all([
+  const [allCategoryDocs, productDocs, supportingDocs] = await Promise.all([
     fetchProductCategories(),
     fetchProductsByCategory(doc._id),
+    fetchPostsForProductCategory(doc._id, 4),
   ]);
+  const supportingPosts = supportingDocs
+    .map((item) => mapPostCard(item, locale))
+    .filter((item) => item.slug);
 
   const categories = allCategoryDocs
     .map((item) => mapCategory(item, locale))
@@ -155,6 +163,23 @@ export default async function CategoryPage({ params }: Props) {
             <div className="mt-14 max-w-[820px] lg:mt-20">
               <PortableTextRenderer blocks={descriptionBlocks} locale={locale} />
             </div>
+          )}
+
+          {/* Статті, що закривають питання перед покупкою: хаб посилається на
+              свої supporting pages, а читач отримує наступний крок. */}
+          {supportingPosts.length > 0 && (
+            <section className="mt-14 lg:mt-20">
+              <SectionTitle className="mb-6 text-[22px] lg:mb-8 lg:text-[32px]">
+                {t("beforeChoosing")}
+              </SectionTitle>
+              <ul className="grid grid-cols-1 gap-4 xs:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+                {supportingPosts.map((post) => (
+                  <li key={post.id} className="h-full">
+                    <PostCard post={post} locale={locale} />
+                  </li>
+                ))}
+              </ul>
+            </section>
           )}
 
           {faq.length > 0 && (

@@ -22,6 +22,7 @@ export const navMenuList: NavMenuItem[] = [
       { titleKey: "engineeringSolutions", slug: ROUTES.engineeringSolutions },
       { titleKey: "equipmentAndSystems", slug: ROUTES.equipmentAndSystems },
       { titleKey: "industriesWeServe", slug: ROUTES.industriesWeServe },
+      { titleKey: "dryIceProduction", slug: ROUTES.dryIceProduction },
     ],
   },
   { titleKey: "blog", slug: ROUTES.blog },

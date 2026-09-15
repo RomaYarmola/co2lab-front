@@ -245,6 +245,30 @@ export default async function BlogPostPage({ params }: Props) {
 
               <PortableTextRenderer blocks={post.bodyBlocks} locale={locale} />
 
+              {/* Наступний крок по темі. На мобільному бічна колонка опиняється
+                  під FAQ, тож без цього блоку читач просто закінчує статтю. */}
+              {related[0] && (
+                <Link
+                  href={localizePath(locale, `${ROUTES.blog}/${related[0].slug}`)}
+                  className="group mt-10 flex items-center justify-between gap-6 rounded-[18px] border border-black/10 px-5 py-4 transition-colors duration-300 xl:hover:border-black/30 lg:px-6 lg:py-5"
+                >
+                  <span className="flex flex-col gap-1">
+                    <span className="text-[12px] font-light uppercase leading-[120%] tracking-[0.08em] text-black/50">
+                      {t("readNext")}
+                    </span>
+                    <span className="text-[16px] font-medium leading-[130%] lg:text-[20px]">
+                      {related[0].title}
+                    </span>
+                  </span>
+                  <span
+                    aria-hidden
+                    className="text-[22px] transition-transform duration-300 xl:group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </Link>
+              )}
+
               {post.author?.name && post.authorBio && (
                 <aside className="mt-12 rounded-[18px] border border-black/10 p-5 lg:p-6">
                   <p className="mb-2 text-[12px] font-medium uppercase leading-[120%] tracking-[0.08em] text-black/50">

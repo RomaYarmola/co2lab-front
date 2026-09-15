@@ -71,6 +71,12 @@ export type SeedCta = {
 export type SeedContent = SeedBlock | SeedBodyImage | SeedTable | SeedCta;
 
 export type SeedFaq = { _key: string; question: L; answer: L };
+
+/**
+ * `noIndex` — сторінка лишається доступною й передає вагу посиланням
+ * (`follow`), але не йде в індекс і в карту сайту. Керується з Studio.
+ */
+export type SeedSeo = { metaTitle: L; metaDescription: L; keywords: L; noIndex?: boolean };
 export type SeedSpec = { _key: string; label: L; value: L; group?: L };
 
 export type SeedCategory = {
@@ -88,7 +94,7 @@ export type SeedCategory = {
   description: { en: SeedContent[]; uk: SeedContent[]; ru: SeedContent[] };
   image: SeedImage;
   faq: SeedFaq[];
-  seo: { metaTitle: L; metaDescription: L; keywords: L };
+  seo: SeedSeo;
   productCount: number;
 };
 
@@ -118,7 +124,7 @@ export type SeedProduct = {
   priceOnRequest: true;
   availability: "madeToOrder" | "onRequest";
   currency: "EUR";
-  seo: { metaTitle: L; metaDescription: L; keywords: L };
+  seo: SeedSeo;
 };
 
 export const SEED_UPDATED_AT = "2026-09-06T12:00:00Z";

@@ -243,6 +243,29 @@ export function fetchRelatedPosts(
   );
 }
 
+export function fetchPostsForProductCategory(
+  categoryId: string,
+  limit = 4,
+): Promise<SanityBlogPost[]> {
+  if (!isSanityConfigured) {
+    return Promise.resolve(
+      demoBlogPosts
+        .filter((post) =>
+          (post.relatedProducts ?? []).some(
+            (product) => product?.category?._id === categoryId,
+          ),
+        )
+        .slice(0, limit),
+    );
+  }
+  return sanityFetch<SanityBlogPost[]>(
+    Q.POSTS_FOR_PRODUCT_CATEGORY_QUERY,
+    { categoryId, limit },
+    { tags: [CACHE_TAGS.blogPost, CACHE_TAGS.product] },
+    [],
+  );
+}
+
 export function fetchLatestPosts(limit = 3): Promise<SanityBlogPost[]> {
   if (!isSanityConfigured) return Promise.resolve(demoBlogPosts.slice(0, limit));
   return sanityFetch<SanityBlogPost[]>(
@@ -264,7 +287,10 @@ export type SitemapEntry = {
 };
 
 export function fetchProductSitemapEntries(): Promise<SitemapEntry[]> {
-  if (!isSanityConfigured) return Promise.resolve(demoProducts as SitemapEntry[]);
+  if (!isSanityConfigured)
+    return Promise.resolve(
+      demoProducts.filter((p) => !p.seo?.noIndex) as SitemapEntry[],
+    );
   return sanityFetch<SitemapEntry[]>(
     Q.PRODUCT_SITEMAP_QUERY,
     {},
@@ -274,7 +300,10 @@ export function fetchProductSitemapEntries(): Promise<SitemapEntry[]> {
 }
 
 export function fetchProductCategorySitemapEntries(): Promise<SitemapEntry[]> {
-  if (!isSanityConfigured) return Promise.resolve(demoProductCategories as SitemapEntry[]);
+  if (!isSanityConfigured)
+    return Promise.resolve(
+      demoProductCategories.filter((c) => !c.seo?.noIndex) as SitemapEntry[],
+    );
   return sanityFetch<SitemapEntry[]>(
     Q.PRODUCT_CATEGORY_SITEMAP_QUERY,
     {},
@@ -284,7 +313,10 @@ export function fetchProductCategorySitemapEntries(): Promise<SitemapEntry[]> {
 }
 
 export function fetchBlogSitemapEntries(): Promise<SitemapEntry[]> {
-  if (!isSanityConfigured) return Promise.resolve(demoBlogPosts as SitemapEntry[]);
+  if (!isSanityConfigured)
+    return Promise.resolve(
+      demoBlogPosts.filter((p) => !p.seo?.noIndex) as SitemapEntry[],
+    );
   return sanityFetch<SitemapEntry[]>(
     Q.BLOG_SITEMAP_QUERY,
     {},

@@ -12,6 +12,7 @@ import {
   type L,
   type SeedCategory,
   type SeedProduct,
+  table,
 } from "./helpers.ts";
 import { GASES, type GasKey } from "./gases.ts";
 
@@ -354,6 +355,8 @@ function buildCylinderProduct(
     availability: "onRequest",
     currency: "EUR",
     seo: {
+      // Варіант у сімействі однотипних товарів: хабом для пошуку є категорія.
+      noIndex: true,
       metaTitle: {
         en: title.en,
         uk: title.uk,
@@ -630,6 +633,8 @@ export const labProduct: SeedProduct = {
   availability: "onRequest",
   currency: "EUR",
   seo: {
+    // Варіант у сімействі однотипних товарів: хабом для пошуку є категорія.
+    noIndex: true,
     metaTitle: {
       en: "CO₂ quality control laboratory kit",
       uk: "Комплект контролю якості CO₂ — ISBT / EIGA",
@@ -991,9 +996,38 @@ export const co2VaporizerCategory: SeedCategory = {
     ),
     p(
       {
-        en: "100, 200, 300, 500, 800 and 1000 kg/h. Units of 100–300 kg/h cover greenhouses up to several hectares and small bottling lines; 500–1000 kg/h serve large beverage plants, CO₂ distributors and industrial consumers.",
-        uk: "100, 200, 300, 500, 800 та 1000 кг/год. Апарати на 100–300 кг/год закривають теплиці до кількох гектарів і невеликі лінії розливу; 500–1000 кг/год — великі заводи напоїв, дистрибʼюторів CO₂ та промислових споживачів.",
-        ru: "100, 200, 300, 500, 800 и 1000 кг/ч. Аппараты на 100–300 кг/ч закрывают теплицы до нескольких гектаров и небольшие линии розлива; 500–1000 кг/ч — крупные заводы напитков, дистрибьюторов CO₂ и промышленных потребителей.",
+        en: "A vaporizer — often called a gasifier — is sized to the peak draw, not the monthly average: a filling line start-up, morning dosing across a whole greenhouse or every welding post striking an arc at once. Allow 20–25% over the measured peak.",
+        uk: "Випарник — його часто називають газифікатором — підбирають під піковий, а не середньомісячний відбір: запуск лінії розливу, ранкове дозування на всій площі теплиці чи всі зварювальні пости одночасно. Закладайте 20–25% понад виміряний пік.",
+        ru: "Испаритель — его часто называют газификатором — подбирают под пиковый, а не среднемесячный отбор: запуск линии розлива, утреннее дозирование на всей площади теплицы или все сварочные посты одновременно. Закладывайте 20–25% сверх измеренного пика.",
+      }[lang],
+      "cv",
+    ),
+    table(
+      {
+        en: ["Peak draw | Capacity | Typical site", "up to 80 kg/h | 100 kg/h | greenhouse up to 1–2 ha, brewery, welding shop with dozens of posts", "80–160 kg/h | 200 kg/h | greenhouse up to 3 ha, mid-size beverage plant", "160–250 kg/h | 300 kg/h | greenhouse up to 5 ha, plant with several filling lines", "250–400 kg/h | 500 kg/h | greenhouse complex of 5–8 ha, food processing", "400–650 kg/h | 800 kg/h | large greenhouse complex, CO₂ distribution", "650–850 kg/h | 1000 kg/h | multi-line plants, large industrial consumers"],
+        uk: ["Пікова витрата | Продуктивність | Типовий обʼєкт", "до 80 кг/год | 100 кг/год | теплиця до 1–2 га, пивоварня, зварювальний цех на кілька десятків постів", "80–160 кг/год | 200 кг/год | теплиця до 3 га, середній завод напоїв", "160–250 кг/год | 300 кг/год | теплиця до 5 га, завод із кількома лініями розливу", "250–400 кг/год | 500 кг/год | тепличний комплекс 5–8 га, харчове виробництво", "400–650 кг/год | 800 кг/год | великий тепличний комплекс, дистрибуція CO₂", "650–850 кг/год | 1000 кг/год | багатолінійні заводи, великі промислові споживачі"],
+        ru: ["Пиковый расход | Производительность | Типовой объект", "до 80 кг/ч | 100 кг/ч | теплица до 1–2 га, пивоварня, сварочный цех на несколько десятков постов", "80–160 кг/ч | 200 кг/ч | теплица до 3 га, средний завод напитков", "160–250 кг/ч | 300 кг/ч | теплица до 5 га, завод с несколькими линиями розлива", "250–400 кг/ч | 500 кг/ч | тепличный комплекс 5–8 га, пищевое производство", "400–650 кг/ч | 800 кг/ч | крупный тепличный комплекс, дистрибуция CO₂", "650–850 кг/ч | 1000 кг/ч | многолинейные заводы, крупные промышленные потребители"],
+      }[lang],
+      {
+        en: "Selection by peak, with a 20–25% margin",
+        uk: "Підбір за піком із запасом 20–25%",
+        ru: "Подбор по пику с запасом 20–25%",
+      },
+      "cv",
+    ),
+    h2(
+      {
+        en: "Winter operation",
+        uk: "Робота взимку",
+        ru: "Работа зимой",
+      }[lang],
+      "cv",
+    ),
+    p(
+      {
+        en: "An ambient vaporizer takes heat from the air: in frost it ices over and loses capacity just when greenhouses and heated plants consume the most. For year-round operation we plan electric trim heating or a pair of units with switchover.",
+        uk: "Атмосферний випарник бере тепло з повітря: у мороз він обмерзає й втрачає продуктивність саме тоді, коли теплиці й опалювані виробництва споживають найбільше. Для цілорічної роботи закладаємо електричний догрів або пару апаратів із перемиканням.",
+        ru: "Атмосферный испаритель берёт тепло из воздуха: в мороз он обмерзает и теряет производительность именно тогда, когда теплицы и отапливаемые производства потребляют больше всего. Для круглогодичной работы закладываем электрический догрев или пару аппаратов с переключением.",
       }[lang],
       "cv",
     ),
@@ -1006,9 +1040,9 @@ export const co2VaporizerCategory: SeedCategory = {
   faq: CO2V_FAQ.map((item, index) => faq(`faq-co2v-${index}`, item.q, item.a)),
   seo: {
     metaTitle: {
-      en: "CO₂ vaporizers (gasifiers) 100–1000 kg/h",
-      uk: "Випарники CO₂ 100–1000 кг/год",
-      ru: "Испарители CO₂ 100–1000 кг/ч",
+      en: "CO₂ vaporizers and gasifiers 100–1000 kg/h",
+      uk: "Газифікатори й випарники CO₂ 100–1000 кг/год",
+      ru: "Газификаторы и испарители CO₂ 100–1000 кг/ч",
     },
     metaDescription: {
             en: "Vaporizers for liquid CO₂ of 100, 200, 300, 500, 800 and 1000 kg/h for greenhouses, beverage plants and industry. Supply and installation.",
@@ -1194,6 +1228,8 @@ function buildCo2VaporizerProduct(
     availability: "onRequest",
     currency: "EUR",
     seo: {
+      // Варіант у сімействі однотипних товарів: хабом для пошуку є категорія.
+      noIndex: true,
       metaTitle: {
         en: title.en,
         uk: title.uk,
@@ -1481,6 +1517,8 @@ export const installationProduct: SeedProduct = {
   availability: "onRequest",
   currency: "EUR",
   seo: {
+    // Варіант у сімействі однотипних товарів: хабом для пошуку є категорія.
+    noIndex: true,
     metaTitle: {
       en: "Turnkey cryogenic gas supply installation",
       uk: "Монтаж кріогенної системи під ключ",

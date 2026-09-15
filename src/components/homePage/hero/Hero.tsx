@@ -12,7 +12,6 @@ import { ROUTES } from "@/constants/routes";
 
 export default function Hero({ locale }: { locale: Locale }) {
   const t = getTranslator(locale, "pages.home.hero");
-  const tCommon = getTranslator(locale, "common");
 
   return (
     <section className="pt-22 pb-4 lg:pt-8 lg:pb-0">
@@ -20,9 +19,9 @@ export default function Hero({ locale }: { locale: Locale }) {
         <div className="lg:w-[calc(50%-16px)] lg:pt-30 lg:pb-10">
           <PageTitle className="mb-3 lg:mb-5.5">{t("title")}</PageTitle>
           <p className="mb-4 lg:mb-10">{t("subtitle")}</p>
-          <Link href={localizePath(locale, ROUTES.engineeringSolutions)}>
+          <Link href={localizePath(locale, ROUTES.catalog)}>
             <MainButton className="sm:max-w-[288px] lg:mb-20">
-              {tCommon("exploreSolutions")}
+              {t("cta")}
             </MainButton>
           </Link>
           <Badges locale={locale} className="hidden lg:flex max-w-[335px]" />

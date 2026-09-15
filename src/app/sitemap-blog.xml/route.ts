@@ -13,7 +13,8 @@ export async function GET() {
   ]);
 
   const categoryUrls: SitemapUrl[] = categories
-    .filter((category) => (category.postCount ?? 0) > 0)
+    // Порожні й закриті від індексації категорії в карті лише марнують сканування
+    .filter((category) => (category.postCount ?? 0) > 0 && !category.seo?.noIndex)
     .map((category) => {
       const slugs = allSlugs(category.slug);
       return {

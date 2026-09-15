@@ -107,14 +107,14 @@ export const SIMILAR_PRODUCTS_QUERY = `
 
 /** Мінімальна проєкція для sitemap: всі slug-и + дата оновлення. */
 export const PRODUCT_SITEMAP_QUERY = `
-*[_type == "product" && isPublished != false] {
+*[_type == "product" && isPublished != false && seo.noIndex != true] {
   _updatedAt,
   slug ${LOCALIZED_SLUG},
   "categorySlug": category-> ${LOCALIZED_SLUG}
 }`;
 
 export const PRODUCT_CATEGORY_SITEMAP_QUERY = `
-*[_type == "productCategory" && isVisible != false] {
+*[_type == "productCategory" && isVisible != false && seo.noIndex != true] {
   _updatedAt,
   slug ${LOCALIZED_SLUG}
 }`;
@@ -193,12 +193,22 @@ export const RELATED_POSTS_QUERY = `
   && count(categories[@._ref in $categoryIds]) > 0]
   | order(publishedAt desc)[0...$limit] ${POST_CARD}`;
 
+/**
+ * Статті, що підтримують категорію: ті, у чиїх «товарах до статті» є товар
+ * цієї категорії. Живить блок «Перш ніж обирати» на сторінці категорії —
+ * хаб отримує посилання на свої supporting pages без ручного списку.
+ */
+export const POSTS_FOR_PRODUCT_CATEGORY_QUERY = `
+*[_type == "blogPost" && isPublished == true
+  && $categoryId in relatedProducts[]->category._ref]
+  | order(isFeatured desc, publishedAt desc)[0...$limit] ${POST_CARD}`;
+
 export const LATEST_POSTS_QUERY = `
 *[_type == "blogPost" && isPublished == true]
   | order(publishedAt desc)[0...$limit] ${POST_CARD}`;
 
 export const BLOG_SITEMAP_QUERY = `
-*[_type == "blogPost" && isPublished == true] {
+*[_type == "blogPost" && isPublished == true && seo.noIndex != true] {
   _updatedAt,
   publishedAt,
   updatedAt,

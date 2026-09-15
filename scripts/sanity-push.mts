@@ -82,7 +82,7 @@ function categoryDoc(
     description,
     image,
     faq: category.faq.map((item) => ({ _type: "faqItem", ...item })),
-    seo: { _type: "seoFields", ...category.seo, noIndex: false },
+    seo: { _type: "seoFields", ...category.seo, noIndex: category.seo.noIndex ?? false },
   };
 }
 
@@ -119,7 +119,7 @@ function productDoc(
     priceOnRequest: true,
     currency: product.currency,
     availability: product.availability,
-    seo: { _type: "seoFields", ...product.seo, noIndex: false },
+    seo: { _type: "seoFields", ...product.seo, noIndex: product.seo.noIndex ?? false },
   };
 }
 
@@ -150,7 +150,7 @@ function blogCategoryDoc(category: SeedBlogCategory) {
     slug: localizedSlug(category.slug),
     description: category.description,
     order: category.order,
-    seo: { _type: "seoFields", ...category.seo, noIndex: false },
+    seo: { _type: "seoFields", ...category.seo, noIndex: category.seo.noIndex ?? false },
   };
 }
 
@@ -178,7 +178,7 @@ function blogPostDoc(
     faq: post.faq.map((item) => ({ _type: "faqItem", ...item })),
     relatedProducts: post.relatedProducts.map((item, i) => ref(item._id, `p${i}`)),
     relatedPosts: post.relatedPosts.map((item, i) => ref(item._id, `r${i}`)),
-    seo: { _type: "seoFields", ...post.seo, noIndex: false },
+    seo: { _type: "seoFields", ...post.seo, noIndex: post.seo.noIndex ?? false },
   };
 }
 

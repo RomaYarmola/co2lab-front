@@ -10,6 +10,10 @@ import FeaturedProducts from "@/components/homePage/featured/FeaturedProducts";
 import LatestPosts from "@/components/homePage/featured/LatestPosts";
 import { buildStaticPageMetadata, resolveLocale } from "@/utils/pageMetadata";
 import { ROUTES } from "@/constants/routes";
+import Container from "@/components/shared/container/Container";
+import HubLinks from "@/components/shared/hubLinks/HubLinks";
+import { DRY_ICE_LANDING, INDUSTRY_LANDINGS } from "@/content/landings";
+import { getTranslator } from "@/i18n/server";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -21,10 +25,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Home({ params }: Props) {
   const locale = await resolveLocale(params);
+  const t = getTranslator(locale, "hubs");
+  const solutionItems = [...INDUSTRY_LANDINGS, DRY_ICE_LANDING].map((landing) => ({
+    path: landing.path,
+    title: landing.shortTitle[locale],
+    description: landing.seo.description[locale],
+  }));
 
   return (
     <>
       <Hero locale={locale} />
+      {/* Хаби каталогу на першому скролі: головна — найсильніша сторінка сайту,
+          і її вага має йти туди, де продається обладнання. */}
+      <Container>
+        <HubLinks
+          locale={locale}
+          title={t("homeTitle")}
+          text={t("homeText")}
+          categoryIds="all"
+          columns={4}
+        />
+      </Container>
       <Redefining locale={locale} />
       <About locale={locale} />
       <Efficiency locale={locale} />
@@ -33,6 +54,15 @@ export default async function Home({ params }: Props) {
       {/* Товари й статті на головній — внутрішні посилання на свіжий контент */}
       <FeaturedProducts locale={locale} />
       <LatestPosts locale={locale} />
+      <Container>
+        <HubLinks
+          locale={locale}
+          title={t("industriesTitle")}
+          text={t("industriesText")}
+          items={solutionItems}
+          columns={4}
+        />
+      </Container>
       <ContactUs locale={locale} />
     </>
   );
