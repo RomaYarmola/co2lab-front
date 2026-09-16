@@ -2,10 +2,12 @@ import {
   LABELS,
   SEED_UPDATED_AT,
   blocks,
+  categoryPath,
   faq,
   h2,
   img,
   li,
+  localePath,
   p,
   slugs,
   spec,
@@ -15,6 +17,17 @@ import {
   table,
 } from "./helpers.ts";
 import { GASES, type GasKey } from "./gases.ts";
+import {
+  CO2_TANK_CATEGORY_SLUG,
+  CO2_VAPORIZERS,
+  CRYO_CYLINDERS,
+  formatEur,
+  num,
+  priceFrom,
+  type Co2VaporizerModel,
+  type CryoCylinderModel,
+  type CylinderBase,
+} from "./models.ts";
 
 const IMG = {
   // Фото клієнта з каталогу «Кріогенне обладнання» (витягнуті з docx)
@@ -53,8 +66,15 @@ const SELECTION_HEADING: L = {
 };
 
 /* ═══════════════════════════════════════════════════════════════════════
-   Кріоциліндри
-   ═══════════════════════════════════════════════════════════════════════ */
+   Кріоциліндри Euro-Cyl
+   ═══════════════════════════════════════════════════════════════════════
+
+   Одна лінійка працює з рідким азотом, киснем і аргоном. Товари живуть у
+   категорії азоту, а категорії кисню й аргону показують ті самі моделі
+   (див. SHARED_CATEGORY_PRODUCTS у constants/catalog.ts) з таблицею мас і
+   втрат саме для свого газу — так три посадкові сторінки не дублюють одна
+   одну, а товарів не стає втричі більше.
+*/
 
 type CylinderDef = {
   gas: GasKey;
@@ -88,6 +108,41 @@ const CYLINDER_DEFS: CylinderDef[] = [
   },
 ];
 
+const cylinderCategoryPath = (def: CylinderDef, lang: keyof L) =>
+  localePath(lang, `/catalog/category/${def[lang]}`);
+
+/** «з рідким азотом» — для підписів колонок і посилань між категоріями. */
+type AirGas = "n2" | "o2" | "ar";
+
+const WITH_LIQUID: Record<AirGas, L> = {
+  n2: { en: "liquid nitrogen", uk: "рідким азотом", ru: "жидким азотом" },
+  o2: { en: "liquid oxygen", uk: "рідким киснем", ru: "жидким кислородом" },
+  ar: { en: "liquid argon", uk: "рідким аргоном", ru: "жидким аргоном" },
+};
+
+const BASE_LABEL: Record<CylinderBase, L> = {
+  squareWheels: { en: "square wheeled base", uk: "квадратна колісна база", ru: "квадратная колёсная база" },
+  roundRing: { en: "round base with support ring", uk: "кругла основа з опорним кільцем", ru: "круглое основание с опорным кольцом" },
+  roundWheels: { en: "round wheeled base", uk: "кругла колісна база", ru: "круглая колёсная база" },
+  pallet: { en: "pallet frame", uk: "палетна рама", ru: "паллетная рама" },
+};
+
+const maxKg = (m: CryoCylinderModel, gas: GasKey) =>
+  gas === "o2" ? m.maxLoxKg : gas === "ar" ? m.maxLarKg : m.maxLinKg;
+const nerOf = (m: CryoCylinderModel, gas: GasKey) =>
+  gas === "n2" ? m.nerLin : m.nerLoxAr;
+const litres = (value: number, lang: keyof L) =>
+  `${num(value, lang)} ${lang === "en" ? "L" : "л"}`;
+const bar = (value: number, lang: keyof L) =>
+  `${num(value, lang)} ${lang === "en" ? "bar" : "бар"}`;
+const perDay = (value: number, lang: keyof L) =>
+  `${num(value, lang, 1)} %/${{ en: "day", uk: "добу", ru: "сутки" }[lang]}`;
+const cap = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+
+const CYL_MIN_PRICE = Math.min(...CRYO_CYLINDERS.map((m) => m.priceEur));
+const CYL_VOLUMES = (lang: keyof L) =>
+  `${num(Math.min(...CRYO_CYLINDERS.map((m) => m.volume)), lang)}–${num(Math.max(...CRYO_CYLINDERS.map((m) => m.volume)), lang)} ${lang === "en" ? "L" : "л"}`;
+
 const CYL_WHAT: L = {
   en: "A cryogenic cylinder (liquid cylinder) is a portable vacuum-insulated vessel that stores liquefied gas and delivers it as gas or liquid under pressure. It replaces a whole rack of high-pressure cylinders, is refilled on site or exchanged, and needs no foundation or permit for a stationary tank.",
   uk: "Кріоциліндр — це переносна вакуумно-ізольована посудина, яка зберігає зріджений газ і видає його в газоподібному або рідкому стані під тиском. Він замінює цілу рампу балонів високого тиску, заправляється на місці або обмінюється і не потребує фундаменту чи дозволів, як стаціонарна ємність.",
@@ -106,6 +161,12 @@ const CYL_SELECTION: L = {
   ru: "Мы подбираем объём, рабочее давление и комплектацию (газовый или жидкостный отбор, встроенный испаритель, регулятор давления, указатель уровня) под реальный технологический процесс заказчика, а там, где криоцилиндра уже недостаточно, поставляем малые вакуумно-изолированные ёмкости.",
 };
 
+const CYL_SAFETY_NOTE: L = {
+  en: "Models 120/4 to 230/4 have a 4 bar safety valve (1.5 bar optional) and a 6 bar burst disc; the 600/8 and 1000/8 are set to 8 bar. Every model carries the TPED conformity code.",
+  uk: "Моделі від 120/4 до 230/4 мають запобіжний клапан на 4 бар (опціонально 1,5 бар) і розривну мембрану на 6 бар, 600/8 і 1000/8 — клапан на 8 бар. Усі моделі мають код відповідності TPED.",
+  ru: "Модели от 120/4 до 230/4 имеют предохранительный клапан на 4 бар (опционально 1,5 бар) и разрывную мембрану на 6 бар, 600/8 и 1000/8 — клапан на 8 бар. Все модели имеют код соответствия TPED.",
+};
+
 const CYL_FAQ: Array<{ q: L; a: L }> = [
   {
     q: {
@@ -117,6 +178,30 @@ const CYL_FAQ: Array<{ q: L; a: L }> = [
       en: "For steady consumption of several tonnes per month a stationary tank gives the lowest cost per cubic metre. For lower or seasonal consumption, cryogenic cylinders win on zero capital cost for foundations and piping. Send us your monthly figures and we will compare both options.",
       uk: "За стабільного споживання від кількох тонн на місяць стаціонарна ємність дає найнижчу собівартість кубометра. За меншого або сезонного споживання виграють кріоциліндри — нуль капітальних витрат на фундамент і трубопроводи. Надішліть місячні обсяги — порівняємо обидва варіанти.",
       ru: "При стабильном потреблении от нескольких тонн в месяц стационарная ёмкость даёт самую низкую себестоимость кубометра. При меньшем или сезонном потреблении выигрывают криоцилиндры — ноль капитальных затрат на фундамент и трубопроводы. Пришлите месячные объёмы — сравним оба варианта.",
+    },
+  },
+  {
+    q: {
+      en: "What does NER in the specifications mean?",
+      uk: "Що означає NER у характеристиках?",
+      ru: "Что означает NER в характеристиках?",
+    },
+    a: {
+      en: "Normal Evaporation Rate — the share of the contents that boils off per day. For Euro-Cyl it is 1.5–2.0% a day with liquid nitrogen and 1.0–1.4% with oxygen and argon; the smaller the cylinder, the higher the relative loss.",
+      uk: "Normal Evaporation Rate — частка вмісту, яка випаровується за добу. Для Euro-Cyl це 1,5–2,0% на добу з рідким азотом і 1,0–1,4% з киснем та аргоном; що менший кріоциліндр, то більші відносні втрати.",
+      ru: "Normal Evaporation Rate — доля содержимого, которая испаряется за сутки. Для Euro-Cyl это 1,5–2,0% в сутки с жидким азотом и 1,0–1,4% с кислородом и аргоном; чем меньше криоцилиндр, тем выше относительные потери.",
+    },
+  },
+  {
+    q: {
+      en: "What does the TPED code mean?",
+      uk: "Що означає код TPED?",
+      ru: "Что означает код TPED?",
+    },
+    a: {
+      en: "TPED is the European Transportable Pressure Equipment Directive 2010/35/EU. The code means the cylinder is certified as transportable pressure equipment, not only for stationary use.",
+      uk: "TPED — європейська директива 2010/35/EU про транспортне обладнання під тиском. Код означає, що кріоциліндр сертифікований як обладнання під тиском для перевезення, а не лише для стаціонарного використання.",
+      ru: "TPED — европейская директива 2010/35/EU о транспортируемом оборудовании под давлением. Код означает, что криоцилиндр сертифицирован как оборудование под давлением для перевозки, а не только для стационарного использования.",
     },
   },
   {
@@ -135,49 +220,69 @@ const CYL_FAQ: Array<{ q: L; a: L }> = [
 
 function buildCylinderCategory(def: CylinderDef): SeedCategory {
   const g = GASES[def.gas];
-  const gasShort = {
+  const gas = def.gas as AirGas;
+  const gasShort: L = {
     en: g.nom.en,
     uk: g.gen.uk.split(" (")[0],
     ru: g.gen.ru.split(" (")[0],
   };
-  const title: L = {
-    en: `Cryogenic cylinders for ${g.gen.en}`,
-    uk: `Кріоциліндри для ${g.gen.uk}`,
-    ru: `Криоцилиндры для ${g.gen.ru}`,
-  };
-  const short: Record<GasKey, L> = {
-    n2: {
-      en: "Supply of cryogenic cylinders and small vacuum-insulated cryogenic tanks for storing and using liquid nitrogen. Selection of the required volume, working pressure and configuration for the customer's process needs.",
-      uk: "Постачання кріоциліндрів і малих вакуумно-ізольованих кріогенних ємностей для зберігання та використання рідкого азоту. Підбір необхідного обʼєму, робочого тиску та комплектації під технологічні потреби замовника.",
-      ru: "Поставка криоцилиндров и малых вакуумно-изолированных криогенных ёмкостей для хранения и использования жидкого азота. Подбор необходимого объёма, рабочего давления и комплектации под технологические потребности заказчика.",
-    },
-    o2: {
-      en: "Supply of cryogenic cylinders and vacuum-insulated tanks for storing and gasifying liquid oxygen. Selection of equipment, valves and pressure control systems.",
-      uk: "Постачання кріоциліндрів і вакуумно-ізольованих ємностей для зберігання та газифікації рідкого кисню. Підбір обладнання, арматури та систем регулювання тиску.",
-      ru: "Поставка криоцилиндров и вакуумно-изолированных ёмкостей для хранения и газификации жидкого кислорода. Подбор оборудования, арматуры и систем регулирования давления.",
-    },
-    ar: {
-      en: "Supply of cryogenic cylinders and vacuum-insulated tanks for storing liquid argon. Selection of configuration for industrial and process gas supply.",
-      uk: "Постачання кріоциліндрів і вакуумно-ізольованих ємностей для зберігання рідкого аргону. Підбір комплектації для промислового та технологічного газопостачання.",
-      ru: "Поставка криоцилиндров и вакуумно-изолированных ёмкостей для хранения жидкого аргона. Подбор комплектации для промышленного и технологического газоснабжения.",
-    },
-    co2: { en: "", uk: "", ru: "" },
-  };
+  const ners = CRYO_CYLINDERS.map((m) => nerOf(m, gas));
+  const nerRange = (lang: keyof L) =>
+    `${num(Math.min(...ners), lang, 1)}–${num(Math.max(...ners), lang, 1)}`;
+  const others = CYLINDER_DEFS.filter((item) => item.gas !== def.gas);
+  const k = `cc-${def.gas}`;
 
   return {
     _id: `cat-cylinders-${def.gas}`,
     _updatedAt: SEED_UPDATED_AT,
-    title,
+    title: {
+      en: `Cryogenic cylinders for ${g.gen.en} — Euro-Cyl ${CYL_VOLUMES("en")}`,
+      uk: `Кріоциліндри для ${g.gen.uk} — Euro-Cyl ${CYL_VOLUMES("uk")}`,
+      ru: `Криоцилиндры для ${g.gen.ru} — Euro-Cyl ${CYL_VOLUMES("ru")}`,
+    },
     slug: slugs(def.en, def.uk, def.ru),
     order: def.order,
     isVisible: true,
-    shortDescription: short[def.gas],
+    shortDescription: {
+      en: `Euro-Cyl cryogenic cylinders for storing, transporting and dispensing ${gasShort.en}: six models from ${CYL_VOLUMES("en")}, boil-off ${nerRange("en")}% a day, TPED conformity. Prices ${priceFrom(CYL_MIN_PRICE, "en")}. Volume and configuration selected for your process.`,
+      uk: `Кріоциліндри Euro-Cyl для зберігання, транспортування та видачі ${gasShort.uk}: шість моделей обʼємом ${CYL_VOLUMES("uk")}, втрати на випаровування ${nerRange("uk")}% на добу, код відповідності TPED. Ціни ${priceFrom(CYL_MIN_PRICE, "uk")}. Підбір обʼєму й комплектації під ваш процес.`,
+      ru: `Криоцилиндры Euro-Cyl для хранения, транспортировки и выдачи ${gasShort.ru}: шесть моделей объёмом ${CYL_VOLUMES("ru")}, потери на испарение ${nerRange("ru")}% в сутки, код соответствия TPED. Цены ${priceFrom(CYL_MIN_PRICE, "ru")}. Подбор объёма и комплектации под ваш процесс.`,
+    },
     description: blocks((lang) => [
-      p(CYL_WHAT[lang], `cc-${def.gas}`),
-      p(g.storageNote[lang], `cc-${def.gas}`),
-      p(CYL_WHEN[lang], `cc-${def.gas}`),
-      h2(SELECTION_HEADING[lang], `cc-${def.gas}`),
-      p(CYL_SELECTION[lang], `cc-${def.gas}`),
+      p(CYL_WHAT[lang], k),
+      p(g.storageNote[lang], k),
+      h2({ en: "Euro-Cyl models and prices", uk: "Моделі Euro-Cyl і ціни", ru: "Модели Euro-Cyl и цены" }[lang], k),
+      table(
+        [
+          {
+            en: `Model | Volume / usable, L | Max. weight with ${WITH_LIQUID[gas].en}, kg | Boil-off, %/day | Base | Price from, € excl. VAT`,
+            uk: `Модель | Обʼєм / корисний, л | Макс. маса з ${WITH_LIQUID[gas].uk}, кг | Втрати, %/добу | Основа | Ціна від, € без ПДВ`,
+            ru: `Модель | Объём / полезный, л | Макс. масса с ${WITH_LIQUID[gas].ru}, кг | Потери, %/сутки | Основание | Цена от, € без НДС`,
+          }[lang],
+          ...CRYO_CYLINDERS.map(
+            (m) =>
+              `${m.model} | ${num(m.volume, lang)} / ${num(m.usable, lang)} | ${num(maxKg(m, gas), lang)} | ${num(nerOf(m, gas), lang, 1)} | ${BASE_LABEL[m.base][lang]} | ${num(m.priceEur, lang)}`,
+          ),
+        ],
+        {
+          en: "Boil-off (NER) is the share of contents that evaporates per day; max. weight is the filled cylinder",
+          uk: "Втрати (NER) — частка вмісту, що випаровується за добу; макс. маса — заповненого кріоциліндра",
+          ru: "Потери (NER) — доля содержимого, испаряющаяся за сутки; макс. масса — заполненного криоцилиндра",
+        },
+        k,
+      ),
+      p(CYL_SAFETY_NOTE[lang], k),
+      p(
+        {
+          en: `The same cylinders work with [${WITH_LIQUID[others[0].gas as AirGas].en}](${cylinderCategoryPath(others[0], "en")}) and [${WITH_LIQUID[others[1].gas as AirGas].en}](${cylinderCategoryPath(others[1], "en")}): the volume is the same, the filled weight and boil-off differ.`,
+          uk: `Ті самі кріоциліндри працюють із [${WITH_LIQUID[others[0].gas as AirGas].uk}](${cylinderCategoryPath(others[0], "uk")}) та [${WITH_LIQUID[others[1].gas as AirGas].uk}](${cylinderCategoryPath(others[1], "uk")}): обʼєм той самий, відрізняються маса заповненого циліндра й втрати на випаровування.`,
+          ru: `Те же криоцилиндры работают с [${WITH_LIQUID[others[0].gas as AirGas].ru}](${cylinderCategoryPath(others[0], "ru")}) и [${WITH_LIQUID[others[1].gas as AirGas].ru}](${cylinderCategoryPath(others[1], "ru")}): объём тот же, отличаются масса заполненного цилиндра и потери на испарение.`,
+        }[lang],
+        k,
+      ),
+      p(CYL_WHEN[lang], k),
+      h2(SELECTION_HEADING[lang], k),
+      p(CYL_SELECTION[lang], k),
     ]),
     image: img(CYLINDER_PHOTOS[def.gas][0], {
       en: `Cryogenic cylinder for ${g.nom.en} in a transport frame with valves and pressure regulator`,
@@ -189,196 +294,303 @@ function buildCylinderCategory(def: CylinderDef): SeedCategory {
     ),
     seo: {
       metaTitle: {
-        en: `Cryogenic cylinders for ${g.nom.en}`,
-        uk: `Кріоциліндри для ${gasShort.uk}`,
-        ru: `Криоцилиндры для ${gasShort.ru}`,
+        en: `Cryogenic cylinders for ${g.nom.en} from ${formatEur(CYL_MIN_PRICE, "en")}`,
+        uk: `Кріоциліндри для ${gasShort.uk} від ${formatEur(CYL_MIN_PRICE, "uk")}`,
+        ru: `Криоцилиндры для ${gasShort.ru} от ${formatEur(CYL_MIN_PRICE, "ru")}`,
       },
       metaDescription: {
-        en: `Cryogenic cylinders and small vacuum vessels for ${g.gen.en}: volume, pressure and configuration selected for your process. Supply in Ukraine.`,
-        uk: `Кріоциліндри та малі вакуумно-ізольовані ємності для ${g.gen.uk}: обʼєм, тиск і комплектація під ваш процес. Постачання по Україні.`,
-        ru: `Криоцилиндры и малые вакуумно-изолированные ёмкости для ${g.gen.ru}: объём, давление и комплектация под ваш процесс. Поставка по Украине.`,
+        en: `Six Euro-Cyl models for ${g.gen.en}: ${CYL_VOLUMES("en")}, boil-off ${nerRange("en")}%/day, TPED. Prices ${priceFrom(CYL_MIN_PRICE, "en")}, supply in Ukraine.`,
+        uk: `Шість моделей Euro-Cyl для ${gasShort.uk}: ${CYL_VOLUMES("uk")}, втрати ${nerRange("uk")}%/добу, TPED. Ціни ${priceFrom(CYL_MIN_PRICE, "uk")}, постачання по Україні.`,
+        ru: `Шесть моделей Euro-Cyl для ${gasShort.ru}: ${CYL_VOLUMES("ru")}, потери ${nerRange("ru")}%/сутки, TPED. Цены ${priceFrom(CYL_MIN_PRICE, "ru")}, поставка по Украине.`,
       },
       keywords: {
-        en: `cryogenic cylinder ${g.nom.en}, liquid cylinder, dewar`,
-        uk: `кріоциліндр ${gasShort.uk}, кріогенний циліндр, посудина Дьюара`,
-        ru: `криоцилиндр ${gasShort.ru}, криогенный цилиндр, сосуд Дьюара`,
+        en: `cryogenic cylinder ${g.nom.en}, Euro-Cyl, liquid cylinder price, dewar`,
+        uk: `кріоциліндр ${gasShort.uk}, кріоциліндр Euro-Cyl, дьюар для ${gasShort.uk}, кріоциліндр ціна`,
+        ru: `криоцилиндр ${gasShort.ru}, криоцилиндр Euro-Cyl, дьюар для ${gasShort.ru}, криоцилиндр цена`,
       },
     },
-    productCount: 1,
+    productCount: CRYO_CYLINDERS.length,
   };
 }
 
-function buildCylinderProduct(
-  def: CylinderDef,
+const CYL_APPLICATIONS: L[] = [
+  ...GASES.n2.applications.slice(0, 3),
+  ...GASES.o2.applications.slice(0, 2),
+  ...GASES.ar.applications.slice(0, 1),
+].filter((item, index, all) => all.findIndex((other) => other.uk === item.uk) === index);
+
+function buildCryoCylinderProduct(
+  m: CryoCylinderModel,
   category: SeedCategory,
+  index: number,
 ): SeedProduct {
-  const g = GASES[def.gas];
-  const gasShort = {
-    en: g.nom.en,
-    uk: g.gen.uk.split(" (")[0],
-    ru: g.gen.ru.split(" (")[0],
-  };
+  const k = `pc-${m.id}`;
   const title: L = {
-    en: `Cryogenic cylinder for ${g.nom.en}`,
-    uk: `Кріоциліндр для ${gasShort.uk}`,
-    ru: `Криоцилиндр для ${gasShort.ru}`,
+    en: `Cryogenic cylinder ${m.model} — ${litres(m.volume, "en")}`,
+    uk: `Кріоциліндр ${m.model} — ${litres(m.volume, "uk")}`,
+    ru: `Криоцилиндр ${m.model} — ${litres(m.volume, "ru")}`,
   };
-  const sku = `CC-${def.gas.toUpperCase()}`;
+  const photos =
+    m.base === "pallet"
+      ? [IMG.microbulk, IMG.cylinderFrame]
+      : [IMG.cylinderNitrogen, IMG.cylinderFrame];
+  const relief = (lang: keyof L) =>
+    `${bar(m.relief, lang)}${m.reliefOption ? { en: `, optionally ${bar(m.reliefOption, lang)}`, uk: `, опціонально — ${bar(m.reliefOption, lang)}`, ru: `, опционально — ${bar(m.reliefOption, lang)}` }[lang] : ""}`;
+  const gasLinks = (lang: keyof L) =>
+    CYLINDER_DEFS.map(
+      (def) => `[${WITH_LIQUID[def.gas as AirGas][lang]}](${cylinderCategoryPath(def, lang)})`,
+    ).join(", ");
+  const sizeLabel: L =
+    m.base === "roundRing" || m.base === "roundWheels"
+      ? { en: "Base diameter", uk: "Діаметр основи", ru: "Диаметр основания" }
+      : { en: "Base dimensions", uk: "Габарити основи", ru: "Габариты основания" };
+
   return {
-    _id: `product-cylinder-${def.gas}`,
+    _id: `product-cryocylinder-${m.id}`,
     _updatedAt: SEED_UPDATED_AT,
     title,
     slug: slugs(
-      `${g.slug.en}-cryogenic-cylinder`,
-      `kriotsylindr-dlya-ridkogo-${def.uk.split("-").pop()}`,
-      `kriotsilindr-dlya-zhidkogo-${def.ru.split("-").pop()}`,
+      `cryogenic-cylinder-euro-cyl-${m.id}`,
+      `kriotsylindr-euro-cyl-${m.id}`,
+      `kriotsilindr-euro-cyl-${m.id}`,
     ),
-    model: sku,
-    sku,
+    model: m.model,
+    sku: m.model.replace(/[\s/]+/g, "-"),
     isPublished: true,
-    isFeatured: false,
-    order: def.order * 10,
+    isFeatured: Boolean(m.isFeatured),
+    order: 500 + index,
     publishedAt: SEED_UPDATED_AT,
     category,
     gallery: [
       img(
-        CYLINDER_PHOTOS[def.gas][0],
+        photos[0],
         {
-          en: `${title.en} — vacuum-insulated vessel in a transport frame`,
-          uk: `${title.uk} — вакуумно-ізольована посудина в транспортній рамі`,
-          ru: `${title.ru} — вакуумно-изолированный сосуд в транспортной раме`,
+          en: `${title.en} — vacuum-insulated vessel for liquid nitrogen, oxygen and argon`,
+          uk: `${title.uk} — вакуумно-ізольована посудина для рідкого азоту, кисню та аргону`,
+          ru: `${title.ru} — вакуумно-изолированный сосуд для жидкого азота, кислорода и аргона`,
         },
-        `cyl-${def.gas}-1`,
+        `${k}-1`,
       ),
       img(
-        CYLINDER_PHOTOS[def.gas][1],
+        photos[1],
         {
-          en: `${title.en} — valve group, pressure regulator and level gauge`,
-          uk: `${title.uk} — група арматури, регулятор тиску та покажчик рівня`,
-          ru: `${title.ru} — группа арматуры, регулятор давления и указатель уровня`,
+          en: "Cryogenic cylinder valve group with pressure gauge and regulator",
+          uk: "Група арматури кріоциліндра з манометром і регулятором тиску",
+          ru: "Группа арматуры криоцилиндра с манометром и регулятором давления",
         },
-        `cyl-${def.gas}-2`,
+        `${k}-2`,
       ),
     ],
     shortDescription: {
-      en: `Portable vacuum-insulated cylinder for storing ${g.gen.en} with gas or liquid withdrawal. Volume, working pressure and configuration are selected for your process.`,
-      uk: `Переносна вакуумно-ізольована посудина для зберігання ${g.gen.uk} з газовим або рідинним відбором. Обʼєм, робочий тиск і комплектація підбираються під ваш процес.`,
-      ru: `Переносной вакуумно-изолированный сосуд для хранения ${g.gen.ru} с газовым или жидкостным отбором. Объём, рабочее давление и комплектация подбираются под ваш процесс.`,
+      en: `Vacuum-insulated cryogenic cylinder of ${litres(m.volume, "en")} (usable ${litres(m.usable, "en")}) for liquid nitrogen, oxygen and argon: ${bar(m.relief, "en")} safety valve, boil-off ${num(m.nerLin, "en", 1)}% a day with nitrogen, ${BASE_LABEL[m.base].en}. Price ${priceFrom(m.priceEur, "en")}.`,
+      uk: `Вакуумно-ізольований кріоциліндр на ${litres(m.volume, "uk")} (корисний обʼєм ${litres(m.usable, "uk")}) для рідкого азоту, кисню та аргону: запобіжний клапан ${bar(m.relief, "uk")}, втрати ${num(m.nerLin, "uk", 1)}% на добу з азотом, ${BASE_LABEL[m.base].uk}. Ціна ${priceFrom(m.priceEur, "uk")}.`,
+      ru: `Вакуумно-изолированный криоцилиндр на ${litres(m.volume, "ru")} (полезный объём ${litres(m.usable, "ru")}) для жидкого азота, кислорода и аргона: предохранительный клапан ${bar(m.relief, "ru")}, потери ${num(m.nerLin, "ru", 1)}% в сутки с азотом, ${BASE_LABEL[m.base].ru}. Цена ${priceFrom(m.priceEur, "ru")}.`,
     },
     description: blocks((lang) => [
-      p(CYL_WHAT[lang], `pc-${def.gas}`),
-      p(CYL_WHEN[lang], `pc-${def.gas}`),
-      h2(SCOPE_HEADING[lang], `pc-${def.gas}`),
-      li(
+      p(m.note[lang], k),
+      p(CYL_WHEN[lang], k),
+      h2({ en: "How much it holds", uk: "Скільки вміщує", ru: "Сколько вмещает" }[lang], k),
+      table(
+        [
+          {
+            en: "Product | Max. filled weight, kg | Boil-off, %/day",
+            uk: "Продукт | Макс. маса заповненого, кг | Втрати, %/добу",
+            ru: "Продукт | Макс. масса заполненного, кг | Потери, %/сутки",
+          }[lang],
+          `${{ en: "Liquid nitrogen (LIN)", uk: "Рідкий азот (LIN)", ru: "Жидкий азот (LIN)" }[lang]} | ${num(m.maxLinKg, lang)} | ${num(m.nerLin, lang, 1)}`,
+          `${{ en: "Liquid oxygen (LOX)", uk: "Рідкий кисень (LOX)", ru: "Жидкий кислород (LOX)" }[lang]} | ${num(m.maxLoxKg, lang)} | ${num(m.nerLoxAr, lang, 1)}`,
+          `${{ en: "Liquid argon (LAr)", uk: "Рідкий аргон (LAr)", ru: "Жидкий аргон (LAr)" }[lang]} | ${num(m.maxLarKg, lang)} | ${num(m.nerLoxAr, lang, 1)}`,
+        ],
         {
-          en: "Vacuum-insulated inner vessel",
-          uk: "Вакуумно-ізольована внутрішня посудина",
-          ru: "Вакуумно-изолированный внутренний сосуд",
-        }[lang],
-        `pc-${def.gas}`,
+          en: `Empty weight ${num(m.emptyKg, "en")} kg; usable volume ${litres(m.usable, "en")}`,
+          uk: `Маса порожнього кріоциліндра — ${num(m.emptyKg, "uk")} кг; корисний обʼєм — ${litres(m.usable, "uk")}`,
+          ru: `Масса пустого криоцилиндра — ${num(m.emptyKg, "ru")} кг; полезный объём — ${litres(m.usable, "ru")}`,
+        },
+        k,
       ),
-      li(
+      p(
         {
-          en: "Built-in pressure-build vaporizer and regulator",
-          uk: "Вбудований випарник підйому тиску та регулятор",
-          ru: "Встроенный испаритель подъёма давления и регулятор",
+          en: `Compare with the other models on the pages for ${gasLinks("en")}.`,
+          uk: `Порівняти з іншими моделями — на сторінках кріоциліндрів для роботи з ${gasLinks("uk")}.`,
+          ru: `Сравнить с другими моделями — на страницах криоцилиндров для работы с ${gasLinks("ru")}.`,
         }[lang],
-        `pc-${def.gas}`,
+        k,
       ),
-      li(
+      h2(
+        { en: "Safety devices and certification", uk: "Запобіжні пристрої й сертифікація", ru: "Предохранительные устройства и сертификация" }[lang],
+        k,
+      ),
+      p(
         {
-          en: "Gas and liquid withdrawal valves, safety valves",
-          uk: "Клапани газового та рідинного відбору, запобіжні клапани",
-          ru: "Клапаны газового и жидкостного отбора, предохранительные клапаны",
+          en: `The safety valve is set to ${relief("en")}${m.burstDisc ? `; the burst disc is rated at ${bar(m.burstDisc, "en")}` : ""}. The TPED conformity code means the cylinder is certified as transportable pressure equipment under Directive 2010/35/EU.`,
+          uk: `Запобіжний клапан налаштований на ${relief("uk")}${m.burstDisc ? `; розривна мембрана — ${bar(m.burstDisc, "uk")}` : ""}. Код відповідності TPED означає, що кріоциліндр сертифікований як транспортне обладнання під тиском за директивою 2010/35/EU.`,
+          ru: `Предохранительный клапан настроен на ${relief("ru")}${m.burstDisc ? `; разрывная мембрана — ${bar(m.burstDisc, "ru")}` : ""}. Код соответствия TPED означает, что криоцилиндр сертифицирован как транспортируемое оборудование под давлением по директиве 2010/35/EU.`,
         }[lang],
-        `pc-${def.gas}`,
+        k,
       ),
-      li(
+      h2({ en: "Price", uk: "Ціна", ru: "Цена" }[lang], k),
+      p(
         {
-          en: "Level gauge and pressure gauge",
-          uk: "Покажчик рівня та манометр",
-          ru: "Указатель уровня и манометр",
+          en: `From ${formatEur(m.priceEur, "en")} excl. VAT. Delivery is quoted separately.`,
+          uk: `Від ${formatEur(m.priceEur, "uk")} без ПДВ. Доставка розраховується окремо.`,
+          ru: `От ${formatEur(m.priceEur, "ru")} без НДС. Доставка рассчитывается отдельно.`,
         }[lang],
-        `pc-${def.gas}`,
+        k,
       ),
-      h2(SELECTION_HEADING[lang], `pc-${def.gas}`),
-      p(CYL_SELECTION[lang], `pc-${def.gas}`),
     ]),
     features: [
       {
-        en: "Replaces a rack of high-pressure cylinders",
-        uk: "Замінює рампу балонів високого тиску",
-        ru: "Заменяет рампу баллонов высокого давления",
+        en: `Volume ${litres(m.volume, "en")}, usable ${litres(m.usable, "en")}`,
+        uk: `Обʼєм ${litres(m.volume, "uk")}, корисний ${litres(m.usable, "uk")}`,
+        ru: `Объём ${litres(m.volume, "ru")}, полезный ${litres(m.usable, "ru")}`,
       },
       {
-        en: "No foundation or stationary-tank permits required",
-        uk: "Не потребує фундаменту та дозволів на стаціонарну ємність",
-        ru: "Не требует фундамента и разрешений на стационарную ёмкость",
+        en: "For liquid nitrogen, oxygen and argon",
+        uk: "Для рідкого азоту, кисню та аргону",
+        ru: "Для жидкого азота, кислорода и аргона",
       },
       {
-        en: "Gas or liquid withdrawal",
-        uk: "Газовий або рідинний відбір",
-        ru: "Газовый или жидкостный отбор",
+        en: cap(BASE_LABEL[m.base].en),
+        uk: cap(BASE_LABEL[m.base].uk),
+        ru: cap(BASE_LABEL[m.base].ru),
       },
       {
-        en: "Compatible with standard filling stations",
-        uk: "Сумісний зі стандартними наповнювальними станціями",
-        ru: "Совместим со стандартными наполнительными станциями",
+        en: "TPED conformity code",
+        uk: "Код відповідності TPED",
+        ru: "Код соответствия TPED",
       },
     ],
-    applications: g.applications,
+    applications: CYL_APPLICATIONS,
     specs: [
-      spec("s-prod", LABELS.product, g.gen, LABELS.groupMain),
+      spec("s-model", LABELS.model, { en: m.model, uk: m.model, ru: m.model }, LABELS.groupMain),
+      spec("s-vol", LABELS.volume, { en: litres(m.volume, "en"), uk: litres(m.volume, "uk"), ru: litres(m.volume, "ru") }, LABELS.groupMain),
+      spec("s-usable", LABELS.usable, { en: litres(m.usable, "en"), uk: litres(m.usable, "uk"), ru: litres(m.usable, "ru") }, LABELS.groupMain),
       spec(
-        "s-type",
-        LABELS.type,
+        "s-medium",
+        LABELS.medium,
         {
-          en: "Portable, vacuum-insulated",
-          uk: "Переносна, вакуумно-ізольована",
-          ru: "Переносная, вакуумно-изолированная",
+          en: "Liquid nitrogen (LIN), oxygen (LOX), argon (LAr)",
+          uk: "Рідкий азот (LIN), кисень (LOX), аргон (LAr)",
+          ru: "Жидкий азот (LIN), кислород (LOX), аргон (LAr)",
         },
         LABELS.groupMain,
       ),
       spec(
-        "s-vol",
-        {
-          en: "Volume and working pressure",
-          uk: "Обʼєм та робочий тиск",
-          ru: "Объём и рабочее давление",
-        },
-        LABELS.onRequest,
+        "s-base",
+        { en: "Base type", uk: "Тип основи", ru: "Тип основания" },
+        { en: cap(BASE_LABEL[m.base].en), uk: cap(BASE_LABEL[m.base].uk), ru: cap(BASE_LABEL[m.base].ru) },
         LABELS.groupMain,
+      ),
+      spec(
+        "s-code",
+        { en: "Conformity code", uk: "Код відповідності", ru: "Код соответствия" },
+        { en: "TPED", uk: "TPED", ru: "TPED" },
+        LABELS.groupMain,
+      ),
+      spec(
+        "s-relief",
+        { en: "Safety valve setting", uk: "Налаштування запобіжного клапана", ru: "Настройка предохранительного клапана" },
+        { en: bar(m.relief, "en"), uk: bar(m.relief, "uk"), ru: bar(m.relief, "ru") },
+        LABELS.groupSafety,
+      ),
+      ...(m.reliefOption
+        ? [
+            spec(
+              "s-relief-opt",
+              { en: "Optional setting", uk: "Опціональне налаштування", ru: "Опциональная настройка" },
+              { en: bar(m.reliefOption, "en"), uk: bar(m.reliefOption, "uk"), ru: bar(m.reliefOption, "ru") },
+              LABELS.groupSafety,
+            ),
+          ]
+        : []),
+      ...(m.burstDisc
+        ? [
+            spec(
+              "s-burst",
+              { en: "Burst disc", uk: "Розривна мембрана", ru: "Разрывная мембрана" },
+              { en: bar(m.burstDisc, "en"), uk: bar(m.burstDisc, "uk"), ru: bar(m.burstDisc, "ru") },
+              LABELS.groupSafety,
+            ),
+          ]
+        : []),
+      spec(
+        "s-ner-lin",
+        { en: "NER, liquid nitrogen", uk: "NER, рідкий азот", ru: "NER, жидкий азот" },
+        { en: perDay(m.nerLin, "en"), uk: perDay(m.nerLin, "uk"), ru: perDay(m.nerLin, "ru") },
+        LABELS.groupLosses,
+      ),
+      spec(
+        "s-ner-lox",
+        { en: "NER, liquid oxygen / argon", uk: "NER, рідкий кисень / аргон", ru: "NER, жидкий кислород / аргон" },
+        { en: perDay(m.nerLoxAr, "en"), uk: perDay(m.nerLoxAr, "uk"), ru: perDay(m.nerLoxAr, "ru") },
+        LABELS.groupLosses,
+      ),
+      spec(
+        "s-d",
+        LABELS.diameter,
+        { en: `${num(m.diameter, "en")} mm`, uk: `${num(m.diameter, "uk")} мм`, ru: `${num(m.diameter, "ru")} мм` },
+        LABELS.groupSize,
+      ),
+      spec("s-base-size", sizeLabel, { en: `${m.baseSize.replace(/(\d) (\d)/g, "$1,$2")} mm`, uk: `${m.baseSize} мм`, ru: `${m.baseSize} мм` }, LABELS.groupSize),
+      spec(
+        "s-h",
+        LABELS.height,
+        { en: `${num(m.height, "en")} mm`, uk: `${num(m.height, "uk")} мм`, ru: `${num(m.height, "ru")} мм` },
+        LABELS.groupSize,
+      ),
+      spec(
+        "s-empty",
+        { en: "Empty weight", uk: "Маса порожнього кріоциліндра", ru: "Масса пустого криоцилиндра" },
+        { en: `${num(m.emptyKg, "en")} kg`, uk: `${num(m.emptyKg, "uk")} кг`, ru: `${num(m.emptyKg, "ru")} кг` },
+        LABELS.groupSize,
+      ),
+      spec(
+        "s-max-lin",
+        { en: "Max. weight with liquid nitrogen", uk: "Макс. маса з рідким азотом", ru: "Макс. масса с жидким азотом" },
+        { en: `${num(m.maxLinKg, "en")} kg`, uk: `${num(m.maxLinKg, "uk")} кг`, ru: `${num(m.maxLinKg, "ru")} кг` },
+        LABELS.groupSize,
+      ),
+      spec(
+        "s-max-lox",
+        { en: "Max. weight with liquid oxygen", uk: "Макс. маса з рідким киснем", ru: "Макс. масса с жидким кислородом" },
+        { en: `${num(m.maxLoxKg, "en")} kg`, uk: `${num(m.maxLoxKg, "uk")} кг`, ru: `${num(m.maxLoxKg, "ru")} кг` },
+        LABELS.groupSize,
+      ),
+      spec(
+        "s-max-lar",
+        { en: "Max. weight with liquid argon", uk: "Макс. маса з рідким аргоном", ru: "Макс. масса с жидким аргоном" },
+        { en: `${num(m.maxLarKg, "en")} kg`, uk: `${num(m.maxLarKg, "uk")} кг`, ru: `${num(m.maxLarKg, "ru")} кг` },
+        LABELS.groupSize,
       ),
     ],
     faq: [],
-    priceOnRequest: true,
+    price: m.priceEur,
+    priceOnRequest: false,
     availability: "onRequest",
     currency: "EUR",
     seo: {
-      // Варіант у сімействі однотипних товарів: хабом для пошуку є категорія.
-      noIndex: true,
       metaTitle: {
-        en: title.en,
-        uk: title.uk,
-        ru: title.ru,
+        en: `${m.model}, ${litres(m.volume, "en")} liquid cylinder from ${formatEur(m.priceEur, "en")}`,
+        uk: `Кріоциліндр ${m.model}, ${litres(m.volume, "uk")} — від ${formatEur(m.priceEur, "uk")}`,
+        ru: `Криоцилиндр ${m.model}, ${litres(m.volume, "ru")} — от ${formatEur(m.priceEur, "ru")}`,
       },
       metaDescription: {
-        en: `Cryogenic cylinder for ${g.gen.en} with gas or liquid withdrawal, vaporizer and regulator. Volume and pressure selected for your consumption.`,
-        uk: `Кріоциліндр для ${g.gen.uk} з газовим або рідинним відбором, випарником і регулятором. Обʼєм і тиск підбираємо під ваше споживання.`,
-        ru: `Криоцилиндр для ${g.gen.ru} с газовым или жидкостным отбором, испарителем и регулятором. Объём и давление подбираем под ваше потребление.`,
+        en: `Cryogenic cylinder of ${litres(m.volume, "en")} for liquid nitrogen, oxygen and argon: ${bar(m.relief, "en")} valve, ${num(m.nerLin, "en", 1)}%/day boil-off, TPED. From ${formatEur(m.priceEur, "en")} excl. VAT.`,
+        uk: `Кріоциліндр на ${litres(m.volume, "uk")} для рідкого азоту, кисню й аргону: клапан ${bar(m.relief, "uk")}, втрати ${num(m.nerLin, "uk", 1)}%/добу, TPED. Від ${formatEur(m.priceEur, "uk")} без ПДВ.`,
+        ru: `Криоцилиндр на ${litres(m.volume, "ru")} для жидкого азота, кислорода и аргона: клапан ${bar(m.relief, "ru")}, потери ${num(m.nerLin, "ru", 1)}%/сутки, TPED. От ${formatEur(m.priceEur, "ru")} без НДС.`,
       },
       keywords: {
-        en: `cryogenic cylinder ${g.nom.en}, liquid cylinder`,
-        uk: `кріоциліндр ${gasShort.uk}, кріоциліндр купити`,
-        ru: `криоцилиндр ${gasShort.ru}, криоцилиндр купить`,
+        en: `${m.model}, cryogenic cylinder ${m.volume} L, liquid nitrogen dewar ${m.volume} L`,
+        uk: `${m.model}, кріоциліндр ${m.volume} л, дьюар для азоту ${m.volume} л, кріоциліндр ціна`,
+        ru: `${m.model}, криоцилиндр ${m.volume} л, дьюар для азота ${m.volume} л, криоцилиндр цена`,
       },
     },
   };
 }
 
 export const cylinderCategories = CYLINDER_DEFS.map(buildCylinderCategory);
-export const cylinderProducts = CYLINDER_DEFS.map((def, index) =>
-  buildCylinderProduct(def, cylinderCategories[index]),
+export const cylinderProducts = CRYO_CYLINDERS.map((model, index) =>
+  buildCryoCylinderProduct(model, cylinderCategories[0], index),
 );
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -924,7 +1136,7 @@ export const ambientVaporizerProducts = (["n2", "o2", "ar"] as GasKey[]).map(
 );
 
 /* ═══════════════════════════════════════════════════════════════════════
-   Випарники CO₂ 100–1000 кг/год
+   Випарники CO₂ P…E, 130–1000 кг/год
    ═══════════════════════════════════════════════════════════════════════ */
 
 const CO2V_TEXT = {
@@ -938,7 +1150,74 @@ const CO2V_TEXT = {
     uk: "Типові замовники — тепличні господарства, які підживлюють повітря CO₂, заводи напоїв і лінії розливу, харчові підприємства, що використовують CO₂ для пакування та охолодження, а також промислові майданчики з CO₂ у водопідготовці чи зварюванні. Ми розраховуємо випарник на пікове споживання та інтегруємо його в систему газопостачання CO₂ разом із ємністю, редукційним вузлом і трубопроводами.",
     ru: "Типичные заказчики — тепличные хозяйства, которые подкармливают воздух CO₂, заводы напитков и линии розлива, пищевые предприятия, использующие CO₂ для упаковки и охлаждения, а также промышленные площадки с CO₂ в водоподготовке или сварке. Мы рассчитываем испаритель на пиковое потребление и интегрируем его в систему газоснабжения CO₂ вместе с ёмкостью, редукционным узлом и трубопроводами.",
   },
+  standard: {
+    en: "Every model is the Standard P version: stainless steel housing, PLC control, protection against liquid carry-over and against dry ice formation. CE marking, notified body — TÜV NORD, 24-month warranty.",
+    uk: "Усі моделі — виконання Standard P: корпус із нержавіючої сталі, керування PLC-контролером, захист від переливу рідкої фази та від утворення сухого льоду. Маркування CE, нотифікований орган — TÜV NORD, гарантія 24 місяці.",
+    ru: "Все модели — исполнение Standard P: корпус из нержавеющей стали, управление PLC-контроллером, защита от перелива жидкой фазы и от образования сухого льда. Маркировка CE, нотифицированный орган — TÜV NORD, гарантия 24 месяца.",
+  },
 };
+
+/** Підбір за піком із запасом 20–25%: межі піку = продуктивність / 1,25. */
+const CO2V_TIERS: Record<number, { peak: L; site: L }> = {
+  130: {
+    peak: { en: "up to 100 kg/h", uk: "до 100 кг/год", ru: "до 100 кг/ч" },
+    site: {
+      en: "greenhouse up to 2 ha, brewery, small bottling line, welding shop with dozens of posts",
+      uk: "теплиця до 2 га, пивоварня, невелика лінія розливу, зварювальний цех на десятки постів",
+      ru: "теплица до 2 га, пивоварня, небольшая линия розлива, сварочный цех на десятки постов",
+    },
+  },
+  270: {
+    peak: { en: "100–215 kg/h", uk: "100–215 кг/год", ru: "100–215 кг/ч" },
+    site: {
+      en: "greenhouse up to 3.5 ha, mid-size beverage plant",
+      uk: "теплиця до 3,5 га, середній завод напоїв",
+      ru: "теплица до 3,5 га, средний завод напитков",
+    },
+  },
+  400: {
+    peak: { en: "215–320 kg/h", uk: "215–320 кг/год", ru: "215–320 кг/ч" },
+    site: {
+      en: "greenhouse up to 5 ha, plant with several filling lines, food production",
+      uk: "теплиця до 5 га, завод із кількома лініями розливу, харчове виробництво",
+      ru: "теплица до 5 га, завод с несколькими линиями розлива, пищевое производство",
+    },
+  },
+  650: {
+    peak: { en: "320–520 kg/h", uk: "320–520 кг/год", ru: "320–520 кг/ч" },
+    site: {
+      en: "greenhouse complex up to 8 ha, large food plant",
+      uk: "тепличний комплекс до 8 га, велике харчове виробництво",
+      ru: "тепличный комплекс до 8 га, крупное пищевое производство",
+    },
+  },
+  1000: {
+    peak: { en: "520–800 kg/h", uk: "520–800 кг/год", ru: "520–800 кг/ч" },
+    site: {
+      en: "large greenhouse complex, multi-line beverage plant",
+      uk: "великий тепличний комплекс, багатолінійний завод напоїв",
+      ru: "крупный тепличный комплекс, многолинейный завод напитков",
+    },
+  },
+};
+
+const kgh = (value: number, lang: keyof L) =>
+  `${num(value, lang)} ${{ en: "kg/h", uk: "кг/год", ru: "кг/ч" }[lang]}`;
+
+const MOUNTING: Record<Co2VaporizerModel["mounting"], { label: L; value: L }> = {
+  wallOrFloor: {
+    label: { en: "Mounting", uk: "Монтаж", ru: "Монтаж" },
+    value: { en: "wall or floor", uk: "підвісний / підлоговий", ru: "подвесной / напольный" },
+  },
+  legs: {
+    label: { en: "Legs", uk: "Ніжки", ru: "Ножки" },
+    value: { en: "removable", uk: "знімні", ru: "съёмные" },
+  },
+};
+
+const CO2V_MIN_PRICE = Math.min(...CO2_VAPORIZERS.map((m) => m.priceEur));
+const co2TanksPath = (lang: keyof L) =>
+  localePath(lang, `/catalog/category/${CO2_TANK_CATEGORY_SLUG[lang]}`);
 
 const CO2V_FAQ: Array<{ q: L; a: L }> = [
   {
@@ -948,9 +1227,9 @@ const CO2V_FAQ: Array<{ q: L; a: L }> = [
       ru: "Как выбрать производительность испарителя?",
     },
     a: {
-      en: "Take the peak hourly CO₂ consumption of all consumers running at once and add a 20–30% reserve. For greenhouses the peak is during daytime enrichment; for bottling lines it is the sum of carbonation and packaging demand. We calculate it from your process data.",
-      uk: "Візьміть пікове годинне споживання CO₂ всіма споживачами одночасно і додайте 20–30% запасу. Для теплиць пік припадає на денне підживлення; для ліній розливу — це сума потреб карбонізації та пакування. Ми розраховуємо це за даними вашого процесу.",
-      ru: "Возьмите пиковое часовое потребление CO₂ всеми потребителями одновременно и добавьте 20–30% запаса. Для теплиц пик приходится на дневную подкормку; для линий розлива — это сумма потребностей карбонизации и упаковки. Мы рассчитываем это по данным вашего процесса.",
+      en: "Take the peak hourly CO₂ consumption of all consumers running at once and add a 20–25% reserve. For greenhouses the peak is during daytime enrichment; for bottling lines it is the sum of carbonation and packaging demand. We calculate it from your process data.",
+      uk: "Візьміть пікове годинне споживання CO₂ всіма споживачами одночасно і додайте 20–25% запасу. Для теплиць пік припадає на денне підживлення; для ліній розливу — це сума потреб карбонізації та пакування. Ми розраховуємо це за даними вашого процесу.",
+      ru: "Возьмите пиковое часовое потребление CO₂ всеми потребителями одновременно и добавьте 20–25% запаса. Для теплиц пик приходится на дневную подкормку; для линий розлива — это сумма потребностей карбонизации и упаковки. Мы рассчитываем это по данным вашего процесса.",
     },
   },
   {
@@ -965,32 +1244,73 @@ const CO2V_FAQ: Array<{ q: L; a: L }> = [
       ru: "Атмосферные испарители работают для CO₂ только в тёплом климате и при малом отборе. Для стабильной работы круглый год в Украине, особенно от 300 кг/ч, стандартный выбор — электрический или водяной испаритель с контролем температуры на выходе.",
     },
   },
+  {
+    q: {
+      en: "Can I buy a vaporizer without a tank?",
+      uk: "Чи можна купити випарник без ємності?",
+      ru: "Можно ли купить испаритель без ёмкости?",
+    },
+    a: {
+      en: "Yes, any model can be ordered on its own. Turnkey installation is done for systems we supply ourselves: tank, vaporizer and pipelines.",
+      uk: "Так, будь-яку модель можна замовити окремо. Монтаж під ключ робимо для системи, яку постачаємо самі: ємність, випарник і трубопроводи.",
+      ru: "Да, любую модель можно заказать отдельно. Монтаж под ключ делаем для системы, которую поставляем сами: ёмкость, испаритель и трубопроводы.",
+    },
+  },
 ];
 
 export const co2VaporizerCategory: SeedCategory = {
   _id: "cat-co2-vaporizers",
   _updatedAt: SEED_UPDATED_AT,
   title: {
-    en: "Vaporizers (gasifiers) for liquid CO₂ — 100–1000 kg/h",
-    uk: "Випарники (газифікатори) для рідкого CO₂ — 100–1000 кг/год",
-    ru: "Испарители (газификаторы) для жидкого CO₂ — 100–1000 кг/ч",
+    en: "Vaporizers (gasifiers) for liquid CO₂ — 130–1000 kg/h",
+    uk: "Випарники (газифікатори) для рідкого CO₂ — 130–1000 кг/год",
+    ru: "Испарители (газификаторы) для жидкого CO₂ — 130–1000 кг/ч",
   },
   slug: slugs("co2-vaporizers", "vyparnyky-co2", "ispariteli-co2"),
   order: 100,
   isVisible: true,
   shortDescription: {
-    en: "Supply of vaporizers for gasifying liquid carbon dioxide (CO₂) with capacities of 100, 200, 300, 500, 800 and 1000 kg/h. Solutions for greenhouses, beverage production and bottling, food and industrial plants. Selection, supply, installation and integration into the CO₂ supply system.",
-    uk: "Постачання випарників для газифікації рідкого діоксиду вуглецю (CO₂, вуглекислоти) продуктивністю 100, 200, 300, 500, 800 та 1000 кг/год. Рішення для тепличних господарств, виробництва та розливу напоїв, харчових і промислових підприємств. Підбір, постачання, монтаж та інтеграція в систему газопостачання CO₂.",
-    ru: "Поставка испарителей для газификации жидкого диоксида углерода (CO₂, углекислоты) производительностью 100, 200, 300, 500, 800 и 1000 кг/ч. Решения для тепличных хозяйств, производства и розлива напитков, пищевых и промышленных предприятий. Подбор, поставка, монтаж и интеграция в систему газоснабжения CO₂.",
+    en: `Industrial vaporizers for gasifying liquid carbon dioxide: five models from 130 to 1,000 kg/h, stainless steel housing, PLC control, protection against liquid carry-over and dry ice formation, CE, TÜV NORD. Prices ${priceFrom(CO2V_MIN_PRICE, "en")}. Selection, supply, installation and integration into the CO₂ system.`,
+    uk: `Промислові випарники для газифікації рідкого діоксиду вуглецю (вуглекислоти): пʼять моделей від 130 до 1 000 кг/год, корпус із нержавіючої сталі, PLC-керування, захист від переливу рідкої фази й утворення сухого льоду, CE, TÜV NORD. Ціни ${priceFrom(CO2V_MIN_PRICE, "uk")}. Підбір, постачання, монтаж та інтеграція в систему CO₂.`,
+    ru: `Промышленные испарители для газификации жидкого диоксида углерода (углекислоты): пять моделей от 130 до 1 000 кг/ч, корпус из нержавеющей стали, PLC-управление, защита от перелива жидкой фазы и образования сухого льда, CE, TÜV NORD. Цены ${priceFrom(CO2V_MIN_PRICE, "ru")}. Подбор, поставка, монтаж и интеграция в систему CO₂.`,
   },
   description: blocks((lang) => [
     p(CO2V_TEXT.what[lang], "cv"),
     p(CO2V_TEXT.who[lang], "cv"),
+    h2({ en: "Models and prices", uk: "Моделі та ціни", ru: "Модели и цены" }[lang], "cv"),
+    table(
+      [
+        {
+          en: "Model | Capacity, kg/h | Mounting | Price from, € excl. VAT",
+          uk: "Модель | Продуктивність, кг/год | Монтаж | Ціна від, € без ПДВ",
+          ru: "Модель | Производительность, кг/ч | Монтаж | Цена от, € без НДС",
+        }[lang],
+        ...CO2_VAPORIZERS.map(
+          (m) =>
+            `${m.model} | ${num(m.capacity, lang)} | ${m.mounting === "legs" ? { en: "removable legs", uk: "знімні ніжки", ru: "съёмные ножки" }[lang] : MOUNTING.wallOrFloor.value[lang]} | ${num(m.priceEur, lang)}`,
+        ),
+      ],
+      {
+        en: "Standard P version, stainless steel housing, 24-month warranty",
+        uk: "Виконання Standard P, корпус із нержавіючої сталі, гарантія 24 місяці",
+        ru: "Исполнение Standard P, корпус из нержавеющей стали, гарантия 24 месяца",
+      },
+      "cv",
+    ),
+    p(CO2V_TEXT.standard[lang], "cv"),
+    p(
+      {
+        en: "The standard package of the P130E/1W includes solenoid and safety valves, a mounting kit with an inlet filter and counter-flanges, temperature sensors and a pressure transmitter.",
+        uk: "У стандартну комплектацію P130E/1W входять електромагнітні та запобіжні клапани, монтажний комплект із вхідним фільтром і контрфланцями, датчики температури та перетворювач тиску.",
+        ru: "В стандартную комплектацию P130E/1W входят электромагнитные и предохранительные клапаны, монтажный комплект с входным фильтром и контрфланцами, датчики температуры и преобразователь давления.",
+      }[lang],
+      "cv",
+    ),
     h2(
       {
-        en: "Available capacities",
-        uk: "Доступні продуктивності",
-        ru: "Доступные производительности",
+        en: "How to choose the capacity",
+        uk: "Як підібрати продуктивність",
+        ru: "Как подобрать производительность",
       }[lang],
       "cv",
     ),
@@ -1003,16 +1323,30 @@ export const co2VaporizerCategory: SeedCategory = {
       "cv",
     ),
     table(
-      {
-        en: ["Peak draw | Capacity | Typical site", "up to 80 kg/h | 100 kg/h | greenhouse up to 1–2 ha, brewery, welding shop with dozens of posts", "80–160 kg/h | 200 kg/h | greenhouse up to 3 ha, mid-size beverage plant", "160–250 kg/h | 300 kg/h | greenhouse up to 5 ha, plant with several filling lines", "250–400 kg/h | 500 kg/h | greenhouse complex of 5–8 ha, food processing", "400–650 kg/h | 800 kg/h | large greenhouse complex, CO₂ distribution", "650–850 kg/h | 1000 kg/h | multi-line plants, large industrial consumers"],
-        uk: ["Пікова витрата | Продуктивність | Типовий обʼєкт", "до 80 кг/год | 100 кг/год | теплиця до 1–2 га, пивоварня, зварювальний цех на кілька десятків постів", "80–160 кг/год | 200 кг/год | теплиця до 3 га, середній завод напоїв", "160–250 кг/год | 300 кг/год | теплиця до 5 га, завод із кількома лініями розливу", "250–400 кг/год | 500 кг/год | тепличний комплекс 5–8 га, харчове виробництво", "400–650 кг/год | 800 кг/год | великий тепличний комплекс, дистрибуція CO₂", "650–850 кг/год | 1000 кг/год | багатолінійні заводи, великі промислові споживачі"],
-        ru: ["Пиковый расход | Производительность | Типовой объект", "до 80 кг/ч | 100 кг/ч | теплица до 1–2 га, пивоварня, сварочный цех на несколько десятков постов", "80–160 кг/ч | 200 кг/ч | теплица до 3 га, средний завод напитков", "160–250 кг/ч | 300 кг/ч | теплица до 5 га, завод с несколькими линиями розлива", "250–400 кг/ч | 500 кг/ч | тепличный комплекс 5–8 га, пищевое производство", "400–650 кг/ч | 800 кг/ч | крупный тепличный комплекс, дистрибуция CO₂", "650–850 кг/ч | 1000 кг/ч | многолинейные заводы, крупные промышленные потребители"],
-      }[lang],
+      [
+        {
+          en: "Peak draw | Model | Typical site",
+          uk: "Пікова витрата | Модель | Типовий обʼєкт",
+          ru: "Пиковый расход | Модель | Типовой объект",
+        }[lang],
+        ...CO2_VAPORIZERS.map(
+          (m) =>
+            `${CO2V_TIERS[m.capacity].peak[lang]} | ${m.model}, ${kgh(m.capacity, lang)} | ${CO2V_TIERS[m.capacity].site[lang]}`,
+        ),
+      ],
       {
         en: "Selection by peak, with a 20–25% margin",
         uk: "Підбір за піком із запасом 20–25%",
         ru: "Подбор по пику с запасом 20–25%",
       },
+      "cv",
+    ),
+    p(
+      {
+        en: `A vaporizer can be bought on its own or as part of a system with a [liquid CO₂ tank](${co2TanksPath("en")}). We have installed gasifiers of 1,000 and 250 kg/h at a beverage plant and a greenhouse business — see [our projects](${localePath("en", "/projects")}).`,
+        uk: `Випарник можна купити окремо або в системі з [ємністю для рідкого CO₂](${co2TanksPath("uk")}). Газифікатори на 1 000 і 250 кг/год ми монтували на заводі напоїв і в тепличному господарстві — див. [реалізовані проєкти](${localePath("uk", "/projects")}).`,
+        ru: `Испаритель можно купить отдельно или в системе с [ёмкостью для жидкого CO₂](${co2TanksPath("ru")}). Газификаторы на 1 000 и 250 кг/ч мы монтировали на заводе напитков и в тепличном хозяйстве — см. [реализованные проекты](${localePath("ru", "/projects")}).`,
+      }[lang],
       "cv",
     ),
     h2(
@@ -1025,9 +1359,9 @@ export const co2VaporizerCategory: SeedCategory = {
     ),
     p(
       {
-        en: "An ambient vaporizer takes heat from the air: in frost it ices over and loses capacity just when greenhouses and heated plants consume the most. For year-round operation we plan electric trim heating or a pair of units with switchover.",
-        uk: "Атмосферний випарник бере тепло з повітря: у мороз він обмерзає й втрачає продуктивність саме тоді, коли теплиці й опалювані виробництва споживають найбільше. Для цілорічної роботи закладаємо електричний догрів або пару апаратів із перемиканням.",
-        ru: "Атмосферный испаритель берёт тепло из воздуха: в мороз он обмерзает и теряет производительность именно тогда, когда теплицы и отапливаемые производства потребляют больше всего. Для круглогодичной работы закладываем электрический догрев или пару аппаратов с переключением.",
+        en: "An ambient vaporizer takes heat from the air: in frost it ices over and loses capacity just when greenhouses and heated plants consume the most. The P…E models are controlled by a PLC with temperature sensors and a pressure transmitter, and their protection against liquid carry-over and dry ice formation keeps liquid and dry ice out of the pipeline.",
+        uk: "Атмосферний випарник бере тепло з повітря: у мороз він обмерзає й втрачає продуктивність саме тоді, коли теплиці й опалювані виробництва споживають найбільше. Моделі P…E керуються PLC-контролером із датчиками температури й тиску, а захист від переливу рідкої фази та утворення сухого льоду не пускає рідину й сухий лід далі в трубопровід.",
+        ru: "Атмосферный испаритель берёт тепло из воздуха: в мороз он обмерзает и теряет производительность именно тогда, когда теплицы и отапливаемые производства потребляют больше всего. Модели P…E управляются PLC-контроллером с датчиками температуры и давления, а защита от перелива жидкой фазы и образования сухого льда не пускает жидкость и сухой лёд дальше в трубопровод.",
       }[lang],
       "cv",
     ),
@@ -1040,68 +1374,70 @@ export const co2VaporizerCategory: SeedCategory = {
   faq: CO2V_FAQ.map((item, index) => faq(`faq-co2v-${index}`, item.q, item.a)),
   seo: {
     metaTitle: {
-      en: "CO₂ vaporizers and gasifiers 100–1000 kg/h",
-      uk: "Газифікатори й випарники CO₂ 100–1000 кг/год",
-      ru: "Газификаторы и испарители CO₂ 100–1000 кг/ч",
+      en: `CO₂ vaporizers 130–1000 kg/h — from ${formatEur(CO2V_MIN_PRICE, "en")}`,
+      uk: `Випарники CO₂ 130–1000 кг/год — ціни від ${formatEur(CO2V_MIN_PRICE, "uk")}`,
+      ru: `Испарители CO₂ 130–1000 кг/ч — цены от ${formatEur(CO2V_MIN_PRICE, "ru")}`,
     },
     metaDescription: {
-            en: "Vaporizers for liquid CO₂ of 100, 200, 300, 500, 800 and 1000 kg/h for greenhouses, beverage plants and industry. Supply and installation.",
-      uk: "Випарники для рідкого CO₂ на 100, 200, 300, 500, 800 і 1000 кг/год для теплиць, заводів напоїв і промисловості. Постачання та монтаж.",
-      ru: "Испарители для жидкого CO₂ на 100, 200, 300, 500, 800 и 1000 кг/ч для теплиц, заводов напитков и промышленности. Поставка и монтаж.",
+      en: `Five liquid CO₂ gasifier models, 130–1,000 kg/h: PLC, dry ice protection, TÜV NORD, 24-month warranty. ${cap(priceFrom(CO2V_MIN_PRICE, "en"))}.`,
+      uk: `Пʼять моделей газифікаторів рідкої вуглекислоти на 130–1 000 кг/год: PLC, захист від сухого льоду, TÜV NORD, гарантія 24 міс. ${cap(priceFrom(CO2V_MIN_PRICE, "uk"))}.`,
+      ru: `Пять моделей газификаторов жидкой углекислоты на 130–1 000 кг/ч: PLC, защита от сухого льда, TÜV NORD, гарантия 24 мес. ${cap(priceFrom(CO2V_MIN_PRICE, "ru"))}.`,
     },
     keywords: {
-      en: "CO2 vaporizer, electric CO2 vaporizer, CO2 gasifier greenhouse",
-      uk: "випарник CO2, газифікатор вуглекислоти, електричний випарник CO2 для теплиць",
-      ru: "испаритель CO2, газификатор углекислоты, электрический испаритель CO2 для теплиц",
+      en: "CO2 vaporizer, CO2 gasifier price, electric CO2 vaporizer, CO2 vaporizer 1000 kg/h",
+      uk: "випарник CO2, газифікатор вуглекислоти, газифікатор CO2 ціна, випарник вуглекислоти для теплиць",
+      ru: "испаритель CO2, газификатор углекислоты, газификатор CO2 цена, испаритель углекислоты для теплиц",
     },
   },
-  productCount: 6,
+  productCount: CO2_VAPORIZERS.length,
 };
 
-function co2VaporizerHint(capacity: number): L {
-  if (capacity <= 200)
-    return {
-      en: `The ${capacity} kg/h vaporizer is sized for greenhouses up to a few hectares, breweries and small bottling lines with a 10–20 m³ CO₂ tank.`,
-      uk: `Випарник на ${capacity} кг/год розрахований на теплиці до кількох гектарів, пивоварні та невеликі лінії розливу з ємністю CO₂ на 10–20 м³.`,
-      ru: `Испаритель на ${capacity} кг/ч рассчитан на теплицы до нескольких гектаров, пивоварни и небольшие линии розлива с ёмкостью CO₂ на 10–20 м³.`,
-    };
-  if (capacity <= 500)
-    return {
-      en: `The ${capacity} kg/h vaporizer is the workhorse for medium and large beverage plants, food processors and greenhouse complexes with 30–50 m³ storage.`,
-      uk: `Випарник на ${capacity} кг/год — робоча конячка середніх і великих заводів напоїв, харчових виробництв і тепличних комплексів зі сховищем 30–50 м³.`,
-      ru: `Испаритель на ${capacity} кг/ч — рабочая лошадка средних и крупных заводов напитков, пищевых производств и тепличных комплексов с хранилищем 30–50 м³.`,
-    };
-  return {
-    en: `The ${capacity} kg/h vaporizer serves large industrial consumers, CO₂ distributors and multi-line plants, typically paired with 80–100 m³ storage tanks.`,
-    uk: `Випарник на ${capacity} кг/год обслуговує великих промислових споживачів, дистрибʼюторів CO₂ та багатолінійні заводи, зазвичай у парі з ємностями на 80–100 м³.`,
-    ru: `Испаритель на ${capacity} кг/ч обслуживает крупных промышленных потребителей, дистрибьюторов CO₂ и многолинейные заводы, обычно в паре с ёмкостями на 80–100 м³.`,
-  };
-}
-
 function buildCo2VaporizerProduct(
-  capacity: number,
+  m: Co2VaporizerModel,
   index: number,
 ): SeedProduct {
+  const k = `pv-${m.capacity}`;
   const title: L = {
-    en: `CO₂ vaporizer ${capacity} kg/h`,
-    uk: `Випарник CO₂ ${capacity} кг/год`,
-    ru: `Испаритель CO₂ ${capacity} кг/ч`,
+    en: `CO₂ vaporizer ${m.model} — ${kgh(m.capacity, "en")}`,
+    uk: `Випарник CO₂ ${m.model} — ${kgh(m.capacity, "uk")}`,
+    ru: `Испаритель CO₂ ${m.model} — ${kgh(m.capacity, "ru")}`,
   };
-  const sku = `CV-CO2-${capacity}`;
-  const hint = co2VaporizerHint(capacity);
+  const tier = CO2V_TIERS[m.capacity];
+  const projectPhoto =
+    m.capacity >= 650
+      ? img(
+          "/images/projects/beverages-co2-vaporizers-1000-kg-h.webp",
+          {
+            en: "1,000 kg/h CO₂ gasifier on the process platform of a beverage plant",
+            uk: "Газифікатор CO₂ на 1 000 кг/год на технологічному майданчику заводу напоїв",
+            ru: "Газификатор CO₂ на 1 000 кг/ч на технологической площадке завода напитков",
+          },
+          `${k}-3`,
+        )
+      : img(
+          "/images/projects/flower-greenhouse-co2-vaporizer-250-kg-h.webp",
+          {
+            en: "250 kg/h CO₂ vaporizer installed for a flower greenhouse",
+            uk: "Випарник CO₂ на 250 кг/год, змонтований для квіткової теплиці",
+            ru: "Испаритель CO₂ на 250 кг/ч, смонтированный для цветочной теплицы",
+          },
+          `${k}-3`,
+        );
+
   return {
-    _id: `product-co2-vaporizer-${capacity}`,
+    _id: `product-co2-vaporizer-${m.capacity}`,
     _updatedAt: SEED_UPDATED_AT,
     title,
+    // Для 1000 кг/год slug не змінився; старі 100…800 ведуть сюди через legacyRedirects
     slug: slugs(
-      `co2-vaporizer-${capacity}-kg-h`,
-      `vyparnyk-co2-${capacity}-kg-god`,
-      `isparitel-co2-${capacity}-kg-ch`,
+      `co2-vaporizer-${m.capacity}-kg-h`,
+      `vyparnyk-co2-${m.capacity}-kg-god`,
+      `isparitel-co2-${m.capacity}-kg-ch`,
     ),
-    model: sku,
-    sku,
+    model: m.model,
+    sku: m.model.replace("/", "-"),
     isPublished: true,
-    isFeatured: capacity === 300,
+    isFeatured: Boolean(m.isFeatured),
     order: 1000 + index,
     publishedAt: SEED_UPDATED_AT,
     category: co2VaporizerCategory,
@@ -1109,11 +1445,11 @@ function buildCo2VaporizerProduct(
       img(
         IMG.co2Fans,
         {
-          en: `${title.en} — forced-draft vaporizer with fans and outlet temperature control`,
-          uk: `${title.uk} — випарник примусового обдуву з вентиляторами та контролем температури на виході`,
-          ru: `${title.ru} — испаритель принудительного обдува с вентиляторами и контролем температуры на выходе`,
+          en: `${title.en} — industrial vaporizer with fans and a control cabinet`,
+          uk: `${title.uk} — промисловий випарник із вентиляторами та шафою керування`,
+          ru: `${title.ru} — промышленный испаритель с вентиляторами и шкафом управления`,
         },
-        `cv-${capacity}-1`,
+        `${k}-1`,
       ),
       img(
         IMG.co2Greenhouse,
@@ -1122,136 +1458,145 @@ function buildCo2VaporizerProduct(
           uk: "Випарник CO₂, змонтований у теплиці для вуглекислотного підживлення",
           ru: "Испаритель CO₂, смонтированный в теплице для углекислотной подкормки",
         },
-        `cv-${capacity}-2`,
+        `${k}-2`,
       ),
+      projectPhoto,
     ],
     shortDescription: {
-      en: `Vaporizer for gasifying liquid carbon dioxide with a capacity of ${capacity} kg/h, with outlet temperature control and a pressure-reducing unit. Supplied, installed and integrated into the CO₂ supply system.`,
-      uk: `Випарник для газифікації рідкої вуглекислоти продуктивністю ${capacity} кг/год із контролем температури на виході та редукційним вузлом. Постачання, монтаж та інтеграція в систему газопостачання CO₂.`,
-      ru: `Испаритель для газификации жидкой углекислоты производительностью ${capacity} кг/ч с контролем температуры на выходе и редукционным узлом. Поставка, монтаж и интеграция в систему газоснабжения CO₂.`,
+      en: `Industrial liquid CO₂ vaporizer ${m.model}: ${kgh(m.capacity, "en")}, stainless steel housing, PLC, protection against liquid carry-over and dry ice formation, TÜV NORD. Price ${priceFrom(m.priceEur, "en")}.`,
+      uk: `Промисловий випарник рідкої вуглекислоти ${m.model}: ${kgh(m.capacity, "uk")}, корпус із нержавіючої сталі, PLC, захист від переливу рідкої фази й утворення сухого льоду, TÜV NORD. Ціна ${priceFrom(m.priceEur, "uk")}.`,
+      ru: `Промышленный испаритель жидкой углекислоты ${m.model}: ${kgh(m.capacity, "ru")}, корпус из нержавеющей стали, PLC, защита от перелива жидкой фазы и образования сухого льда, TÜV NORD. Цена ${priceFrom(m.priceEur, "ru")}.`,
     },
     description: blocks((lang) => [
-      p(hint[lang], `pv-${capacity}`),
-      p(CO2V_TEXT.what[lang], `pv-${capacity}`),
-      h2(SCOPE_HEADING[lang], `pv-${capacity}`),
-      li(
+      p(m.note[lang], k),
+      p(
         {
-          en: `Vaporizer ${capacity} kg/h with heating and outlet temperature control`,
-          uk: `Випарник ${capacity} кг/год з обігрівом і контролем температури на виході`,
-          ru: `Испаритель ${capacity} кг/ч с обогревом и контролем температуры на выходе`,
+          en: `Sized for a peak draw of ${tier.peak.en}: ${tier.site.en}.`,
+          uk: `Розрахований на пікову витрату ${tier.peak.uk}: ${tier.site.uk}.`,
+          ru: `Рассчитан на пиковый расход ${tier.peak.ru}: ${tier.site.ru}.`,
         }[lang],
-        `pv-${capacity}`,
+        k,
       ),
-      li(
+      h2({ en: "Design and protection", uk: "Виконання й захист", ru: "Исполнение и защита" }[lang], k),
+      li({ en: "Standard P version, stainless steel housing", uk: "Виконання Standard P, корпус із нержавіючої сталі", ru: "Исполнение Standard P, корпус из нержавеющей стали" }[lang], k),
+      li({ en: "PLC controller", uk: "PLC-контролер", ru: "PLC-контроллер" }[lang], k),
+      li({ en: "Protection against liquid carry-over", uk: "Захист від переливу рідкої фази", ru: "Защита от перелива жидкой фазы" }[lang], k),
+      li({ en: "Protection against dry ice formation", uk: "Захист від утворення сухого льоду", ru: "Защита от образования сухого льда" }[lang], k),
+      li(`${cap(MOUNTING[m.mounting].label[lang])}: ${MOUNTING[m.mounting].value[lang]}`, k),
+      li({ en: "CE marking, notified body TÜV NORD, 24-month warranty", uk: "Маркування CE, нотифікований орган TÜV NORD, гарантія 24 місяці", ru: "Маркировка CE, нотифицированный орган TÜV NORD, гарантия 24 месяца" }[lang], k),
+      p(
         {
-          en: "Pressure-reducing unit and safety valves",
-          uk: "Редукційний вузол та запобіжні клапани",
-          ru: "Редукционный узел и предохранительные клапаны",
+          en: `The vaporizer can be ordered on its own or together with a [liquid CO₂ tank](${co2TanksPath("en")}) and [turnkey installation](${categoryPath(installationCategory, "en")}).`,
+          uk: `Випарник можна замовити окремо або разом з [ємністю для рідкого CO₂](${co2TanksPath("uk")}) і [монтажем під ключ](${categoryPath(installationCategory, "uk")}).`,
+          ru: `Испаритель можно заказать отдельно или вместе с [ёмкостью для жидкого CO₂](${co2TanksPath("ru")}) и [монтажом под ключ](${categoryPath(installationCategory, "ru")}).`,
         }[lang],
-        `pv-${capacity}`,
+        k,
       ),
-      li(
+      h2({ en: "Price", uk: "Ціна", ru: "Цена" }[lang], k),
+      p(
         {
-          en: "Piping from the storage tank to the consumer",
-          uk: "Трубопроводи від ємності зберігання до споживача",
-          ru: "Трубопроводы от ёмкости хранения до потребителя",
+          en: `From ${formatEur(m.priceEur, "en")} excl. VAT. Delivery and tie-in to the system are quoted separately or as a turnkey package.`,
+          uk: `Від ${formatEur(m.priceEur, "uk")} без ПДВ. Доставка й підключення до системи — окремо або в комплексі під ключ.`,
+          ru: `От ${formatEur(m.priceEur, "ru")} без НДС. Доставка и подключение к системе — отдельно или в комплексе под ключ.`,
         }[lang],
-        `pv-${capacity}`,
-      ),
-      li(
-        {
-          en: "Installation, commissioning and integration with the CO₂ system",
-          uk: "Монтаж, пусконалагодження та інтеграція із системою CO₂",
-          ru: "Монтаж, пусконаладка и интеграция с системой CO₂",
-        }[lang],
-        `pv-${capacity}`,
+        k,
       ),
     ]),
     features: [
       {
-        en: `Capacity ${capacity} kg/h`,
-        uk: `Продуктивність ${capacity} кг/год`,
-        ru: `Производительность ${capacity} кг/ч`,
+        en: `Capacity ${kgh(m.capacity, "en")}`,
+        uk: `Продуктивність ${kgh(m.capacity, "uk")}`,
+        ru: `Производительность ${kgh(m.capacity, "ru")}`,
       },
       {
-        en: "Outlet temperature control — no dry ice formation",
-        uk: "Контроль температури на виході — без утворення сухого льоду",
-        ru: "Контроль температуры на выходе — без образования сухого льда",
+        en: "Protection against dry ice formation and liquid carry-over",
+        uk: "Захист від утворення сухого льоду й переливу рідкої фази",
+        ru: "Защита от образования сухого льда и перелива жидкой фазы",
       },
       {
-        en: "Stable operation all year round",
-        uk: "Стабільна робота цілий рік",
-        ru: "Стабильная работа круглый год",
+        en: "PLC control, stainless steel housing",
+        uk: "PLC-керування, корпус із нержавіючої сталі",
+        ru: "PLC-управление, корпус из нержавеющей стали",
       },
       {
-        en: "Integration with tank, reducer and piping",
-        uk: "Інтеграція з ємністю, редуктором і трубопроводами",
-        ru: "Интеграция с ёмкостью, редуктором и трубопроводами",
+        en: "CE, TÜV NORD, 24-month warranty",
+        uk: "CE, TÜV NORD, гарантія 24 місяці",
+        ru: "CE, TÜV NORD, гарантия 24 месяца",
       },
     ],
     applications: GASES.co2.applications,
     specs: [
+      spec("s-model", LABELS.model, { en: m.model, uk: m.model, ru: m.model }, LABELS.groupMain),
+      spec("s-cap", LABELS.capacity, { en: kgh(m.capacity, "en"), uk: kgh(m.capacity, "uk"), ru: kgh(m.capacity, "ru") }, LABELS.groupMain),
+      spec("s-medium", LABELS.medium, { en: "Liquid CO₂ (LCO₂)", uk: "Рідкий CO₂ (LCO₂)", ru: "Жидкий CO₂ (LCO₂)" }, LABELS.groupMain),
+      spec("s-version", { en: "Version", uk: "Виконання", ru: "Исполнение" }, { en: "Standard P", uk: "Standard P", ru: "Standard P" }, LABELS.groupMain),
+      spec("s-body", { en: "Housing", uk: "Корпус", ru: "Корпус" }, { en: "Stainless steel", uk: "Нержавіюча сталь", ru: "Нержавеющая сталь" }, LABELS.groupMain),
+      spec("s-control", { en: "Control", uk: "Керування", ru: "Управление" }, { en: "PLC controller", uk: "PLC-контролер", ru: "PLC-контроллер" }, LABELS.groupMain),
       spec(
-        "s-cap",
-        LABELS.capacity,
+        "s-mount",
+        MOUNTING[m.mounting].label,
         {
-          en: `${capacity} kg/h`,
-          uk: `${capacity} кг/год`,
-          ru: `${capacity} кг/ч`,
-        },
-        LABELS.groupMain,
-      ),
-      spec("s-prod", LABELS.product, GASES.co2.gen, LABELS.groupMain),
-      spec(
-        "s-heat",
-        { en: "Heating", uk: "Обігрів", ru: "Обогрев" },
-        {
-          en: "Electric or water/steam, selected per project",
-          uk: "Електричний або водяний/паровий, підбирається під проєкт",
-          ru: "Электрический или водяной/паровой, подбирается под проект",
+          en: cap(MOUNTING[m.mounting].value.en),
+          uk: cap(MOUNTING[m.mounting].value.uk),
+          ru: cap(MOUNTING[m.mounting].value.ru),
         },
         LABELS.groupMain,
       ),
       spec(
-        "s-press",
-        {
-          en: "Outlet pressure",
-          uk: "Тиск на виході",
-          ru: "Давление на выходе",
-        },
-        LABELS.onRequest,
-        LABELS.groupMain,
+        "s-overfill",
+        { en: "Liquid carry-over protection", uk: "Захист від переливу рідкої фази", ru: "Защита от перелива жидкой фазы" },
+        { en: "Yes", uk: "Так", ru: "Да" },
+        LABELS.groupProtection,
       ),
+      spec(
+        "s-dryice",
+        { en: "Dry ice formation protection", uk: "Захист від утворення сухого льоду", ru: "Защита от образования сухого льда" },
+        { en: "Yes", uk: "Так", ru: "Да" },
+        LABELS.groupProtection,
+      ),
+      spec("s-ce", { en: "Marking", uk: "Маркування", ru: "Маркировка" }, { en: "CE", uk: "CE", ru: "CE" }, LABELS.groupProtection),
+      spec("s-nb", { en: "Notified Body", uk: "Notified Body", ru: "Notified Body" }, { en: "TÜV NORD", uk: "TÜV NORD", ru: "TÜV NORD" }, LABELS.groupProtection),
+      spec("s-warranty", { en: "Warranty", uk: "Гарантія", ru: "Гарантия" }, { en: "24 months", uk: "24 місяці", ru: "24 месяца" }, LABELS.groupProtection),
+      ...(m.capacity === 130
+        ? [
+            spec(
+              "s-kit",
+              { en: "Standard package", uk: "Стандартна комплектація", ru: "Стандартная комплектация" },
+              {
+                en: "Solenoid and safety valves; mounting kit with inlet filter and counter-flanges; temperature sensors; pressure transmitter",
+                uk: "Електромагнітні та запобіжні клапани; монтажний комплект із вхідним фільтром і контрфланцями; датчики температури; перетворювач тиску",
+                ru: "Электромагнитные и предохранительные клапаны; монтажный комплект с входным фильтром и контрфланцами; датчики температуры; преобразователь давления",
+              },
+              LABELS.groupScope,
+            ),
+          ]
+        : []),
     ],
     faq: [],
-    priceOnRequest: true,
+    price: m.priceEur,
+    priceOnRequest: false,
     availability: "onRequest",
     currency: "EUR",
     seo: {
-      // Варіант у сімействі однотипних товарів: хабом для пошуку є категорія.
-      noIndex: true,
       metaTitle: {
-        en: title.en,
-        uk: title.uk,
-        ru: title.ru,
+        en: `CO₂ vaporizer ${m.model}, ${kgh(m.capacity, "en")} — from ${formatEur(m.priceEur, "en")}`,
+        uk: `Випарник CO₂ ${m.model}, ${kgh(m.capacity, "uk")} — від ${formatEur(m.priceEur, "uk")}`,
+        ru: `Испаритель CO₂ ${m.model}, ${kgh(m.capacity, "ru")} — от ${formatEur(m.priceEur, "ru")}`,
       },
       metaDescription: {
-                en: `Vaporizer for liquid CO₂ with a capacity of ${capacity} kg/h for greenhouses, beverage and food plants. Supply, installation and integration.`,
-        uk: `Випарник для рідкого CO₂ продуктивністю ${capacity} кг/год для теплиць, заводів напоїв і харчових виробництв. Постачання та монтаж.`,
-        ru: `Испаритель для жидкого CO₂ производительностью ${capacity} кг/ч для теплиц, заводов напитков и пищевых производств. Поставка и монтаж.`,
+        en: `Liquid CO₂ gasifier for ${kgh(m.capacity, "en")}: stainless steel, PLC, dry ice protection, TÜV NORD, 24-month warranty. From ${formatEur(m.priceEur, "en")} excl. VAT.`,
+        uk: `Газифікатор рідкої вуглекислоти на ${kgh(m.capacity, "uk")}: нержавіюча сталь, PLC, захист від сухого льоду, TÜV NORD, гарантія 24 міс. Від ${formatEur(m.priceEur, "uk")} без ПДВ.`,
+        ru: `Газификатор жидкой углекислоты на ${kgh(m.capacity, "ru")}: нержавеющая сталь, PLC, защита от сухого льда, TÜV NORD, гарантия 24 мес. От ${formatEur(m.priceEur, "ru")} без НДС.`,
       },
       keywords: {
-        en: `CO2 vaporizer ${capacity} kg/h, CO2 gasifier`,
-        uk: `випарник CO2 ${capacity} кг/год, газифікатор вуглекислоти`,
-        ru: `испаритель CO2 ${capacity} кг/ч, газификатор углекислоты`,
+        en: `${m.model}, CO2 vaporizer ${m.capacity} kg/h, CO2 gasifier ${m.capacity} kg/h price`,
+        uk: `${m.model}, випарник CO2 ${m.capacity} кг/год, газифікатор вуглекислоти ${m.capacity} кг/год ціна`,
+        ru: `${m.model}, испаритель CO2 ${m.capacity} кг/ч, газификатор углекислоты ${m.capacity} кг/ч цена`,
       },
     },
   };
 }
 
-export const co2VaporizerProducts = [100, 200, 300, 500, 800, 1000].map(
-  buildCo2VaporizerProduct,
-);
 
 /* ═══════════════════════════════════════════════════════════════════════
    Монтаж кріогенних систем під ключ
@@ -1318,14 +1663,14 @@ const INSTALL_FAQ: Array<{ q: L; a: L }> = [
   },
   {
     q: {
-      en: "Do you install equipment supplied by others?",
-      uk: "Чи монтуєте ви обладнання інших постачальників?",
-      ru: "Монтируете ли вы оборудование других поставщиков?",
+      en: "Do you install tanks supplied by others?",
+      uk: "Чи монтуєте й обвʼязуєте ємності інших постачальників?",
+      ru: "Монтируете и обвязываете ли ёмкости других поставщиков?",
     },
     a: {
-      en: "Yes — after reviewing the documentation and the condition of the equipment. We also relocate existing tanks and rebuild piping on operating sites.",
-      uk: "Так — після перевірки документації та стану обладнання. Також переносимо існуючі ємності та переробляємо обвʼязку на діючих майданчиках.",
-      ru: "Да — после проверки документации и состояния оборудования. Также переносим существующие ёмкости и переделываем обвязку на действующих площадках.",
+      en: "No. We install and pipe only the systems we have selected and supplied ourselves — tank, vaporizer and pipelines — so one party is responsible for the result. If you already have an installer, we can supply just the tank or the vaporizer.",
+      uk: "Ні. Монтуємо й обвʼязуємо лише системи, які самі підібрали й постачили, — ємність, випарник і трубопроводи, — щоб за результат відповідала одна сторона. Якщо монтажник у вас уже є, можемо постачити лише ємність або випарник.",
+      ru: "Нет. Монтируем и обвязываем только системы, которые сами подобрали и поставили, — ёмкость, испаритель и трубопроводы, — чтобы за результат отвечала одна сторона. Если монтажник у вас уже есть, можем поставить только ёмкость или испаритель.",
     },
   },
 ];
@@ -1379,9 +1724,9 @@ export const installationCategory: SeedCategory = {
       ru: "Монтаж криогенных ёмкостей, испарителей, трубопроводов и арматуры для CO₂, N₂, O₂ и Ar: фундаменты, обвязка, пусконаладка.",
     },
     keywords: {
-      en: "cryogenic tank installation, gas supply system installation, cryogenic piping",
-      uk: "монтаж кріогенних ємностей, монтаж систем газопостачання, обвʼязка кріогенної ємності",
-      ru: "монтаж криогенных емкостей, монтаж систем газоснабжения, обвязка криогенной емкости",
+      en: "cryogenic tank installation, cryogenic system installation for oxygen nitrogen CO2, cryogenic tank piping",
+      uk: "монтаж кріогенних ємностей, встановлення кріогенної системи для кисню, азоту, вуглекислоти, обвʼязка кріогенної ємності",
+      ru: "монтаж криогенных емкостей, установка криогенной системы для кислорода, азота, углекислоты, обвязка криогенной емкости",
     },
   },
   productCount: 1,
@@ -1536,3 +1881,7 @@ export const installationProduct: SeedProduct = {
     },
   },
 };
+
+// Після installationCategory: опис товарів посилається на неї, а const до
+// оголошення в модулі — це TDZ-помилка під час імпорту.
+export const co2VaporizerProducts = CO2_VAPORIZERS.map(buildCo2VaporizerProduct);

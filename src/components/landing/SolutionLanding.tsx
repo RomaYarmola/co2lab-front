@@ -9,6 +9,7 @@ import PortableTextRenderer from "@/components/shared/portableText/PortableTextR
 import ConsultationCTA from "@/components/shared/cta/ConsultationCTA";
 import PostCard from "@/components/blog/PostCard";
 import HubLinks from "@/components/shared/hubLinks/HubLinks";
+import ProjectsStrip from "@/components/projects/ProjectsStrip";
 import { localizePath, type Locale } from "@/i18n/config";
 import { getTranslator } from "@/i18n/server";
 import { ROUTES } from "@/constants/routes";
@@ -16,6 +17,7 @@ import { fetchBlogPosts, fetchProductCategories } from "@/lib/sanity/fetchers";
 import { mapCategory, mapPostCard } from "@/lib/sanity/adapters";
 import { body, type Line } from "@/lib/sanity/seed/helpers";
 import type { Landing } from "@/content/landings";
+import { projectsForLanding } from "@/content/projects";
 
 /**
  * Токени посилань у тексті посадкових сторінок:
@@ -66,6 +68,7 @@ export default async function SolutionLanding({
   const tNav = getTranslator(locale, "nav");
   const tHubs = getTranslator(locale, "hubs");
   const tProduct = getTranslator(locale, "product");
+  const tProjects = getTranslator(locale, "projects");
 
   const [categoryDocs, postDocs] = await Promise.all([
     fetchProductCategories(),
@@ -134,6 +137,13 @@ export default async function SolutionLanding({
           <div className="mt-10 grid grid-cols-1 gap-10 lg:mt-16 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-14">
             <div className="min-w-0">
               <PortableTextRenderer blocks={blocks} locale={locale} />
+              <ProjectsStrip
+                locale={locale}
+                projects={projectsForLanding(landing.path)}
+                text={tProjects("landingText")}
+                columns={2}
+                className="mt-14"
+              />
               {faq.length > 0 && (
                 <FaqSection items={faq} title={tProduct("faq")} className="mt-14" />
               )}

@@ -40,13 +40,14 @@ export async function GET() {
 
   const body = `# CO₂ Lab
 
-> CO₂ Lab supplies liquid carbon dioxide and cryogenic equipment in Ukraine: vacuum-insulated storage tanks for CO₂, nitrogen, oxygen and argon from 10 to 100 m³, cryogenic cylinders, ambient and CO₂ vaporizers from 50 to 2000 kg/h, laboratory equipment for CO₂ quality control to ISBT and EIGA, and turnkey installation — foundations, piping, commissioning and staff training. The site is published in English (root), Ukrainian (/uk) and Russian (/ru); the working market is Ukraine.
+> CO₂ Lab supplies liquid carbon dioxide and cryogenic equipment in Ukraine: vacuum-insulated storage tanks for CO₂ (nine ZVT models, 3–60 m³, from €17,000 excl. VAT), nitrogen, oxygen and argon, Euro-Cyl cryogenic cylinders of 120–993 L, CO₂ vaporizers of 130–1000 kg/h and ambient vaporizers for air gases, laboratory equipment for CO₂ quality control to ISBT and EIGA, and turnkey installation — foundations, piping, commissioning and staff training. The site is published in English (root), Ukrainian (/uk) and Russian (/ru); the working market is Ukraine.
 
 ## Main
 
 - [Home](${u("/")}): CO₂ capture, purification and reuse, plus the equipment behind it.
 - [Catalog](${u("/catalog")}): all cryogenic equipment — tanks, cylinders, vaporizers, laboratory kits, installation.
 - [Supply](${u("/supply")}): production and supply of CO₂, from biogenic capture to distribution.
+- [Completed projects](${u("/projects")}): a beverage plant (50 m³ tank, 1,000 kg/h gasifier), two greenhouse businesses (four 60 m³ tanks; a 20 m³ tank with a 250 kg/h gasifier) and a dry ice facility (60 m³ tank, 300 kg/h machine), with photos.
 - [Blog](${u("/blog")}): engineering articles with calculations, conversion tables and checklists.
 - [Contacts](${u("/contacts")}): phone ${CONTACT_PHONE}, email ${CONTACT_EMAIL_REQUEST}.
 

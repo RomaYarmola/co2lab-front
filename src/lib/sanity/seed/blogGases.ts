@@ -33,7 +33,7 @@ const catTanksAr = tankCategories.find((c) => c._id === "cat-tanks-ar")!;
 const catTanksO2 = tankCategories.find((c) => c._id === "cat-tanks-o2")!;
 const catCylN2 = cylinderCategories.find((c) => c._id === "cat-cylinders-n2")!;
 
-const cylN2 = seedProduct("product-cylinder-n2");
+const cylN2 = seedProduct("product-cryocylinder-180-4");
 const tankN2 = seedProduct("product-tank-n2-30");
 const tankO2 = seedProduct("product-tank-o2-30");
 const tankAr = seedProduct("product-tank-ar-30");

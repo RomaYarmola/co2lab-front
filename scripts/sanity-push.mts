@@ -20,6 +20,7 @@ import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
 import {
+  RETIRED_PRODUCT_IDS,
   seedAuthor,
   seedBlogCategories,
   seedCategories,
@@ -116,7 +117,8 @@ function productDoc(
     })),
     faq: product.faq.map((item) => ({ _type: "faqItem", ...item })),
     specs: product.specs.map((item) => ({ _type: "specRow", ...item })),
-    priceOnRequest: true,
+    priceOnRequest: product.priceOnRequest,
+    ...(typeof product.price === "number" ? { price: product.price } : {}),
     currency: product.currency,
     availability: product.availability,
     seo: { _type: "seoFields", ...product.seo, noIndex: product.seo.noIndex ?? false },
@@ -384,6 +386,21 @@ async function main() {
       `Товари записано: ${Math.min(i + 20, productDocs.length)}/${productDocs.length}`,
     );
   }
+
+  // Товари, яких більше немає в прайсі: не видаляємо (на них можуть
+  // посилатися старі версії статей у Studio), а знімаємо з публікації.
+  // Старі адреси ведуть на актуальні сторінки через legacyRedirects.ts.
+  const retired = await client.fetch<string[]>(
+    `*[_id in $ids && isPublished != false]._id`,
+    { ids: RETIRED_PRODUCT_IDS },
+  );
+  if (retired.length > 0) {
+    let retireTx = client.transaction();
+    for (const id of retired)
+      retireTx = retireTx.patch(id, (patch) => patch.set({ isPublished: false }));
+    await retireTx.commit();
+  }
+  console.log(`Знято з публікації: ${retired.length} (${retired.join(", ") || "—"})`);
 
   // 3. Блог: автор і категорії мають існувати до статей, які на них посилаються
   let blogTx = client.transaction().createOrReplace(authorDoc());

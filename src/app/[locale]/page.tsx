@@ -12,6 +12,8 @@ import { buildStaticPageMetadata, resolveLocale } from "@/utils/pageMetadata";
 import { ROUTES } from "@/constants/routes";
 import Container from "@/components/shared/container/Container";
 import HubLinks from "@/components/shared/hubLinks/HubLinks";
+import ProjectsStrip from "@/components/projects/ProjectsStrip";
+import { PROJECTS } from "@/content/projects";
 import { DRY_ICE_LANDING, INDUSTRY_LANDINGS } from "@/content/landings";
 import { getTranslator } from "@/i18n/server";
 
@@ -26,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Home({ params }: Props) {
   const locale = await resolveLocale(params);
   const t = getTranslator(locale, "hubs");
+  const tProjects = getTranslator(locale, "projects");
   const solutionItems = [...INDUSTRY_LANDINGS, DRY_ICE_LANDING].map((landing) => ({
     path: landing.path,
     title: landing.shortTitle[locale],
@@ -51,6 +54,14 @@ export default async function Home({ params }: Props) {
       <Efficiency locale={locale} />
       <Activity locale={locale} />
       <Benefits locale={locale} />
+      <Container>
+        <ProjectsStrip
+          locale={locale}
+          projects={PROJECTS}
+          text={tProjects("homeText")}
+          className="py-12 lg:py-20"
+        />
+      </Container>
       {/* Товари й статті на головній — внутрішні посилання на свіжий контент */}
       <FeaturedProducts locale={locale} />
       <LatestPosts locale={locale} />

@@ -12,6 +12,8 @@ import CatalogGrid from "@/components/catalog/CatalogGrid";
 import ConsultationCTA from "@/components/shared/cta/ConsultationCTA";
 import SectionTitle from "@/components/shared/titles/SectionTitle";
 import PostCard from "@/components/blog/PostCard";
+import ProjectsStrip from "@/components/projects/ProjectsStrip";
+import { projectsForCategory } from "@/content/projects";
 import { isLocale, locales, type Locale } from "@/i18n/config";
 import { getTranslator } from "@/i18n/server";
 import { createPageMetadata } from "@/utils/createMetadata";
@@ -94,6 +96,7 @@ export default async function CategoryPage({ params }: Props) {
   const t = getTranslator(locale, "catalog");
   const tCommon = getTranslator(locale, "common");
   const tProduct = getTranslator(locale, "product");
+  const tProjects = getTranslator(locale, "projects");
 
   const category = mapCategory(doc, locale);
   const [allCategoryDocs, productDocs, supportingDocs] = await Promise.all([
@@ -164,6 +167,14 @@ export default async function CategoryPage({ params }: Props) {
               <PortableTextRenderer blocks={descriptionBlocks} locale={locale} />
             </div>
           )}
+
+          {/* Реальні обʼєкти з таким обладнанням — доказ поруч із цінами */}
+          <ProjectsStrip
+            locale={locale}
+            projects={projectsForCategory(doc._id)}
+            text={tProjects("categoryText")}
+            className="mt-14 lg:mt-20"
+          />
 
           {/* Статті, що закривають питання перед покупкою: хаб посилається на
               свої supporting pages, а читач отримує наступний крок. */}

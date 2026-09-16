@@ -10,6 +10,7 @@ const companyLinks = [
   { key: "engineeringSolutions", href: ROUTES.engineeringSolutions },
   { key: "equipmentAndSystems", href: ROUTES.equipmentAndSystems },
   { key: "industriesWeServe", href: ROUTES.industriesWeServe },
+  { key: "projects", href: ROUTES.projects },
   { key: "blog", href: ROUTES.blog },
 ] as const;
 

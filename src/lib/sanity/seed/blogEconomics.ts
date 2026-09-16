@@ -27,7 +27,7 @@ const catTanksCo2 = tankCategories.find((c) => c._id === "cat-tanks-co2")!;
 const tank10 = seedProduct("product-tank-co2-10");
 const tank30 = seedProduct("product-tank-co2-30");
 const install = seedProduct("product-installation-turnkey");
-const vaporizer300 = seedProduct("product-co2-vaporizer-300");
+const vaporizer400 = seedProduct("product-co2-vaporizer-400");
 
 const PHOTO = {
   tankVertical: "/images/catalog/cryogenic-storage-tank-vertical.webp",
@@ -192,7 +192,7 @@ export const postPriceUnits: SeedPost = {
       },
     ),
   ],
-  relatedProducts: [tank10, tank30, vaporizer300],
+  relatedProducts: [tank10, tank30, vaporizer400],
   relatedPosts: [],
   seo: {
     metaTitle: {
@@ -267,7 +267,7 @@ export const postRentOrBuy: SeedPost = {
         ["p", `Whichever model you choose, the scope of works on site is the same. When you compare proposals, check that all of it is priced — a [turnkey installation](${categoryPath(installationCategory, "en")}) that quietly excludes the foundation or the commissioning is not comparable with one that includes them.`],
         ["li", "Foundation and site preparation, including tanker access."],
         ["li", "Delivery, lifting and setting of the vessel."],
-        ["li", `The [vaporizer](${productPath(vaporizer300, "en")}) sized for peak demand, not average.`],
+        ["li", `The [vaporizer](${productPath(vaporizer400, "en")}) sized for peak demand, not average.`],
         ["li", "Piping to the point of use, with pressure regulation and safety fittings."],
         ["li", "Purging, leak testing, commissioning and personnel training."],
         ["li", "Documentation: passport, certificates, registration file."],
@@ -296,7 +296,7 @@ export const postRentOrBuy: SeedPost = {
         ["p", `Яку б модель ви не обрали, обсяг робіт на майданчику однаковий. Порівнюючи пропозиції, перевірте, що враховано все: [монтаж під ключ](${categoryPath(installationCategory, "uk")}), із якого тихо випав фундамент або пусконалагодження, не можна порівнювати з тим, де вони є.`],
         ["li", "Фундамент і підготовка майданчика разом із підʼїздом для автоцистерни."],
         ["li", "Доставка, підйом і встановлення посудини."],
-        ["li", `[Випарник](${productPath(vaporizer300, "uk")}), підібраний під пікове, а не середнє споживання.`],
+        ["li", `[Випарник](${productPath(vaporizer400, "uk")}), підібраний під пікове, а не середнє споживання.`],
         ["li", "Обвʼязка до точки споживання з редукуванням і запобіжною арматурою."],
         ["li", "Продування, випробування на герметичність, пусконалагодження й навчання персоналу."],
         ["li", "Документація: паспорт, сертифікати, реєстраційна справа."],
@@ -325,7 +325,7 @@ export const postRentOrBuy: SeedPost = {
         ["p", `Какую бы модель вы ни выбрали, объём работ на площадке одинаков. Сравнивая предложения, проверьте, что учтено всё: [монтаж под ключ](${categoryPath(installationCategory, "ru")}), из которого тихо выпал фундамент или пусконаладка, нельзя сравнивать с тем, где они есть.`],
         ["li", "Фундамент и подготовка площадки вместе с подъездом для автоцистерны."],
         ["li", "Доставка, подъём и установка сосуда."],
-        ["li", `[Испаритель](${productPath(vaporizer300, "ru")}), подобранный под пиковое, а не среднее потребление.`],
+        ["li", `[Испаритель](${productPath(vaporizer400, "ru")}), подобранный под пиковое, а не среднее потребление.`],
         ["li", "Обвязка до точки потребления с редуцированием и предохранительной арматурой."],
         ["li", "Продувка, испытание на герметичность, пусконаладка и обучение персонала."],
         ["li", "Документация: паспорт, сертификаты, регистрационное дело."],
@@ -366,7 +366,7 @@ export const postRentOrBuy: SeedPost = {
       },
     ),
   ],
-  relatedProducts: [tank30, install, vaporizer300],
+  relatedProducts: [tank30, install, vaporizer400],
   relatedPosts: [],
   seo: {
     metaTitle: {

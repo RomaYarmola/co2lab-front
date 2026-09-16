@@ -7,13 +7,16 @@ import { ROUTES } from "@/constants/routes";
 import type { ProductCardView } from "@/lib/sanity/adapters";
 import ArrowIcon from "@/components/shared/icons/ArrowIcon";
 import ProductCardGallery from "./ProductCardGallery";
+import { formatEur } from "@/lib/sanity/seed/format";
 
 export default function ProductCard({
   product,
   locale,
+  showCategory = true,
 }: {
   product: ProductCardView;
   locale: Locale;
+  showCategory?: boolean;
 }) {
   const t = useTranslations("product");
   const href = localizePath(locale, `${ROUTES.catalog}/${product.slug}`);
@@ -25,13 +28,14 @@ export default function ProductCard({
         ? t("madeToOrder")
         : t("onRequest");
 
-  const priceLabel = product.priceOnRequest
-    ? t("priceOnRequest")
-    : new Intl.NumberFormat(locale, {
-        style: "currency",
-        currency: product.currency,
-        maximumFractionDigits: 0,
-      }).format(product.price ?? 0);
+  // Ціни в прайсі клієнта — «від … без ПДВ»: базова комплектація, далі опції
+  const hasPrice = !product.priceOnRequest && product.price !== null;
+  const priceLabel = hasPrice
+    ? t("priceFrom", { price: formatEur(product.price ?? 0, locale) })
+    : t("priceOnRequest");
+  const priceNote = hasPrice
+    ? `${t("exclVat")} · ${availabilityLabel}`
+    : availabilityLabel;
 
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-[18px] border border-black/10 bg-white transition-shadow duration-300 xl:hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)]">
@@ -42,7 +46,7 @@ export default function ProductCard({
       />
 
       <div className="flex flex-1 flex-col p-4 lg:p-5">
-        {product.category && (
+        {showCategory && product.category && (
           <p className="mb-2 text-[10px] lg:text-[12px] font-light uppercase leading-[120%] tracking-[0.06em] text-black/50">
             {product.category.title}
           </p>
@@ -77,7 +81,7 @@ export default function ProductCard({
               {priceLabel}
             </p>
             <p className="mt-1 text-[10px] lg:text-[12px] font-light leading-[120%] text-black/50">
-              {availabilityLabel}
+              {priceNote}
             </p>
           </div>
           <span

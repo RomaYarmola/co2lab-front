@@ -16,6 +16,7 @@ export const ROUTES = {
   industryBeverages: "/solutions/industries/beverages",
   industryWelding: "/solutions/industries/welding",
   industryGreenhouses: "/solutions/industries/greenhouses",
+  projects: "/projects",
   termsOfUse: "/terms-of-use",
   privacyPolicy: "/privacy-policy",
   /** Службова сторінка після відправки форми, закрита від індексації. */
@@ -29,7 +30,7 @@ export type RouteKey = keyof typeof ROUTES;
  * із текстами. Раніше lastmod дорівнював часу генерації карти: Google
  * бачив «змінено» при кожному обході й перестає довіряти такому полю.
  */
-export const STATIC_CONTENT_UPDATED_AT = "2026-09-15T00:00:00Z";
+export const STATIC_CONTENT_UPDATED_AT = "2026-09-16T00:00:00Z";
 
 export type StaticRoute = {
   path: string;
@@ -65,6 +66,7 @@ export const STATIC_ROUTES: StaticRoute[] = [
   { path: ROUTES.industryBeverages, seoKey: "landing", priority: 0.8, changeFrequency: "monthly" },
   { path: ROUTES.industryWelding, seoKey: "landing", priority: 0.8, changeFrequency: "monthly" },
   { path: ROUTES.industryGreenhouses, seoKey: "landing", priority: 0.8, changeFrequency: "monthly" },
+  { path: ROUTES.projects, seoKey: "projects", priority: 0.8, changeFrequency: "monthly" },
   { path: ROUTES.blog, seoKey: "blog", priority: 0.8, changeFrequency: "daily" },
   { path: ROUTES.about, seoKey: "about", priority: 0.7, changeFrequency: "monthly" },
   { path: ROUTES.contacts, seoKey: "contacts", priority: 0.7, changeFrequency: "monthly" },

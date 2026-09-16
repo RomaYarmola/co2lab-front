@@ -7,7 +7,7 @@ export const pagesEn = {
     hero: {
       title: "Cryogenic equipment for CO₂ and gases",
       subtitle:
-        "Tanks from 10 to 100 m³, vaporizers from 100 to 1000 kg/h, quality control and turnkey installation — from sizing to commissioning.",
+        "Tanks from 3 to 60 m³, vaporizers from 130 to 1000 kg/h, Euro-Cyl cryogenic cylinders, quality control and turnkey installation — from sizing to commissioning.",
       cta: "View the catalogue",
       badges: [
         "Efficiency",

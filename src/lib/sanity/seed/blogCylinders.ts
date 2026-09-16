@@ -30,7 +30,7 @@ const catCylN2 = cylinderCategories.find((c) => c._id === "cat-cylinders-n2")!;
 
 const tank10 = seedProduct("product-tank-co2-10");
 const tank20 = seedProduct("product-tank-co2-20");
-const cylN2 = seedProduct("product-cylinder-n2");
+const cylN2 = seedProduct("product-cryocylinder-180-4");
 
 const PHOTO = {
   cylinderFrame: "/images/catalog/cryogenic-cylinder-stainless-frame.webp",

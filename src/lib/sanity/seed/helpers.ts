@@ -121,7 +121,9 @@ export type SeedProduct = {
   applications: L[];
   specs: SeedSpec[];
   faq: SeedFaq[];
-  priceOnRequest: true;
+  /** Ціна «від», без ПДВ. Якщо не задана — «Ціна за запитом». */
+  price?: number;
+  priceOnRequest: boolean;
   availability: "madeToOrder" | "onRequest";
   currency: "EUR";
   seo: SeedSeo;
@@ -326,7 +328,36 @@ export const LABELS = {
     ru: "Продукт хранения",
   },
   type: { en: "Tank type", uk: "Тип ємності", ru: "Тип ёмкости" },
-  insulation: { en: "Insulation", uk: "Ізоляція", ru: "Изоляция" },
+  insulation: { en: "Insulation", uk: "Тип ізоляції", ru: "Тип изоляции" },
+  model: { en: "Model", uk: "Модель", ru: "Модель" },
+  usable: {
+    en: "Usable volume",
+    uk: "Корисний обʼєм",
+    ru: "Полезный объём",
+  },
+  diameter: { en: "Diameter", uk: "Діаметр", ru: "Диаметр" },
+  height: { en: "Height", uk: "Висота", ru: "Высота" },
+  medium: { en: "Medium", uk: "Середовище", ru: "Среда" },
+  groupSize: {
+    en: "Dimensions and weight",
+    uk: "Габарити й маса",
+    ru: "Габариты и масса",
+  },
+  groupSafety: {
+    en: "Safety devices",
+    uk: "Запобіжні пристрої",
+    ru: "Предохранительные устройства",
+  },
+  groupProtection: {
+    en: "Protection and certification",
+    uk: "Захист і сертифікація",
+    ru: "Защита и сертификация",
+  },
+  groupLosses: {
+    en: "Evaporation losses",
+    uk: "Втрати на випаровування",
+    ru: "Потери на испарение",
+  },
   scope: { en: "Scope of supply", uk: "Комплектація", ru: "Комплектация" },
   capacity: {
     en: "Vaporization capacity",

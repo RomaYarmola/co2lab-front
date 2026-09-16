@@ -8,6 +8,10 @@ import type { ProductDetailView } from "@/lib/sanity/adapters";
  * Product + Offer. Для товарів «ціна за запитом» вказуємо
  * PriceSpecification без значення — Google приймає таку розмітку
  * і не рахує це помилкою відсутньої ціни.
+ *
+ * Бренд і виробника не вказуємо: CO₂ Lab — постачальник, а не завод
+ * (ємності ZVT, кріоциліндри Euro-Cyl виготовляють інші компанії).
+ * Компанія фігурує як продавець в Offer.
  */
 export default function ProductJsonLd({
   locale,
@@ -34,8 +38,6 @@ export default function ProductJsonLd({
     description: product.shortDescription || product.title,
     url,
     image: product.images.map((image) => image.url).slice(0, 8),
-    brand: { "@type": "Brand", name: "CO₂ Lab" },
-    manufacturer: { "@id": `${baseUrl}/#organization` },
     ...(product.sku ? { sku: product.sku } : {}),
     ...(product.model ? { model: product.model } : {}),
     ...(product.category
@@ -65,6 +67,13 @@ export default function ProductJsonLd({
         : {
             price: product.price,
             priceCurrency: product.currency,
+            // Ціни в прайсі — «від … без ПДВ»
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: product.price,
+              priceCurrency: product.currency,
+              valueAddedTaxIncluded: false,
+            },
           }),
     },
   };

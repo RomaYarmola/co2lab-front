@@ -3,6 +3,8 @@ import { buildStaticPageMetadata, resolveLocale } from "@/utils/pageMetadata";
 import { ROUTES } from "@/constants/routes";
 import Container from "@/components/shared/container/Container";
 import HubLinks from "@/components/shared/hubLinks/HubLinks";
+import ProjectsStrip from "@/components/projects/ProjectsStrip";
+import { PROJECTS } from "@/content/projects";
 import { getTranslator } from "@/i18n/server";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -21,6 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function About({ params }: Props) {
   const locale = await resolveLocale(params);
   const tHubs = getTranslator(locale, "hubs");
+  const tProjects = getTranslator(locale, "projects");
 
   return (
     <>
@@ -30,6 +33,12 @@ export default async function About({ params }: Props) {
       <Approach locale={locale} />
       <WhyChoose locale={locale} />
       <Container>
+        <ProjectsStrip
+          locale={locale}
+          projects={PROJECTS}
+          text={tProjects("homeText")}
+          className="pt-12 lg:pt-20"
+        />
         <HubLinks
           locale={locale}
           title={tHubs("catalogTitle")}

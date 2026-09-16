@@ -39,6 +39,7 @@ const en = {
     equipmentAndSystems: "Equipment and systems",
     industriesWeServe: "Industries we serve",
     dryIceProduction: "Dry ice production",
+    projects: "Completed projects",
     blog: "Blog",
     about: "About",
     contacts: "Contacts",
@@ -145,9 +146,11 @@ const en = {
     category: "Category",
     availability: "Availability",
     inStock: "In stock",
-    onRequest: "On request",
+    onRequest: "Availability on request",
     madeToOrder: "Made to order",
     priceOnRequest: "Price on request",
+    priceFrom: "from {price}",
+    exclVat: "excl. VAT",
     ctaTitle: "Need this equipment for your plant?",
     ctaText:
       "Our engineers will size the system for your process, volumes and site conditions.",
@@ -205,7 +208,7 @@ const en = {
   hubs: {
     homeTitle: "Cryogenic equipment in the catalogue",
     homeText:
-      "Tanks for liquid CO₂, nitrogen, oxygen and argon from 10 to 100 m³, vaporizers from 100 to 1000 kg/h, cryogenic cylinders, quality control labs and turnkey installation.",
+      "Tanks for liquid CO₂, nitrogen, oxygen and argon from 3 to 60 m³, CO₂ vaporizers from 130 to 1000 kg/h, cryogenic cylinders from 120 to 993 L, quality control labs and turnkey installation.",
     industriesTitle: "Solutions by industry",
     industriesText: "Typical configurations, consumption calculations and scope of supply for your application.",
     catalogTitle: "Equipment in the catalogue",
@@ -214,12 +217,34 @@ const en = {
     relatedArticles: "Related articles",
   },
 
+  projects: {
+    title: "Completed projects",
+    lead: "Sites where we supplied and installed liquid CO₂ equipment: a beverage plant, greenhouse businesses and a dry ice facility — each one from transport to commissioning.",
+    statProjects: "sites",
+    statTanks: "CO₂ tanks installed",
+    statVolume: "m³ of total volume",
+    completed: "Completed",
+    equipment: "Equipment",
+    scope: "Scope of work",
+    related: "Equipment and solutions",
+    sectionTitle: "Completed projects",
+    allProjects: "All projects",
+    categoryText: "Tanks and gasifiers like these are already installed and running at customer sites.",
+    landingText: "Sites in this industry that we have already handed over.",
+    homeText: "A beverage plant, greenhouse businesses and a dry ice facility: CO₂ tanks up to 60 m³ and gasifiers up to 1,000 kg/h.",
+  },
+
   seo: {
     siteName: "CO₂ Lab",
     home: {
       title: "Cryogenic tanks and vaporizers for CO₂ and industrial gases",
       description:
-        "Liquid CO₂, nitrogen, oxygen and argon tanks from 10 to 100 m³, vaporizers from 100 to 1000 kg/h, CO₂ quality control and turnkey installation in Ukraine.",
+        "Liquid CO₂, nitrogen, oxygen and argon tanks from 3 to 60 m³, CO₂ vaporizers from 130 to 1000 kg/h, CO₂ quality control and turnkey installation in Ukraine.",
+    },
+    projects: {
+      title: "Completed projects: CO₂ tanks and gasifiers",
+      description:
+        "A beverage plant, greenhouse businesses and a dry ice facility: CO₂ tanks of 20–60 m³ and gasifiers up to 1,000 kg/h. Supply, installation and commissioning.",
     },
     about: {
       title: "About CO₂ Lab — Engineering-First CO₂ Technology",
@@ -254,7 +279,7 @@ const en = {
     catalog: {
       title: "Cryogenic tanks, vaporizers and CO₂ equipment",
       description:
-        "Cryogenic tanks for liquid CO₂, nitrogen, oxygen and argon (10–100 m³), cryogenic cylinders, vaporizers and turnkey installation across Ukraine.",
+        "Tanks for liquid CO₂, nitrogen, oxygen and argon (3–60 m³), Euro-Cyl cryogenic cylinders, vaporizers and turnkey installation in Ukraine. From €3,600.",
     },
     blog: {
       title: "CO₂ and cryogenic equipment blog",

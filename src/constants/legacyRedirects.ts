@@ -160,6 +160,162 @@ const ENTRIES: LegacyEntry[] = [
       },
     },
   },
+
+  /* ── Вересень 2026: модельний ряд із прайсу клієнта ─────────────────────
+     Умовні обʼєми замінено реальними моделями. Ємностей на 80 і 100 м³ у
+     лінійці немає — ведемо на категорію; випарник — на найближчу модель, що
+     покриває ту саму витрату; кріоциліндр «для азоту/кисню/аргону» — на
+     категорію свого газу з моделями Euro-Cyl. */
+  {
+    from: "/catalog",
+    slugs: {
+      en: "cryogenic-co2-tank-80-m3",
+      uk: "kriogenna-yemnist-co2-80-m3",
+      ru: "kriogennaya-emkost-co2-80-m3",
+    },
+    to: {
+      slugs: {
+        en: "category/cryogenic-co2-storage-tanks",
+        uk: "category/kriogenni-yemnosti-dlya-ridkogo-co2",
+        ru: "category/kriogennye-emkosti-dlya-zhidkogo-co2",
+      },
+    },
+  },
+  {
+    from: "/catalog",
+    slugs: {
+      en: "cryogenic-co2-tank-100-m3",
+      uk: "kriogenna-yemnist-co2-100-m3",
+      ru: "kriogennaya-emkost-co2-100-m3",
+    },
+    to: {
+      slugs: {
+        en: "category/cryogenic-co2-storage-tanks",
+        uk: "category/kriogenni-yemnosti-dlya-ridkogo-co2",
+        ru: "category/kriogennye-emkosti-dlya-zhidkogo-co2",
+      },
+    },
+  },
+  {
+    from: "/catalog",
+    slugs: {
+      en: "co2-vaporizer-100-kg-h",
+      uk: "vyparnyk-co2-100-kg-god",
+      ru: "isparitel-co2-100-kg-ch",
+    },
+    to: {
+      slugs: {
+        en: "co2-vaporizer-130-kg-h",
+        uk: "vyparnyk-co2-130-kg-god",
+        ru: "isparitel-co2-130-kg-ch",
+      },
+    },
+  },
+  {
+    from: "/catalog",
+    slugs: {
+      en: "co2-vaporizer-200-kg-h",
+      uk: "vyparnyk-co2-200-kg-god",
+      ru: "isparitel-co2-200-kg-ch",
+    },
+    to: {
+      slugs: {
+        en: "co2-vaporizer-270-kg-h",
+        uk: "vyparnyk-co2-270-kg-god",
+        ru: "isparitel-co2-270-kg-ch",
+      },
+    },
+  },
+  {
+    from: "/catalog",
+    slugs: {
+      en: "co2-vaporizer-300-kg-h",
+      uk: "vyparnyk-co2-300-kg-god",
+      ru: "isparitel-co2-300-kg-ch",
+    },
+    to: {
+      slugs: {
+        en: "co2-vaporizer-400-kg-h",
+        uk: "vyparnyk-co2-400-kg-god",
+        ru: "isparitel-co2-400-kg-ch",
+      },
+    },
+  },
+  {
+    from: "/catalog",
+    slugs: {
+      en: "co2-vaporizer-500-kg-h",
+      uk: "vyparnyk-co2-500-kg-god",
+      ru: "isparitel-co2-500-kg-ch",
+    },
+    to: {
+      slugs: {
+        en: "co2-vaporizer-650-kg-h",
+        uk: "vyparnyk-co2-650-kg-god",
+        ru: "isparitel-co2-650-kg-ch",
+      },
+    },
+  },
+  {
+    from: "/catalog",
+    slugs: {
+      en: "co2-vaporizer-800-kg-h",
+      uk: "vyparnyk-co2-800-kg-god",
+      ru: "isparitel-co2-800-kg-ch",
+    },
+    to: {
+      slugs: {
+        en: "co2-vaporizer-1000-kg-h",
+        uk: "vyparnyk-co2-1000-kg-god",
+        ru: "isparitel-co2-1000-kg-ch",
+      },
+    },
+  },
+  {
+    from: "/catalog",
+    slugs: {
+      en: "liquid-nitrogen-cryogenic-cylinder",
+      uk: "kriotsylindr-dlya-ridkogo-azotu",
+      ru: "kriotsilindr-dlya-zhidkogo-azota",
+    },
+    to: {
+      slugs: {
+        en: "category/liquid-nitrogen-cryogenic-cylinders",
+        uk: "category/kriotsylindry-dlya-ridkogo-azotu",
+        ru: "category/kriotsilindry-dlya-zhidkogo-azota",
+      },
+    },
+  },
+  {
+    from: "/catalog",
+    slugs: {
+      en: "liquid-oxygen-cryogenic-cylinder",
+      uk: "kriotsylindr-dlya-ridkogo-kysnyu",
+      ru: "kriotsilindr-dlya-zhidkogo-kisloroda",
+    },
+    to: {
+      slugs: {
+        en: "category/liquid-oxygen-cryogenic-cylinders",
+        uk: "category/kriotsylindry-dlya-ridkogo-kysnyu",
+        ru: "category/kriotsilindry-dlya-zhidkogo-kisloroda",
+      },
+    },
+  },
+  {
+    from: "/catalog",
+    slugs: {
+      en: "liquid-argon-cryogenic-cylinder",
+      uk: "kriotsylindr-dlya-ridkogo-argonu",
+      ru: "kriotsilindr-dlya-zhidkogo-argona",
+    },
+    to: {
+      slugs: {
+        en: "category/liquid-argon-cryogenic-cylinders",
+        uk: "category/kriotsylindry-dlya-ridkogo-argonu",
+        ru: "category/kriotsilindry-dlya-zhidkogo-argona",
+      },
+    },
+  },
 ];
 
 export type Redirect = {

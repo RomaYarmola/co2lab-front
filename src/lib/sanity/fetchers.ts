@@ -1,4 +1,5 @@
 import { isSanityConfigured, sanityFetch } from "./client";
+import { productSourceCategory } from "@/constants/catalog";
 import {
   demoBlogCategories,
   demoBlogPosts,
@@ -34,15 +35,22 @@ function demo<T>(value: T): T | null {
 
 /* ─── Каталог ──────────────────────────────────────────────────────────── */
 
-export function fetchProductCategories(): Promise<SanityProductCategory[]> {
+export async function fetchProductCategories(): Promise<SanityProductCategory[]> {
   const fixture = demo(demoProductCategories);
-  if (fixture) return Promise.resolve(fixture);
-  return sanityFetch<SanityProductCategory[]>(
+  if (fixture) return fixture;
+  const categories = await sanityFetch<SanityProductCategory[]>(
     Q.PRODUCT_CATEGORIES_QUERY,
     {},
     { tags: [CACHE_TAGS.productCategory, CACHE_TAGS.product] },
     [],
   );
+  // Лічильник у фільтрі каталогу — за категорією, чиї товари реально показуються
+  return categories.map((category) => {
+    const sourceId = productSourceCategory(category._id);
+    if (sourceId === category._id) return category;
+    const source = categories.find((item) => item._id === sourceId);
+    return { ...category, productCount: source?.productCount ?? category.productCount };
+  });
 }
 
 export function fetchProductCategoryBySlug(
@@ -75,8 +83,9 @@ export function fetchProducts(): Promise<SanityProduct[]> {
 }
 
 export function fetchProductsByCategory(
-  categoryId: string,
+  pageCategoryId: string,
 ): Promise<SanityProduct[]> {
+  const categoryId = productSourceCategory(pageCategoryId);
   if (!isSanityConfigured) {
     return Promise.resolve(
       demoProducts.filter((p) => p.category?._id === categoryId),

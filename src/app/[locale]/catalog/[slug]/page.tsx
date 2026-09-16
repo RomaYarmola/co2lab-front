@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { formatEur } from "@/lib/sanity/seed/format";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Container from "@/components/shared/container/Container";
@@ -125,13 +126,14 @@ export default async function ProductPage({ params }: Props) {
         ? t("madeToOrder")
         : t("onRequest");
 
-  const priceLabel = product.priceOnRequest
-    ? t("priceOnRequest")
-    : new Intl.NumberFormat(locale, {
-        style: "currency",
-        currency: product.currency,
-        maximumFractionDigits: 0,
-      }).format(product.price ?? 0);
+  // Ціни в прайсі клієнта — «від … без ПДВ»: базова комплектація, далі опції
+  const hasPrice = !product.priceOnRequest && product.price !== null;
+  const priceLabel = hasPrice
+    ? t("priceFrom", { price: formatEur(product.price ?? 0, locale) })
+    : t("priceOnRequest");
+  const priceNote = hasPrice
+    ? `${t("exclVat")} · ${availabilityLabel}`
+    : availabilityLabel;
 
   const specGroups = groupSpecs(product.specs);
 
@@ -300,7 +302,7 @@ export default async function ProductPage({ params }: Props) {
                   {priceLabel}
                 </p>
                 <p className="mt-1.5 text-[12px] font-light leading-[120%] text-white/60">
-                  {availabilityLabel}
+                  {priceNote}
                 </p>
                 <p className="mt-5 text-[12px] lg:text-[14px] font-light leading-[150%] text-white/75">
                   {t("ctaText")}

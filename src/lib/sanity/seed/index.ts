@@ -68,6 +68,24 @@ export const seedProducts: SeedProduct[] = [
   installationProduct,
 ];
 
+/**
+ * Товари, які були в каталозі до прайсу клієнта (вересень 2026) і яких у
+ * модельному ряді немає. Скрипт пушу знімає їх із публікації; адреси
+ * перенаправлені в constants/legacyRedirects.ts.
+ */
+export const RETIRED_PRODUCT_IDS = [
+  "product-tank-co2-80",
+  "product-tank-co2-100",
+  "product-co2-vaporizer-100",
+  "product-co2-vaporizer-200",
+  "product-co2-vaporizer-300",
+  "product-co2-vaporizer-500",
+  "product-co2-vaporizer-800",
+  "product-cylinder-n2",
+  "product-cylinder-o2",
+  "product-cylinder-ar",
+];
+
 /** Товар за id — для звʼязків із блогу. */
 export function seedProduct(id: string): SeedProduct {
   const found = seedProducts.find((product) => product._id === id);

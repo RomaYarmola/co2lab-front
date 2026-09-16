@@ -23,6 +23,7 @@ export const navMenuList: NavMenuItem[] = [
       { titleKey: "equipmentAndSystems", slug: ROUTES.equipmentAndSystems },
       { titleKey: "industriesWeServe", slug: ROUTES.industriesWeServe },
       { titleKey: "dryIceProduction", slug: ROUTES.dryIceProduction },
+      { titleKey: "projects", slug: ROUTES.projects },
     ],
   },
   { titleKey: "blog", slug: ROUTES.blog },
@@ -35,7 +36,7 @@ export function getActiveIndex(pathname: string): number {
   if (pathname === ROUTES.home) return 0;
   if (pathname.startsWith(ROUTES.supply)) return 1;
   if (pathname.startsWith(ROUTES.catalog)) return 2;
-  if (pathname.startsWith("/solutions")) return 3;
+  if (pathname.startsWith("/solutions") || pathname.startsWith(ROUTES.projects)) return 3;
   if (pathname.startsWith(ROUTES.blog)) return 4;
   if (pathname.startsWith(ROUTES.about)) return 5;
   if (pathname.startsWith(ROUTES.contacts)) return 6;

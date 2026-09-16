@@ -37,8 +37,8 @@ const tank20 = seedProduct("product-tank-co2-20");
 const tank30 = seedProduct("product-tank-co2-30");
 const tank50 = seedProduct("product-tank-co2-50");
 const labKit = seedProduct("product-co2-lab-kit");
-const vap100 = seedProduct("product-co2-vaporizer-100");
-const vap300 = seedProduct("product-co2-vaporizer-300");
+const vap130 = seedProduct("product-co2-vaporizer-130");
+const vap400 = seedProduct("product-co2-vaporizer-400");
 const vap1000 = seedProduct("product-co2-vaporizer-1000");
 
 /** Сайт-побратим того самого замовника: виробник сухого льоду з рідкого CO₂. */
@@ -114,7 +114,7 @@ export const postWelding: SeedPost = {
         ["h2", "When a workshop outgrows cylinders"],
         ["p", `From about a tonne a month, cylinders start costing more in handling than in gas. The usual step is a [stationary tank](${categoryPath(catTanksCo2, "en")}) of 10–20 m³ with a vaporizer and a distribution ring around the shop, so every post takes gas from a wall socket instead of a cylinder standing beside it.`],
         ["p", `For a shop of that size a [10 m³ tank](${productPath(tank10, "en")}) covers eight to nine months of supply at one tonne a month, which is too slow a turnover — a [20 m³ vessel](${productPath(tank20, "en")}) shared with other processes, or a smaller microbulk unit, usually fits better. Sizing here follows delivery logistics rather than the tank catalogue.`],
-        ["p", `The vaporizer matters more than the tank in this application. Welding demand is spiky: all posts strike an arc at the start of a shift. One post at 12 l/min draws only about 1.3 kg/h, so a [100 kg/h vaporizer](${productPath(vap100, "en")}) covers several dozen simultaneous posts; what sizes it is the peak at shift start plus a frost reserve, not the number of welders.`],
+        ["p", `The vaporizer matters more than the tank in this application. Welding demand is spiky: all posts strike an arc at the start of a shift. One post at 12 l/min draws only about 1.3 kg/h, so a [130 kg/h vaporizer](${productPath(vap130, "en")}) covers several dozen simultaneous posts; what sizes it is the peak at shift start plus a frost reserve, not the number of welders.`],
         ["cta", "Sizing a supply for a welding shop?", "Tell us the number of posts, the flow rate and the arc-on time — we will calculate consumption, the vessel and the vaporizer, and show what the distribution ring should look like.", "Request a calculation", "/contacts"],
       ],
       uk: [
@@ -139,7 +139,7 @@ export const postWelding: SeedPost = {
         ["h2", "Коли цех переростає балони"],
         ["p", `Приблизно від тонни на місяць балони починають коштувати більше в обслуговуванні, ніж у газі. Звичайний крок — [стаціонарна ємність](${categoryPath(catTanksCo2, "uk")}) на 10–20 м³ з випарником і розвідним кільцем по цеху, щоб кожен пост брав газ із настінного посту, а не з балона поруч.`],
         ["p", `Для цеху такого розміру [ємність на 10 м³](${productPath(tank10, "uk")}) — це вісім-девʼять місяців запасу за тонни на місяць, тобто надто повільна оборотність. Краще підходить [посудина на 20 м³](${productPath(tank20, "uk")}), розділена з іншими процесами, або менший мікробалк. Обʼєм тут диктує логістика поставок, а не каталог.`],
-        ["p", `У цьому застосуванні випарник важливіший за ємність. Споживання зварювання пікове: на початку зміни дугу запалюють усі пости одночасно. Один пост на 12 л/хв відбирає лише близько 1,3 кг/год, тож [випарник на 100 кг/год](${productPath(vap100, "uk")}) закриває кілька десятків одночасних постів; розмір визначає пік на початку зміни й запас на мороз, а не кількість зварників.`],
+        ["p", `У цьому застосуванні випарник важливіший за ємність. Споживання зварювання пікове: на початку зміни дугу запалюють усі пости одночасно. Один пост на 12 л/хв відбирає лише близько 1,3 кг/год, тож [випарник на 130 кг/год](${productPath(vap130, "uk")}) закриває кілька десятків одночасних постів; розмір визначає пік на початку зміни й запас на мороз, а не кількість зварників.`],
         ["cta", "Підбираєте постачання для зварювального цеху?", "Напишіть кількість постів, витрату й частку часу горіння дуги — порахуємо споживання, посудину та випарник і покажемо, як має виглядати розвідне кільце.", "Замовити розрахунок", "/uk/contacts"],
       ],
       ru: [
@@ -164,7 +164,7 @@ export const postWelding: SeedPost = {
         ["h2", "Когда цех перерастает баллоны"],
         ["p", `Примерно от тонны в месяц баллоны начинают стоить больше в обслуживании, чем в газе. Обычный шаг — [стационарная ёмкость](${categoryPath(catTanksCo2, "ru")}) на 10–20 м³ с испарителем и разводящим кольцом по цеху, чтобы каждый пост брал газ из настенного поста, а не из баллона рядом.`],
         ["p", `Для цеха такого размера [ёмкость на 10 м³](${productPath(tank10, "ru")}) — это восемь-девять месяцев запаса при тонне в месяц, то есть слишком медленная оборачиваемость. Лучше подходит [сосуд на 20 м³](${productPath(tank20, "ru")}), разделённый с другими процессами, или меньший микробалк. Объём здесь диктует логистика поставок, а не каталог.`],
-        ["p", `В этом применении испаритель важнее ёмкости. Потребление сварки пиковое: в начале смены дугу зажигают все посты одновременно. Один пост на 12 л/мин отбирает лишь около 1,3 кг/ч, поэтому [испаритель на 100 кг/ч](${productPath(vap100, "ru")}) закрывает несколько десятков одновременных постов; размер определяет пик в начале смены и запас на мороз, а не количество сварщиков.`],
+        ["p", `В этом применении испаритель важнее ёмкости. Потребление сварки пиковое: в начале смены дугу зажигают все посты одновременно. Один пост на 12 л/мин отбирает лишь около 1,3 кг/ч, поэтому [испаритель на 130 кг/ч](${productPath(vap130, "ru")}) закрывает несколько десятков одновременных постов; размер определяет пик в начале смены и запас на мороз, а не количество сварщиков.`],
         ["cta", "Подбираете снабжение для сварочного цеха?", "Напишите количество постов, расход и долю времени горения дуги — посчитаем потребление, сосуд и испаритель и покажем, как должно выглядеть разводящее кольцо.", "Заказать расчёт", "/ru/contacts"],
       ],
     },
@@ -211,7 +211,7 @@ export const postWelding: SeedPost = {
       },
     ),
   ],
-  relatedProducts: [tank20, vap100, vap300],
+  relatedProducts: [tank20, vap130, vap400],
   relatedPosts: [],
   seo: {
     metaTitle: {
@@ -283,7 +283,7 @@ export const postBeverages: SeedPost = {
         ["h2", "Nitrogen for nitro beer and still drinks"],
         ["p", `Nitro stouts, liquid nitrogen dosing before can seaming and pressurising still drinks run on nitrogen, not CO₂. Beer gas mixes for dispensing stouts are mostly nitrogen with a quarter to a third of CO₂. If your range includes these, a [liquid nitrogen tank](${categoryPath(catTanksN2, "en")}) with an ambient vaporizer sits next to the CO₂ installation.`],
         ["h2", "Sizing the vaporizer, not just the tank"],
-        ["p", `Brewery demand is bursty. A filling line starting up, a tank being purged and a transfer running at the same time can triple the average draw for twenty minutes. Size the vaporizer for that peak: a [300 kg/h unit](${productPath(vap300, "en")}) suits most mid-size plants, while a large bottling operation with several lines needs [1000 kg/h](${productPath(vap1000, "en")}).`],
+        ["p", `Brewery demand is bursty. A filling line starting up, a tank being purged and a transfer running at the same time can triple the average draw for twenty minutes. Size the vaporizer for that peak: a [400 kg/h unit](${productPath(vap400, "en")}) suits most mid-size plants, while a large bottling operation with several lines needs [1000 kg/h](${productPath(vap1000, "en")}).`],
         ["li", "Measure the peak, not the monthly average divided by hours."],
         ["li", "Remember that an ambient vaporizer loses capacity in frost and needs a standby unit or a switchover pair."],
         ["li", "Keep pressure regulation close to the point of use — a long run from the tank costs you pressure exactly when demand spikes."],
@@ -305,7 +305,7 @@ export const postBeverages: SeedPost = {
         ["h2", "Азот для нітро-пива й негазованих напоїв"],
         ["p", `Нітро-стаути, дозування рідкого азоту перед закупорюванням банок і створення тиску в негазованих напоях працюють на азоті, а не на CO₂. Пивні суміші для розливу стаутів — здебільшого азот із чвертю-третиною CO₂. Якщо такі напої є у вашій лінійці, поруч із CO₂-установкою ставлять [ємність для рідкого азоту](${categoryPath(catTanksN2, "uk")}) з атмосферним випарником.`],
         ["h2", "Підбирати треба випарник, а не лише ємність"],
-        ["p", `Споживання пивоварні рвучке. Запуск лінії розливу, продування танка й перекачування, які збіглись у часі, здатні втричі перевищити середній відбір на двадцять хвилин. Випарник підбирають саме під цей пік: [апарат на 300 кг/год](${productPath(vap300, "uk")}) закриває більшість середніх виробництв, а великому розливу з кількома лініями потрібен [1000 кг/год](${productPath(vap1000, "uk")}).`],
+        ["p", `Споживання пивоварні рвучке. Запуск лінії розливу, продування танка й перекачування, які збіглись у часі, здатні втричі перевищити середній відбір на двадцять хвилин. Випарник підбирають саме під цей пік: [апарат на 400 кг/год](${productPath(vap400, "uk")}) закриває більшість середніх виробництв, а великому розливу з кількома лініями потрібен [1000 кг/год](${productPath(vap1000, "uk")}).`],
         ["li", "Міряйте пік, а не місячне споживання, поділене на години."],
         ["li", "Памʼятайте, що атмосферний випарник втрачає продуктивність у мороз і потребує резервного апарата або пари з перемиканням."],
         ["li", "Тримайте редукування ближче до точки споживання — довга траса від ємності забирає тиск саме тоді, коли попит стрибає."],
@@ -327,7 +327,7 @@ export const postBeverages: SeedPost = {
         ["h2", "Азот для нитро-пива и негазированных напитков"],
         ["p", `Нитро-стауты, дозирование жидкого азота перед закаткой банок и создание давления в негазированных напитках работают на азоте, а не на CO₂. Пивные смеси для розлива стаутов — в основном азот с четвертью-третью CO₂. Если такие напитки есть в вашей линейке, рядом с CO₂-установкой ставят [ёмкость для жидкого азота](${categoryPath(catTanksN2, "ru")}) с атмосферным испарителем.`],
         ["h2", "Подбирать надо испаритель, а не только ёмкость"],
-        ["p", `Потребление пивоварни рывковое. Запуск линии розлива, продувка танка и перекачивание, совпавшие во времени, способны втрое превысить средний отбор на двадцать минут. Испаритель подбирают именно под этот пик: [аппарат на 300 кг/ч](${productPath(vap300, "ru")}) закрывает большинство средних производств, а крупному розливу с несколькими линиями нужен [1000 кг/ч](${productPath(vap1000, "ru")}).`],
+        ["p", `Потребление пивоварни рывковое. Запуск линии розлива, продувка танка и перекачивание, совпавшие во времени, способны втрое превысить средний отбор на двадцать минут. Испаритель подбирают именно под этот пик: [аппарат на 400 кг/ч](${productPath(vap400, "ru")}) закрывает большинство средних производств, а крупному розливу с несколькими линиями нужен [1000 кг/ч](${productPath(vap1000, "ru")}).`],
         ["li", "Меряйте пик, а не месячное потребление, делённое на часы."],
         ["li", "Помните, что атмосферный испаритель теряет производительность в мороз и требует резервного аппарата или пары с переключением."],
         ["li", "Держите редуцирование ближе к точке потребления — длинная трасса от ёмкости забирает давление именно тогда, когда спрос скачет."],
@@ -364,7 +364,7 @@ export const postBeverages: SeedPost = {
       },
     ),
   ],
-  relatedProducts: [tank30, vap300, labKit],
+  relatedProducts: [tank30, vap400, labKit],
   relatedPosts: [],
   seo: {
     metaTitle: {
@@ -426,7 +426,7 @@ export const postDryIce: SeedPost = {
         ["p", "Liquid CO₂ arrives at the pelletizer at about 20 bar and −20 °C. When it is released to atmospheric pressure, part of it flashes into gas, and the heat that evaporation removes freezes the rest into snow at −78.5 °C. The snow is then pressed into pellets or blocks."],
         ["p", "The physics fixes the split at roughly 40–45% snow and 55–60% flash gas. In practice that means **2.2–2.5 kg of liquid CO₂ per kilogram of dry ice** if the flash gas is simply vented. Plants that return the flash gas to a liquefaction unit bring the figure down towards 1.1–1.2, but that requires a recovery system, not just a pelletizer."],
         ["tbl", "Liquid CO₂ demand by pelletizer capacity, without flash gas recovery", "Pellet output | Liquid CO₂ | Per 8-hour shift | Per month, 22 shifts", "100 kg/h | 230 kg/h | 1.8 t | 40 t", "200 kg/h | 460 kg/h | 3.7 t | 81 t", "300 kg/h | 690 kg/h | 5.5 t | 121 t", "400 kg/h | 920 kg/h | 7.4 t | 162 t"],
-        ["p", `The numbers on the right are why a dry ice workshop is a heavy consumer even at modest output. A [50 m³ tank](${productPath(tank50, "en")}) holds about 48 tonnes — under two weeks of supply for a 200 kg/h line running full shifts. Storage here is sized around the delivery schedule far more tightly than in most other applications.`],
+        ["p", `The numbers on the right are why a dry ice workshop is a heavy consumer even at modest output. A [50 m³ tank](${productPath(tank50, "en")}) holds 52.8 tonnes by the manufacturer's rating — about fourteen 8-hour shifts for a 200 kg/h line. Storage here is sized around the delivery schedule far more tightly than in most other applications.`],
         ["img", PHOTO.fans, "Forced draft vaporizer with fans for high continuous gas demand", "Continuous liquid draw-off cools the tank, so pressure has to be maintained deliberately"],
         ["h2", "Pressure is the parameter that breaks first"],
         ["p", "A pelletizer needs liquid delivered within a narrow pressure band, typically around 18–21 bar. Continuous heavy draw-off cools the tank contents and the pressure drops — and a pelletizer fed below its band starts producing soft, low-density pellets that sublimate faster in the customer's box."],
@@ -451,7 +451,7 @@ export const postDryIce: SeedPost = {
         ["p", "Рідкий CO₂ приходить до гранулятора під тиском близько 20 бар за температури −20 °C. Коли його випускають до атмосферного тиску, частина миттєво переходить у газ, а тепло, яке забирає це випаровування, заморожує решту в сніг із температурою −78,5 °C. Далі сніг пресують у гранули або блоки."],
         ["p", "Фізика фіксує співвідношення приблизно на рівні 40–45% снігу і 55–60% газу миттєвого скипання. На практиці це означає **2,2–2,5 кг рідкого CO₂ на кілограм сухого льоду**, якщо газ скипання просто стравлюють. Виробництва, які повертають цей газ на зрідження, знижують показник до 1,1–1,2 — але для цього потрібна система рекуперації, а не самий лише гранулятор."],
         ["tbl", "Потреба в рідкому CO₂ за продуктивністю гранулятора, без рекуперації газу скипання", "Вихід гранул | Рідкого CO₂ | За зміну 8 год | За місяць, 22 зміни", "100 кг/год | 230 кг/год | 1,8 т | 40 т", "200 кг/год | 460 кг/год | 3,7 т | 81 т", "300 кг/год | 690 кг/год | 5,5 т | 121 т", "400 кг/год | 920 кг/год | 7,4 т | 162 т"],
-        ["p", `Цифри в правій колонці й пояснюють, чому цех сухого льоду — важкий споживач навіть за скромного випуску. [Ємність на 50 м³](${productPath(tank50, "uk")}) вміщає близько 48 тонн — це менше двох тижнів запасу для лінії 200 кг/год на повних змінах. Обʼєм зберігання тут підбирають під графік поставок значно жорсткіше, ніж у більшості інших застосувань.`],
+        ["p", `Цифри в правій колонці й пояснюють, чому цех сухого льоду — важкий споживач навіть за скромного випуску. [Ємність на 50 м³](${productPath(tank50, "uk")}) вміщає 52,8 т за паспортом виробника — це приблизно чотирнадцять восьмигодинних змін для лінії 200 кг/год. Обʼєм зберігання тут підбирають під графік поставок значно жорсткіше, ніж у більшості інших застосувань.`],
         ["img", PHOTO.fans, "Випарник примусової дії з вентиляторами для великого безперервного відбору газу", "Безперервний відбір рідини охолоджує ємність, тож тиск доводиться підтримувати цілеспрямовано"],
         ["h2", "Тиск — параметр, який ламається першим"],
         ["p", "Гранулятору потрібна рідина у вузькому діапазоні тиску, зазвичай близько 18–21 бар. Тривалий великий відбір охолоджує вміст ємності, і тиск падає — а гранулятор, який отримує рідину нижче свого діапазону, починає видавати мʼяку гранулу низької щільності, що швидше сублімує вже в термобоксі клієнта."],
@@ -476,7 +476,7 @@ export const postDryIce: SeedPost = {
         ["p", "Жидкий CO₂ приходит к гранулятору под давлением около 20 бар при температуре −20 °C. Когда его выпускают до атмосферного давления, часть мгновенно переходит в газ, а тепло, которое забирает это испарение, замораживает остальное в снег с температурой −78,5 °C. Дальше снег прессуют в гранулы или блоки."],
         ["p", "Физика фиксирует соотношение примерно на уровне 40–45% снега и 55–60% газа мгновенного вскипания. На практике это означает **2,2–2,5 кг жидкого CO₂ на килограмм сухого льда**, если газ вскипания просто стравливают. Производства, возвращающие этот газ на сжижение, снижают показатель до 1,1–1,2 — но для этого нужна система рекуперации, а не один лишь гранулятор."],
         ["tbl", "Потребность в жидком CO₂ по производительности гранулятора, без рекуперации газа вскипания", "Выход гранул | Жидкого CO₂ | За смену 8 ч | За месяц, 22 смены", "100 кг/ч | 230 кг/ч | 1,8 т | 40 т", "200 кг/ч | 460 кг/ч | 3,7 т | 81 т", "300 кг/ч | 690 кг/ч | 5,5 т | 121 т", "400 кг/ч | 920 кг/ч | 7,4 т | 162 т"],
-        ["p", `Цифры в правой колонке и объясняют, почему цех сухого льда — тяжёлый потребитель даже при скромном выпуске. [Ёмкость на 50 м³](${productPath(tank50, "ru")}) вмещает около 48 тонн — это меньше двух недель запаса для линии 200 кг/ч на полных сменах. Объём хранения здесь подбирают под график поставок значительно жёстче, чем в большинстве других применений.`],
+        ["p", `Цифры в правой колонке и объясняют, почему цех сухого льда — тяжёлый потребитель даже при скромном выпуске. [Ёмкость на 50 м³](${productPath(tank50, "ru")}) вмещает 52,8 т по паспорту производителя — это примерно четырнадцать восьмичасовых смен для линии 200 кг/ч. Объём хранения здесь подбирают под график поставок значительно жёстче, чем в большинстве других применений.`],
         ["img", PHOTO.fans, "Испаритель принудительного действия с вентиляторами для большого непрерывного отбора газа", "Непрерывный отбор жидкости охлаждает ёмкость, поэтому давление приходится поддерживать целенаправленно"],
         ["h2", "Давление — параметр, который ломается первым"],
         ["p", "Гранулятору нужна жидкость в узком диапазоне давления, обычно около 18–21 бар. Длительный большой отбор охлаждает содержимое ёмкости, и давление падает — а гранулятор, получающий жидкость ниже своего диапазона, начинает выдавать мягкую гранулу низкой плотности, которая быстрее сублимирует уже в термобоксе клиента."],
