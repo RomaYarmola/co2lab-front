@@ -120,6 +120,11 @@ const en = {
     productsIn: "Products in {category}",
     breadcrumb: "Catalog",
     beforeChoosing: "Before you choose",
+    sectionsNav: "Equipment types",
+    seeAll: "See all ({count})",
+    helpTitle: "Not sure what to choose?",
+    helpText: "Tell us which gas you use and how much — we will size the tank, vaporizer and scope.",
+    helpCta: "Get a recommendation",
   },
 
   product: {

@@ -5,7 +5,7 @@ import PageTitle from "@/components/shared/titles/PageTitle";
 import Breadcrumbs from "@/components/shared/breadcrumbs/Breadcrumbs";
 import BreadcrumbJsonLd from "@/components/shared/seo/BreadcrumbJsonLd";
 import ProductListJsonLd from "@/components/shared/seo/ProductListJsonLd";
-import CatalogGrid from "@/components/catalog/CatalogGrid";
+import CatalogBrowser from "@/components/catalog/CatalogBrowser";
 import ConsultationCTA from "@/components/shared/cta/ConsultationCTA";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getTranslator } from "@/i18n/server";
@@ -13,6 +13,7 @@ import { createPageMetadata } from "@/utils/createMetadata";
 import { ROUTES } from "@/constants/routes";
 import { fetchProductCategories, fetchProducts } from "@/lib/sanity/fetchers";
 import { mapCategory, mapProductCard } from "@/lib/sanity/adapters";
+import { buildCatalogSections } from "@/lib/catalog/sections";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -52,6 +53,8 @@ export default async function CatalogPage({ params }: Props) {
     .map((doc) => mapProductCard(doc, locale))
     .filter((product) => product.slug);
 
+  const sections = buildCatalogSections(categories, products, locale);
+
   const crumbs = [
     { name: tCommon("home"), path: ROUTES.home },
     { name: t("breadcrumb") },
@@ -78,11 +81,7 @@ export default async function CatalogPage({ params }: Props) {
             {t("intro")}
           </p>
 
-          <CatalogGrid
-            locale={locale}
-            products={products}
-            categories={categories}
-          />
+          <CatalogBrowser locale={locale} sections={sections} />
         </Container>
       </section>
 

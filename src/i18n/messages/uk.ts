@@ -121,6 +121,11 @@ const uk: Messages = {
     productsIn: "Продукція в категорії «{category}»",
     breadcrumb: "Каталог",
     beforeChoosing: "Перш ніж обирати",
+    sectionsNav: "Типи обладнання",
+    seeAll: "Дивитись усі ({count})",
+    helpTitle: "Не знаєте, що обрати?",
+    helpText: "Напишіть, який газ і скільки споживаєте, — підберемо ємність, випарник і комплектацію.",
+    helpCta: "Підібрати обладнання",
   },
 
   product: {

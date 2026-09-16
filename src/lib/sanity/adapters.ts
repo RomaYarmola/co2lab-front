@@ -51,7 +51,7 @@ export type ProductCardView = {
   sku: string;
   shortDescription: string;
   images: GalleryImage[];
-  category: { title: string; slug: string } | null;
+  category: { id: string; title: string; slug: string } | null;
   price: number | null;
   currency: string;
   priceOnRequest: boolean;
@@ -177,6 +177,7 @@ export function mapProductCard(
   const title = pickLocalized(doc.title, locale);
   const category = doc.category
     ? {
+        id: doc.category._id,
         title: pickLocalized(doc.category.title, locale),
         slug: pickSlug(doc.category.slug, locale),
       }

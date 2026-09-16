@@ -16,3 +16,80 @@ export const SHARED_CATEGORY_PRODUCTS: Record<string, string> = {
 export function productSourceCategory(categoryId: string): string {
   return SHARED_CATEGORY_PRODUCTS[categoryId] ?? categoryId;
 }
+
+type Label = { en: string; uk: string; ru: string };
+
+export type CatalogSectionConfig = {
+  /** Якір секції на сторінці /catalog. */
+  id: string;
+  /** Коротка назва для панелі швидкого доступу й заголовка секції. */
+  title: Label;
+  /** Категорії секції в порядку показу; для кількох — підписи кнопок. */
+  categories: Array<{ id: string; label?: Label }>;
+};
+
+/**
+ * Секції сторінки /catalog і панель швидкого доступу.
+ *
+ * Логіка з happy-bar: один довгий список, розбитий на секції, і липка панель,
+ * що підсвічує поточну. Відмінність — у секції видно лише перші товари, а
+ * решта за кнопкою «Дивитись усі» веде на сторінку категорії: однотипні
+ * ємності й кріоциліндри не йдуть стіною однакових карток, а вага посилань
+ * дістається хабам.
+ *
+ * Схожі сімейства зведені в одну секцію (ємності для азоту, кисню й аргону;
+ * кріоциліндри для трьох газів). Категорія з CMS, якої тут немає, стане
+ * окремою секцією в кінці — нічого не зникне з каталогу.
+ */
+export const CATALOG_SECTIONS: CatalogSectionConfig[] = [
+  {
+    id: "co2-tanks",
+    title: { en: "CO₂ tanks", uk: "Ємності для CO₂", ru: "Ёмкости для CO₂" },
+    categories: [{ id: "cat-tanks-co2" }],
+  },
+  {
+    id: "co2-vaporizers",
+    title: { en: "CO₂ vaporizers", uk: "Випарники CO₂", ru: "Испарители CO₂" },
+    categories: [{ id: "cat-co2-vaporizers" }],
+  },
+  {
+    id: "cryogenic-cylinders",
+    title: { en: "Cryogenic cylinders", uk: "Кріоциліндри", ru: "Криоцилиндры" },
+    categories: [
+      { id: "cat-cylinders-n2", label: { en: "For nitrogen", uk: "Для азоту", ru: "Для азота" } },
+      { id: "cat-cylinders-o2", label: { en: "For oxygen", uk: "Для кисню", ru: "Для кислорода" } },
+      { id: "cat-cylinders-ar", label: { en: "For argon", uk: "Для аргону", ru: "Для аргона" } },
+    ],
+  },
+  {
+    id: "air-gas-tanks",
+    title: {
+      en: "Nitrogen, oxygen and argon tanks",
+      uk: "Ємності для азоту, кисню й аргону",
+      ru: "Ёмкости для азота, кислорода и аргона",
+    },
+    categories: [
+      { id: "cat-tanks-n2", label: { en: "Nitrogen", uk: "Азот", ru: "Азот" } },
+      { id: "cat-tanks-o2", label: { en: "Oxygen", uk: "Кисень", ru: "Кислород" } },
+      { id: "cat-tanks-ar", label: { en: "Argon", uk: "Аргон", ru: "Аргон" } },
+    ],
+  },
+  {
+    id: "ambient-vaporizers",
+    title: { en: "Ambient vaporizers", uk: "Атмосферні випарники", ru: "Атмосферные испарители" },
+    categories: [{ id: "cat-ambient-vaporizers" }],
+  },
+  {
+    id: "co2-quality-control",
+    title: { en: "CO₂ quality control", uk: "Контроль якості CO₂", ru: "Контроль качества CO₂" },
+    categories: [{ id: "cat-co2-lab" }],
+  },
+  {
+    id: "installation",
+    title: { en: "Turnkey installation", uk: "Монтаж під ключ", ru: "Монтаж под ключ" },
+    categories: [{ id: "cat-installation" }],
+  },
+];
+
+/** Скільки карток показувати в секції до кнопки «Дивитись усі». */
+export const CATALOG_SECTION_LIMIT = 3;

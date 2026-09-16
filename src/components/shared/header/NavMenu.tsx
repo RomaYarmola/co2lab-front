@@ -48,12 +48,23 @@ export default function NavMenu({ locale }: { locale: Locale }) {
     const navRect = nav.getBoundingClientRect();
     const elRect = el.getBoundingClientRect();
     if (elRect.width <= 0 || elRect.height <= 0) return;
-    setPillStyle({
+    const next = {
       left: elRect.left - navRect.left,
       top: elRect.top - navRect.top,
       width: elRect.width,
       height: elRect.height,
-    });
+    };
+    // Той самий прямокутник — той самий обʼєкт: без зайвого ререндеру на
+    // кожен тик ResizeObserver
+    setPillStyle((prev) =>
+      prev &&
+      prev.left === next.left &&
+      prev.top === next.top &&
+      prev.width === next.width &&
+      prev.height === next.height
+        ? prev
+        : next,
+    );
   }, [pillActiveIndex]);
 
   // Оновлення позиції pill: useLayoutEffect + rAF щоб layout встиг відмалюватись (шрифти, контейнер)
@@ -73,12 +84,16 @@ export default function NavMenu({ locale }: { locale: Locale }) {
     };
   }, [pillActiveIndex, updatePill]);
 
-  // Після першого отримання позиції — анімація «виростання» з центру (scale 0 → 1)
+  // Після першого отримання позиції — анімація «виростання» з центру (scale 0 → 1).
+  // rAF навмисно не скасовуємо: позиція перераховується ще кілька разів
+  // (другий кадр, шрифти, ResizeObserver), cleanup скасовував запланований
+  // кадр, а повторно ефект уже не запускався через hasAnimatedInitial —
+  // pill лишався зі scale(0), і білий текст активного пункту зникав на
+  // світлому фоні.
   useEffect(() => {
     if (!pillStyle || hasAnimatedInitial.current) return;
     hasAnimatedInitial.current = true;
-    const raf = requestAnimationFrame(() => setPillScale(1));
-    return () => cancelAnimationFrame(raf);
+    requestAnimationFrame(() => setPillScale(1));
   }, [pillStyle]);
 
   // Закриття дропдауну: зміна маршруту, Escape, клік поза межами
