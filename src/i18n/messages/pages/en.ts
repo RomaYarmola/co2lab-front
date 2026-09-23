@@ -175,8 +175,8 @@ export const pagesEn = {
 
   supply: {
     hero: {
-      title: "Bulk liquid CO₂ — 5 to 20 tonnes per delivery",
-      text: "Five to twenty tonnes per delivery, anywhere in Ukraine. Biogenic CO₂ we capture ourselves, food-grade with a certificate for every batch — from the same engineers who size your tank and vaporizer.",
+      title: "Bulk liquid CO₂ — 1 to 100 tonnes per delivery",
+      text: "From one to a hundred tonnes per delivery, anywhere in Ukraine. Biogenic CO₂ we capture ourselves, food-grade with a certificate for every batch — from the same engineers who size your tank and vaporizer.",
       imageAlt: "CO₂ production and supply facility",
     },
     biogenic: {
@@ -196,9 +196,9 @@ export const pagesEn = {
       text: "We match the volume, the schedule and the price to your daily draw and tank capacity.",
       cards: [
         {
-          title: "5 to 20 tonnes per delivery",
+          title: "1 to 100 tonnes per delivery",
           description:
-            "A single delivery of liquid CO₂ runs from 5 to 20 tonnes. We set the volume against your tank capacity and daily consumption.",
+            "A single delivery of liquid CO₂ runs from 1 to 100 tonnes. We set the volume against your tank capacity and daily consumption.",
         },
         {
           title: "Delivery across Ukraine",

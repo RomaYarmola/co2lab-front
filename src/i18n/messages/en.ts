@@ -262,9 +262,9 @@ const en = {
         "Talk to our CO₂ engineers about capture, purification, liquefaction and supply. Get a technical consultation and a project quote.",
     },
     supply: {
-      title: "Bulk liquid CO₂ supply — 5 to 20 tonnes per delivery",
+      title: "Bulk liquid CO₂ supply — 1 to 100 tonnes per delivery",
       description:
-        "Bulk liquid CO₂ anywhere in Ukraine: 5 to 20 tonnes per delivery, food-grade quality to ISBT and EIGA, with a certificate for every batch.",
+        "Bulk liquid CO₂ anywhere in Ukraine: 1 to 100 tonnes per delivery, food-grade quality to ISBT and EIGA, with a certificate for every batch.",
     },
     engineeringSolutions: {
       title: "CO₂ Engineering Solutions",
