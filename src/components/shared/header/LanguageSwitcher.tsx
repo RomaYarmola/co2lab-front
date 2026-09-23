@@ -10,22 +10,41 @@ import {
   visibleLocales,
   type Locale,
 } from "@/i18n/config";
+import { useSlugAliases, type SlugAliases } from "@/i18n/SlugAliases";
 import { useTranslations } from "@/i18n/I18nProvider";
 import { splitLocalePath } from "@/utils/localePathname";
 import ChevronIcon from "@/components/shared/icons/ChevronIcon";
 import { cn } from "@/utils/cn";
 
 /**
- * Перемикач мов. У списку лише `visibleLocales` (EN + UA) — RU свідомо
- * прихована: сторінки доступні за прямим URL і залишаються в sitemap
- * та hreflang, тож індексуються, але не пропонуються в інтерфейсі.
+ * Перемикач мов. Будує URL із поточного шляху, тому користувач лишається
+ * на тій самій сторінці.
  *
- * Перемикач будує URL із поточного шляху, тому користувач лишається
- * на тій самій сторінці. Для товарів/статей із локалізованими slug-ами
- * посилання ведуть на /catalog і /blog відповідно — інакше вийшов би 404,
- * бо slug іншою мовою інший.
+ * Сутності з локалізованими slug-ами мають різні адреси по мовах. Для
+ * категорій підставляємо переклад slug-а з мапи (її віддає серверний
+ * лейаут), для товарів і статей ведемо на розділ: раніше перемикач
+ * складав /uk/catalog/category/<en-slug> — адресу, якої немає в жодній
+ * карті сайту, але яку Google бачив у розмітці кожної сторінки.
  */
 const SLUG_LOCALIZED_PREFIXES = ["/catalog/", "/blog/"];
+const CATEGORY_SEGMENT = "category/";
+
+function localizedTargetPath(
+  path: string,
+  target: Locale,
+  aliases: SlugAliases,
+): string {
+  const prefix = SLUG_LOCALIZED_PREFIXES.find((item) => path.startsWith(item));
+  if (!prefix) return path;
+
+  const section = prefix.slice(0, -1);
+  const rest = path.slice(prefix.length);
+  if (!rest.startsWith(CATEGORY_SEGMENT)) return section;
+
+  const slug = rest.slice(CATEGORY_SEGMENT.length).split("/")[0];
+  const alias = aliases[slug]?.[target];
+  return alias ? `${section}/${CATEGORY_SEGMENT}${alias}` : section;
+}
 
 export default function LanguageSwitcher({
   locale,
@@ -38,10 +57,13 @@ export default function LanguageSwitcher({
 }) {
   const t = useTranslations("nav");
   const pathname = usePathname();
+  const aliases = useSlugAliases();
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { path } = splitLocalePath(pathname);
+  const hrefFor = (target: Locale) =>
+    localizePath(target, localizedTargetPath(path, target, aliases));
 
   useEffect(() => {
     if (!open) return;
@@ -60,18 +82,6 @@ export default function LanguageSwitcher({
     };
   }, [open]);
 
-  /**
-   * Для сутностей із локалізованим slug ведемо на розділ, а не на
-   * неіснуючий переклад конкретної сторінки.
-   */
-  const targetPath = (() => {
-    const localizedPrefix = SLUG_LOCALIZED_PREFIXES.find(
-      (prefix) => path.startsWith(prefix) && !path.startsWith(`${prefix}category/`),
-    );
-    if (localizedPrefix) return localizedPrefix.slice(0, -1);
-    return path;
-  })();
-
   if (variant === "mobile") {
     return (
       <div className="flex items-center gap-2" aria-label={t("languageSwitcher")}>
@@ -80,7 +90,7 @@ export default function LanguageSwitcher({
           return (
             <Link
               key={item}
-              href={localizePath(item, targetPath)}
+              href={hrefFor(item)}
               hrefLang={item}
               lang={item}
               onClick={onNavigate}
@@ -130,7 +140,7 @@ export default function LanguageSwitcher({
             return (
               <li key={item}>
                 <Link
-                  href={localizePath(item, targetPath)}
+                  href={hrefFor(item)}
                   hrefLang={item}
                   lang={item}
                   role="option"

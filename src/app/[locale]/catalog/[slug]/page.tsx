@@ -19,6 +19,7 @@ import { isLocale, localizePath, locales, type Locale } from "@/i18n/config";
 import { getTranslator } from "@/i18n/server";
 import { createPageMetadata } from "@/utils/createMetadata";
 import { buildAlternatesFromSlugs } from "@/utils/localizedAlternates";
+import { redirectToLocalizedSlug } from "@/utils/canonicalSlug";
 import { ROUTES } from "@/constants/routes";
 import {
   fetchProductBySlug,
@@ -88,6 +89,7 @@ export default async function ProductPage({ params }: Props) {
 
   const doc = await fetchProductBySlug(slug);
   if (!doc) notFound();
+  redirectToLocalizedSlug(locale, ROUTES.catalog, slug, doc.slug);
 
   const t = getTranslator(locale, "product");
   const tCatalog = getTranslator(locale, "catalog");

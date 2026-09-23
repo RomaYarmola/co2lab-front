@@ -14,6 +14,8 @@ import {
 } from "@/i18n/config";
 import { getMessages } from "@/i18n/getMessages";
 import { I18nProvider } from "@/i18n/I18nProvider";
+import { SlugAliasProvider } from "@/i18n/SlugAliases";
+import { fetchCategorySlugAliases } from "@/lib/sanity/slugAliases";
 import OrganizationJsonLd from "@/components/shared/seo/OrganizationJsonLd";
 import { AnalyticsNoScript, AnalyticsScripts } from "@/components/shared/analytics/Analytics";
 import VisitTracker from "@/components/shared/analytics/VisitTracker";
@@ -101,6 +103,9 @@ export default async function LocaleLayout({
   if (!isLocale(rawLocale)) notFound();
   const locale: Locale = rawLocale;
   const messages = getMessages(locale);
+  // Перемикачу мов потрібні slug-и категорій усіма мовами — інакше він
+  // будує адресу з чужомовним slug-ом
+  const slugAliases = await fetchCategorySlugAliases();
 
   return (
     <html lang={htmlLangs[locale]}>
@@ -111,10 +116,12 @@ export default async function LocaleLayout({
         <AnalyticsScripts />
         <VisitTracker />
         <I18nProvider locale={locale} messages={messages}>
-          <OrganizationJsonLd locale={locale} />
-          <Header locale={locale} />
-          <main className="flex-1">{children}</main>
-          <Footer locale={locale} />
+          <SlugAliasProvider value={slugAliases}>
+            <OrganizationJsonLd locale={locale} />
+            <Header locale={locale} />
+            <main className="flex-1">{children}</main>
+            <Footer locale={locale} />
+          </SlugAliasProvider>
         </I18nProvider>
       </body>
     </html>

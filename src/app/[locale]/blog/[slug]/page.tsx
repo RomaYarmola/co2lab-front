@@ -19,6 +19,7 @@ import { isLocale, localizePath, locales, type Locale } from "@/i18n/config";
 import { getTranslator } from "@/i18n/server";
 import { createPageMetadata } from "@/utils/createMetadata";
 import { buildAlternatesFromSlugs } from "@/utils/localizedAlternates";
+import { redirectToLocalizedSlug } from "@/utils/canonicalSlug";
 import { extractHeadings } from "@/utils/slugifyHeading";
 import { formatDate } from "@/utils/formatDate";
 import { ROUTES } from "@/constants/routes";
@@ -95,6 +96,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   const doc = await fetchBlogPostBySlug(slug);
   if (!doc) notFound();
+  redirectToLocalizedSlug(locale, ROUTES.blog, slug, doc.slug);
 
   const t = getTranslator(locale, "blog");
   const tCommon = getTranslator(locale, "common");

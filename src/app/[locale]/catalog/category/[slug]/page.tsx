@@ -33,6 +33,7 @@ import {
 } from "@/lib/sanity/adapters";
 import { pickBlocks, pickLocalized, allSlugs } from "@/lib/sanity/localized";
 import { buildAlternatesFromSlugs } from "@/utils/localizedAlternates";
+import { redirectToLocalizedSlug } from "@/utils/canonicalSlug";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -92,6 +93,7 @@ export default async function CategoryPage({ params }: Props) {
 
   const doc = await fetchProductCategoryBySlug(slug);
   if (!doc) notFound();
+  redirectToLocalizedSlug(locale, `${ROUTES.catalog}/category`, slug, doc.slug);
 
   const t = getTranslator(locale, "catalog");
   const tCommon = getTranslator(locale, "common");

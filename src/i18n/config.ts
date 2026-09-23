@@ -6,10 +6,12 @@ export const defaultLocale: Locale = "en";
 
 /**
  * Локалі, які показуємо у перемикачі мов.
- * RU навмисно прихована: сторінки доступні лише за прямим URL і залишаються
- * у sitemap/hreflang для SEO.
+ * RU раніше була прихована — сторінки лишалися в sitemap і hreflang, але не
+ * мали жодного внутрішнього посилання. Google їх знайшов і залишив у статусі
+ * «Обнаружена, не проиндексирована»: без посилань розділ виглядає як
+ * другорядний. Тепер усі три мови в перемикачі.
  */
-export const visibleLocales: Locale[] = ["en", "uk"];
+export const visibleLocales: Locale[] = ["en", "uk", "ru"];
 
 export const localeLabels: Record<Locale, string> = {
   en: "EN",
@@ -36,11 +38,15 @@ export const htmlLangs: Record<Locale, string> = {
   ru: "ru",
 };
 
-/** hreflang-значення (x-default вішаємо на дефолтну локаль) */
+/**
+ * hreflang-значення (x-default вішаємо на дефолтну локаль).
+ * RU — без регіону: `ru-RU` означав «російська для користувачів у Росії»,
+ * тобто версія для російськомовних клієнтів в Україні адресувалася не тим.
+ */
 export const hreflangs: Record<Locale, string> = {
   en: "en",
   uk: "uk-UA",
-  ru: "ru-RU",
+  ru: "ru",
 };
 
 export function isLocale(value: string): value is Locale {

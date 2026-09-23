@@ -11,6 +11,7 @@ import { isLocale, localizePath, locales, type Locale } from "@/i18n/config";
 import { getTranslator } from "@/i18n/server";
 import { createPageMetadata } from "@/utils/createMetadata";
 import { buildAlternatesFromSlugs } from "@/utils/localizedAlternates";
+import { redirectToLocalizedSlug } from "@/utils/canonicalSlug";
 import { ROUTES } from "@/constants/routes";
 import {
   fetchBlogCategories,
@@ -77,6 +78,7 @@ export default async function BlogCategoryPage({ params }: Props) {
 
   const doc = await fetchBlogCategoryBySlug(slug);
   if (!doc) notFound();
+  redirectToLocalizedSlug(locale, `${ROUTES.blog}/category`, slug, doc.slug);
 
   const t = getTranslator(locale, "blog");
   const tCommon = getTranslator(locale, "common");
