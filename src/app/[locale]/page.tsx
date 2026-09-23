@@ -12,6 +12,7 @@ import { buildStaticPageMetadata, resolveLocale } from "@/utils/pageMetadata";
 import { ROUTES } from "@/constants/routes";
 import Container from "@/components/shared/container/Container";
 import HubLinks from "@/components/shared/hubLinks/HubLinks";
+import CategoryGroups from "@/components/shared/hubLinks/CategoryGroups";
 import ProjectsStrip from "@/components/projects/ProjectsStrip";
 import { PROJECTS } from "@/content/projects";
 import { DRY_ICE_LANDING, INDUSTRY_LANDINGS } from "@/content/landings";
@@ -41,12 +42,10 @@ export default async function Home({ params }: Props) {
       {/* Хаби каталогу на першому скролі: головна — найсильніша сторінка сайту,
           і її вага має йти туди, де продається обладнання. */}
       <Container>
-        <HubLinks
+        <CategoryGroups
           locale={locale}
           title={t("homeTitle")}
           text={t("homeText")}
-          categoryIds="all"
-          columns={4}
         />
       </Container>
       <Redefining locale={locale} />

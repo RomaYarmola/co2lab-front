@@ -91,5 +91,61 @@ export const CATALOG_SECTIONS: CatalogSectionConfig[] = [
   },
 ];
 
+export type EquipmentGroupConfig = {
+  id: string;
+  title: Label;
+  /** `_id` категорій у порядку показу. */
+  categoryIds: string[];
+};
+
+/**
+ * Групи обладнання для головної та сторінки «Обладнання й системи».
+ *
+ * На /catalog секції дрібніші — кожна показує товари й веде на свою
+ * категорію. Тут інший розріз: одинадцять карток поспіль читалися як
+ * таблиця, де пʼять назв починаються з «Кріогенні ємності для…». Тип
+ * обладнання несе заголовок групи, картка — газ і фотографію.
+ *
+ * Категорія з CMS, якої тут немає, потрапляє в кінець окремою групою.
+ */
+export const EQUIPMENT_GROUPS: EquipmentGroupConfig[] = [
+  {
+    id: "tanks",
+    title: {
+      en: "Cryogenic tanks",
+      uk: "Кріогенні ємності",
+      ru: "Криогенные ёмкости",
+    },
+    categoryIds: ["cat-tanks-co2", "cat-tanks-n2", "cat-tanks-o2", "cat-tanks-ar"],
+  },
+  {
+    id: "cylinders",
+    title: {
+      en: "Cryogenic cylinders",
+      uk: "Кріоциліндри",
+      ru: "Криоцилиндры",
+    },
+    categoryIds: ["cat-cylinders-n2", "cat-cylinders-o2", "cat-cylinders-ar"],
+  },
+  {
+    id: "vaporizers",
+    title: {
+      en: "Vaporizers",
+      uk: "Випарники (газифікатори)",
+      ru: "Испарители (газификаторы)",
+    },
+    categoryIds: ["cat-co2-vaporizers", "cat-ambient-vaporizers"],
+  },
+  {
+    id: "services",
+    title: {
+      en: "Quality control and installation",
+      uk: "Контроль якості та монтаж",
+      ru: "Контроль качества и монтаж",
+    },
+    categoryIds: ["cat-co2-lab", "cat-installation"],
+  },
+];
+
 /** Скільки карток показувати в секції до кнопки «Дивитись усі». */
 export const CATALOG_SECTION_LIMIT = 3;

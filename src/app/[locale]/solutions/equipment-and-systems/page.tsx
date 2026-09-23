@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { buildStaticPageMetadata, resolveLocale } from "@/utils/pageMetadata";
 import { ROUTES } from "@/constants/routes";
 import Container from "@/components/shared/container/Container";
-import HubLinks from "@/components/shared/hubLinks/HubLinks";
+import CategoryGroups from "@/components/shared/hubLinks/CategoryGroups";
 import { getTranslator } from "@/i18n/server";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -30,12 +30,7 @@ export default async function EquipmentAndSystems({ params }: Props) {
       <Engineering locale={locale} />
       <CriogenicTanks locale={locale} />
       <Container>
-        <HubLinks
-          locale={locale}
-          title={tHubs("catalogTitle")}
-          categoryIds="all"
-          columns={4}
-        />
+        <CategoryGroups locale={locale} title={tHubs("catalogTitle")} />
       </Container>
       <SupportCTA locale={locale} />
     </>

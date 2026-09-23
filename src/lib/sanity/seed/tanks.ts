@@ -38,8 +38,41 @@ const TANK_IMAGES = {
   onSite: "/images/catalog/cryogenic-tank-with-ambient-vaporizer.webp",
   vertical: "/images/catalog/cryogenic-storage-tank-vertical.webp",
   install: "/images/catalog/cryogenic-tank-installation-crane.webp",
+  microbulk: "/images/catalog/microbulk-tank-with-piping.webp",
   valves: "/images/equipmentAndSystemsPage/criogenicTanks/imageThree.webp",
   engineer: "/images/equipmentAndSystemsPage/engineering/imageThree.webp",
+};
+
+/**
+ * Обкладинка категорії — своя на кожен газ. Раніше всі чотири категорії
+ * ємностей брали один знімок, і в сітці на головній рядок читався як
+ * помилка верстки: чотири однакові фото під різними назвами.
+ */
+const GAS_TANK_COVERS: Partial<Record<GasKey, { src: string; alt: L }>> = {
+  n2: {
+    src: TANK_IMAGES.vertical,
+    alt: {
+      en: "Vertical cryogenic storage tank for liquid nitrogen",
+      uk: "Вертикальна кріогенна ємність для зберігання рідкого азоту",
+      ru: "Вертикальная криогенная ёмкость для хранения жидкого азота",
+    },
+  },
+  o2: {
+    src: TANK_IMAGES.valves,
+    alt: {
+      en: "Valve manifold and safety fittings of a cryogenic oxygen tank",
+      uk: "Обвʼязка кріогенної ємності для кисню: арматура й запобіжні клапани",
+      ru: "Обвязка криогенной ёмкости для кислорода: арматура и предохранительные клапаны",
+    },
+  },
+  ar: {
+    src: TANK_IMAGES.microbulk,
+    alt: {
+      en: "Compact cryogenic argon tank with piping on a prepared foundation",
+      uk: "Компактна кріогенна ємність для аргону з обвʼязкою на фундаменті",
+      ru: "Компактная криогенная ёмкость для аргона с обвязкой на фундаменте",
+    },
+  },
 };
 
 function tankGallery(gas: GasKey, title: L): SeedImage[] {
@@ -508,6 +541,14 @@ const PRICE_NOTE: L = {
 
 export function buildTankCategory(def: TankCategoryDef): SeedCategory {
   const g = GASES[def.gas];
+  const cover = GAS_TANK_COVERS[def.gas] ?? {
+    src: TANK_IMAGES.onSite,
+    alt: {
+      en: `Cryogenic storage tank for ${g.nom.en} with an ambient air vaporizer`,
+      uk: `Кріогенна ємність для зберігання ${g.gen.uk.split(" (")[0]} з атмосферним випарником`,
+      ru: `Криогенная ёмкость для хранения ${g.gen.ru.split(" (")[0]} с атмосферным испарителем`,
+    },
+  };
   return {
     _id: `cat-tanks-${def.gas}`,
     _updatedAt: SEED_UPDATED_AT,
@@ -530,11 +571,7 @@ export function buildTankCategory(def: TankCategoryDef): SeedCategory {
       ...PRICE_ITEMS.map((item) => li(item[lang], `c-${def.gas}`)),
       p(PRICE_NOTE[lang], `c-${def.gas}`),
     ]),
-    image: img(TANK_IMAGES.onSite, {
-      en: `Cryogenic storage tank for ${g.nom.en} with an ambient air vaporizer`,
-      uk: `Кріогенна ємність для зберігання ${g.gen.uk.split(" (")[0]} з атмосферним випарником`,
-      ru: `Криогенная ёмкость для хранения ${g.gen.ru.split(" (")[0]} с атмосферным испарителем`,
-    }),
+    image: img(cover.src, cover.alt),
     faq: def.faq.map((item, index) =>
       faq(`faq-${def.gas}-${index}`, item.q, item.a),
     ),
