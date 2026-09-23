@@ -175,8 +175,8 @@ export const pagesEn = {
 
   supply: {
     hero: {
-      title: "Full-cycle CO₂ production and supply",
-      text: "From biogenic CO₂ capture to dry ice manufacturing and reliable distribution — we ensure stable volumes, certified quality, and long-term supply.",
+      title: "Bulk liquid CO₂ — 5 to 20 tonnes per delivery",
+      text: "Five to twenty tonnes per delivery, anywhere in Ukraine. Biogenic CO₂ we capture ourselves, food-grade with a certificate for every batch — from the same engineers who size your tank and vaporizer.",
       imageAlt: "CO₂ production and supply facility",
     },
     biogenic: {
@@ -192,30 +192,30 @@ export const pagesEn = {
       ],
     },
     benefits: {
-      title: "How it helps your business",
-      text: "Optimize production and reduce costs with smart CO₂ solutions tailored to your needs.",
+      title: "How we supply the gas",
+      text: "We match the volume, the schedule and the price to your daily draw and tank capacity.",
       cards: [
         {
-          title: "Flexible pricing models",
+          title: "5 to 20 tonnes per delivery",
           description:
-            "Pricing adapted to market conditions, contract duration, and customer-specific supply needs.",
+            "A single delivery of liquid CO₂ runs from 5 to 20 tonnes. We set the volume against your tank capacity and daily consumption.",
         },
         {
-          title: "Long-term supply agreements",
+          title: "Delivery across Ukraine",
           description:
-            "Structured CO₂ supply contracts with fixed volumes, delivery schedules, and predictable planning.",
+            "We deliver to any region. The date and the unloading window are agreed in advance, around your production schedule.",
         },
         {
-          title: "Guaranteed volumes and supply stability",
+          title: "Price per tonne, set by your volume",
           description:
-            "Secured CO₂ availability to ensure uninterrupted operations and long-term production reliability.",
+            "It follows batch size, how regular the deliveries are, and the distance. We quote after a short brief.",
         },
       ],
     },
     standards: {
       eyebrow: "Certified CO₂ for Food Applications",
       title: "Compliance with International Food Standards",
-      text: "We supply food-grade CO₂ fully compliant with ISBT, EIGA, FDA, and FSSC 22000 standards. Our carbon dioxide meets strict quality and safety requirements for use in the food and beverage industry. Each supply is accompanied by quality certificates, confirming purity and regulatory compliance — a critical factor for food processing, packaging, cooling, and dry ice production applications.",
+      text: "We supply food-grade CO₂ fully compliant with ISBT, EIGA, FDA, and FSSC 22000 standards. Our carbon dioxide meets strict quality and safety requirements for use in the food and beverage industry. Each supply is accompanied by quality certificates, confirming purity and regulatory compliance — a critical factor for food processing, packaging, cooling, and dry ice production applications. Food-grade certification also covers technical use: the same gas goes into beverages, welding and greenhouses.",
       imageAlt: "Certified food-grade CO₂ production",
     },
     distribution: {
@@ -224,17 +224,19 @@ export const pagesEn = {
       text: "We manage our own logistics infrastructure to ensure safe, reliable, and on-time delivery of CO₂ and dry ice across regions.",
       items: [
         {
-          title: "Own logistics infrastructure",
+          title: "Own logistics",
           description:
-            "Pricing adapted to market conditions, contract duration, and customer-specific supply needs.",
+            "Liquid CO₂ tankers and our own drivers — no middleman between the plant and your site.",
         },
         {
           title: "Cold chain compliance",
-          description: "Stable temperature from production to destination.",
+          description:
+            "Liquid CO₂ travels cold and under pressure, and arrives ready to transfer into your tank.",
         },
         {
           title: "Reliable delivery",
-          description: "Planned routes and predictable lead times.",
+          description:
+            "Planned routes and predictable lead times, with the delivery date fixed in advance.",
         },
       ],
     },

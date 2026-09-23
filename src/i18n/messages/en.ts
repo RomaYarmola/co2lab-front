@@ -262,9 +262,9 @@ const en = {
         "Talk to our CO₂ engineers about capture, purification, liquefaction and supply. Get a technical consultation and a project quote.",
     },
     supply: {
-      title: "CO₂ Production and Supply",
+      title: "Bulk liquid CO₂ supply — 5 to 20 tonnes per delivery",
       description:
-        "Full-cycle CO₂ production and supply. From biogenic CO₂ capture to dry ice manufacturing and reliable distribution — certified quality and long-term supply.",
+        "Bulk liquid CO₂ anywhere in Ukraine: 5 to 20 tonnes per delivery, food-grade quality to ISBT and EIGA, with a certificate for every batch.",
     },
     engineeringSolutions: {
       title: "CO₂ Engineering Solutions",

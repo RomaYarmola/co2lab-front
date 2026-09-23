@@ -30,7 +30,7 @@ export type RouteKey = keyof typeof ROUTES;
  * із текстами. Раніше lastmod дорівнював часу генерації карти: Google
  * бачив «змінено» при кожному обході й перестає довіряти такому полю.
  */
-export const STATIC_CONTENT_UPDATED_AT = "2026-09-16T00:00:00Z";
+export const STATIC_CONTENT_UPDATED_AT = "2026-09-23T00:00:00Z";
 
 export type StaticRoute = {
   path: string;
