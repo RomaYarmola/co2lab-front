@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "CO₂ Lab",
     short_name: "CO₂ Lab",
     description:
-      "CO₂ capture, purification and reuse solutions; cryogenic tanks, vaporizers and gas supply systems.",
+      "Cryogenic tanks, cylinders and vaporizers for CO₂ and industrial gases; bulk liquid CO₂ supply in Ukraine.",
     start_url: "/",
     display: "browser",
     background_color: "#ffffff",

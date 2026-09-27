@@ -157,11 +157,12 @@ export default function CatalogGrid({
         </div>
       ) : (
         <ul className="grid grid-cols-1 gap-4 xs:grid-cols-2 lg:grid-cols-3 lg:gap-5 xl:grid-cols-4">
-          {visible.map((product) => (
+          {visible.map((product, index) => (
             <li key={product.id} className="h-full">
               <ProductCard
                 product={product}
                 locale={locale}
+                priority={index === 0}
                 // На сторінці категорії підпис категорії в картці зайвий, а для
                 // спільних товарів (кріоциліндри кисню/аргону) ще й збиває з толку
                 showCategory={!activeCategorySlug}

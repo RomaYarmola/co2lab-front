@@ -18,7 +18,6 @@ export default function ContactUs({ locale }: { locale: Locale }) {
             fill
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 1280px"
-            priority
           />
 
           <Image quality={100}

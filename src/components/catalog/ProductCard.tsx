@@ -13,10 +13,13 @@ export default function ProductCard({
   product,
   locale,
   showCategory = true,
+  priority = false,
 }: {
   product: ProductCardView;
   locale: Locale;
   showCategory?: boolean;
+  /** Перша картка сітки: на мобільному її фото — LCP сторінки. */
+  priority?: boolean;
 }) {
   const t = useTranslations("product");
   const href = localizePath(locale, `${ROUTES.catalog}/${product.slug}`);
@@ -43,6 +46,7 @@ export default function ProductCard({
         images={product.images}
         name={product.title}
         className="h-[200px] lg:h-[240px]"
+        priority={priority}
       />
 
       <div className="flex flex-1 flex-col p-4 lg:p-5">

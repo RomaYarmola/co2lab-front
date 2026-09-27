@@ -5,9 +5,11 @@ import type { Locale } from "@/i18n/config";
 import type { ProductDetailView } from "@/lib/sanity/adapters";
 
 /**
- * Product + Offer. Для товарів «ціна за запитом» вказуємо
- * PriceSpecification без значення — Google приймає таку розмітку
- * і не рахує це помилкою відсутньої ціни.
+ * Product + Offer — лише для товарів з ціною. Для «ціна за запитом»
+ * розмітку не виводимо зовсім: Offer без price Google рахує помилкою
+ * («Missing field price»), а Product без offers/review/aggregateRating —
+ * невалідним елементом звіту «Фрагменти товарів». Хлібні крихти
+ * на таких сторінках лишаються.
  *
  * Бренд і виробника не вказуємо: CO₂ Lab — постачальник, а не завод
  * (ємності ZVT, кріоциліндри Euro-Cyl виготовляють інші компанії).
@@ -20,14 +22,18 @@ export default function ProductJsonLd({
   locale: Locale;
   product: ProductDetailView;
 }) {
+  if (product.priceOnRequest || product.price === null) return null;
+
   const url = absoluteUrl(locale, `${ROUTES.catalog}/${product.slug}`);
   const baseUrl = getBaseUrl();
 
+  // «Виготовлення на замовлення» — MadeToOrder, не PreOrder:
+  // PreOrder означає товар, який ще не вийшов у продаж
   const availability =
     product.availability === "inStock"
       ? "https://schema.org/InStock"
       : product.availability === "madeToOrder"
-        ? "https://schema.org/PreOrder"
+        ? "https://schema.org/MadeToOrder"
         : "https://schema.org/LimitedAvailability";
 
   const data: Record<string, unknown> = {
@@ -57,24 +63,15 @@ export default function ProductJsonLd({
       url,
       availability,
       seller: { "@id": `${baseUrl}/#organization` },
-      ...(product.priceOnRequest || product.price === null
-        ? {
-            priceSpecification: {
-              "@type": "PriceSpecification",
-              priceCurrency: product.currency,
-            },
-          }
-        : {
-            price: product.price,
-            priceCurrency: product.currency,
-            // Ціни в прайсі — «від … без ПДВ»
-            priceSpecification: {
-              "@type": "UnitPriceSpecification",
-              price: product.price,
-              priceCurrency: product.currency,
-              valueAddedTaxIncluded: false,
-            },
-          }),
+      price: product.price,
+      priceCurrency: product.currency,
+      // Ціни в прайсі — «від … без ПДВ»
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: product.price,
+        priceCurrency: product.currency,
+        valueAddedTaxIncluded: false,
+      },
     },
   };
 

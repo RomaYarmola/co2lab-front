@@ -114,6 +114,7 @@ export default function ProductGallery({ images }: { images: GalleryImage[] }) {
         alt={image.alt}
         fill
         priority={priority}
+        fetchPriority={priority ? "high" : undefined}
         className="object-cover object-center"
         sizes={sizes}
       />
@@ -148,6 +149,7 @@ export default function ProductGallery({ images }: { images: GalleryImage[] }) {
                       alt={image.alt}
                       fill
                       priority={index === 0}
+                      fetchPriority={index === 0 ? "high" : undefined}
                       className="object-cover object-center"
                       sizes="100vw"
                     />

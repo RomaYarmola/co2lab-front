@@ -244,7 +244,7 @@ export default function CatalogBrowser({
             </section>
           ) : (
             <div className="flex flex-col gap-14 lg:gap-20">
-              {sections.map((section) => {
+              {sections.map((section, sectionIndex) => {
                 const truncated = section.products.length > CATALOG_SECTION_LIMIT;
                 const single = section.links.length === 1 ? section.links[0] : null;
                 return (
@@ -284,7 +284,12 @@ export default function CatalogBrowser({
                           // На двох колонках третя картка висіла б сама — ховаємо, решта за кнопкою
                           className={cn("h-full", truncated && index === 2 && "xs:max-lg:hidden")}
                         >
-                          <ProductCard product={product} locale={locale} showCategory={false} />
+                          <ProductCard
+                            product={product}
+                            locale={locale}
+                            showCategory={false}
+                            priority={sectionIndex === 0 && index === 0}
+                          />
                         </li>
                       ))}
                     </ul>

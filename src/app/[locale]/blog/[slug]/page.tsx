@@ -217,6 +217,7 @@ export default async function BlogPostPage({ params }: Props) {
                 alt={post.coverAlt}
                 fill
                 priority
+                fetchPriority="high"
                 sizes="(min-width: 1280px) 1216px, (min-width: 1024px) 90vw, 100vw"
                 className="object-cover object-center"
               />

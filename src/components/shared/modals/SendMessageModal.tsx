@@ -1,11 +1,20 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import NotificationPopUp from "@/components/shared/notifications/NotificationPopUp";
 import Backdrop from "@/components/shared/backdrop/Backdrop";
 import { Dispatch, SetStateAction, useState } from "react";
-import ContactForm from "../forms/ContactForm";
 import Modal from "./Modal";
+
+// Форма тягне react-phone-number-input з метаданими libphonenumber (~80 КБ
+// brotli). Модалка стоїть на кожній сторінці, тож статичний імпорт вантажив
+// бібліотеку всім, хто форму так і не відкрив. Тепер чанк приходить при
+// першому відкритті модалки.
+const ContactForm = dynamic(() => import("../forms/ContactForm"), {
+  ssr: false,
+  loading: () => <div className="min-h-[480px]" aria-busy="true" />,
+});
 import { useTranslations } from "@/i18n/I18nProvider";
 import type { LeadType } from "@/lib/leads/sendLead";
 
@@ -29,6 +38,9 @@ export default function SendMessageModal({
   const t = useTranslations("forms");
   const [isNotificationShown, setIsNotificationShown] = useState(false);
   const [isError, setIsError] = useState(false);
+  // Після першого відкриття форма лишається змонтованою: введене не губиться
+  const [wasOpened, setWasOpened] = useState(false);
+  if (isModalShown && !wasOpened) setWasOpened(true);
 
   return (
     <Modal
@@ -61,17 +73,19 @@ export default function SendMessageModal({
         aria-hidden
         className="absolute right-3 top-[200px] z-0 pointer-events-none hidden lg:block"
       />
-      <ContactForm
-        setIsError={setIsError}
-        setIsNotificationShown={setIsNotificationShown}
-        setIsModalShown={setIsModalShown}
-        formName={formName}
-        leadType={leadType}
-        context={context}
-        product={product}
-        titleClassName="lg:text-[28px]"
-        buttonClassName="sm:max-w-full sm:ml-0"
-      />
+      {wasOpened && (
+        <ContactForm
+          setIsError={setIsError}
+          setIsNotificationShown={setIsNotificationShown}
+          setIsModalShown={setIsModalShown}
+          formName={formName}
+          leadType={leadType}
+          context={context}
+          product={product}
+          titleClassName="lg:text-[28px]"
+          buttonClassName="sm:max-w-full sm:ml-0"
+        />
+      )}
       <NotificationPopUp
         title={isError ? t("failedTitle") : t("sentTitle")}
         description={isError ? t("failedText") : t("sentText")}

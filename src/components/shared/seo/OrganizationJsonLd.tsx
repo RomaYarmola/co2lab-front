@@ -1,15 +1,19 @@
 import JsonLd from "./JsonLd";
 import { getBaseUrl } from "@/utils/createMetadata";
 import { getTranslator } from "@/i18n/server";
-import { localizePath, type Locale } from "@/i18n/config";
+import type { Locale } from "@/i18n/config";
 import {
-  CONTACT_EMAIL,
+  CONTACT_EMAIL_REQUEST,
   CONTACT_PHONE,
   SOCIAL_LINK_INSTAGRAM_CO2LAB,
   SOCIAL_LINK_LINKEDIN,
   SOCIAL_LINK_YOUTUBE,
 } from "@/constants/contact";
-import { ROUTES } from "@/constants/routes";
+
+/** Профіль без трекінгових параметрів (?igsh, utm_*) — sameAs має бути канонічною адресою. */
+function cleanProfileUrl(url: string) {
+  return url.split("?")[0].replace(/\/+$/, "");
+}
 
 /**
  * Organization + WebSite. Виводиться один раз у layout,
@@ -30,14 +34,18 @@ export default function OrganizationJsonLd({ locale }: { locale: Locale }) {
         name: "CO₂ Lab",
         alternateName: "CO2Lab",
         url: baseUrl,
+        // Квадратний логотип, а не OG-банер: Google бере logo для
+        // панелі знань і видачі, банер з текстом там не читається
         logo: {
           "@type": "ImageObject",
-          url: `${baseUrl}/opengraph-image.jpg`,
-          width: 1200,
-          height: 630,
+          url: `${baseUrl}/logo.png`,
+          width: 512,
+          height: 512,
         },
+        image: `${baseUrl}/opengraph-image.jpg`,
         description: t("seo.home.description"),
-        email: CONTACT_EMAIL,
+        // Та сама адреса, що видно на сторінках
+        email: CONTACT_EMAIL_REQUEST,
         telephone: CONTACT_PHONE,
         address: {
           "@type": "PostalAddress",
@@ -51,12 +59,14 @@ export default function OrganizationJsonLd({ locale }: { locale: Locale }) {
           SOCIAL_LINK_INSTAGRAM_CO2LAB,
           SOCIAL_LINK_LINKEDIN,
           SOCIAL_LINK_YOUTUBE,
-        ].filter((url) => /^https?:\/\/[^/]+\/.+/.test(url)),
+        ]
+          .map(cleanProfileUrl)
+          .filter((url) => /^https?:\/\/[^/]+\/.+/.test(url)),
         contactPoint: [
           {
             "@type": "ContactPoint",
             telephone: CONTACT_PHONE,
-            email: CONTACT_EMAIL,
+            email: CONTACT_EMAIL_REQUEST,
             contactType: "sales",
             availableLanguage: ["en", "uk", "ru"],
           },
@@ -70,14 +80,8 @@ export default function OrganizationJsonLd({ locale }: { locale: Locale }) {
         description: t("seo.home.description"),
         publisher: { "@id": orgId },
         inLanguage: locale,
-        potentialAction: {
-          "@type": "SearchAction",
-          target: {
-            "@type": "EntryPoint",
-            urlTemplate: `${baseUrl}${localizePath(locale, ROUTES.catalog)}?q={search_term_string}`,
-          },
-          "query-input": "required name=search_term_string",
-        },
+        // SearchAction прибрано: пошук каталогу клієнтський, ?q= закрито в
+        // robots.txt, а сам sitelinks searchbox Google вимкнув у 2024 році.
       },
     ],
   };

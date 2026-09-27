@@ -239,7 +239,7 @@ export const postTankVolume: SeedPost = {
   isPublished: true,
   isFeatured: true,
   publishedAt: "2026-09-07T09:00:00Z",
-  updatedAt: "2026-09-07T09:00:00Z",
+  updatedAt: "2026-09-16T09:00:00Z",
   readingTimeMinutes: 3,
   author: seedAuthor,
   categories: [catSelection],

@@ -575,9 +575,11 @@ function buildCryoCylinderProduct(
         ru: `Криоцилиндр ${m.model}, ${litres(m.volume, "ru")} — от ${formatEur(m.priceEur, "ru")}`,
       },
       metaDescription: {
-        en: `Cryogenic cylinder of ${litres(m.volume, "en")} for liquid nitrogen, oxygen and argon: ${bar(m.relief, "en")} valve, ${num(m.nerLin, "en", 1)}%/day boil-off, TPED. From ${formatEur(m.priceEur, "en")} excl. VAT.`,
-        uk: `Кріоциліндр на ${litres(m.volume, "uk")} для рідкого азоту, кисню й аргону: клапан ${bar(m.relief, "uk")}, втрати ${num(m.nerLin, "uk", 1)}%/добу, TPED. Від ${formatEur(m.priceEur, "uk")} без ПДВ.`,
-        ru: `Криоцилиндр на ${litres(m.volume, "ru")} для жидкого азота, кислорода и аргона: клапан ${bar(m.relief, "ru")}, потери ${num(m.nerLin, "ru", 1)}%/сутки, TPED. От ${formatEur(m.priceEur, "ru")} без НДС.`,
+        // Основа в описі: 230/4 RB і SB однакові за обʼємом і ціною,
+        // без неї два товари мали б дослівно однаковий сніпет
+        en: `Cryogenic cylinder of ${litres(m.volume, "en")} for liquid nitrogen, oxygen and argon: ${bar(m.relief, "en")} valve, ${num(m.nerLin, "en", 1)}%/day boil-off, TPED, ${BASE_LABEL[m.base].en}. From ${formatEur(m.priceEur, "en")} excl. VAT.`,
+        uk: `Кріоциліндр на ${litres(m.volume, "uk")} для рідкого азоту, кисню й аргону: клапан ${bar(m.relief, "uk")}, втрати ${num(m.nerLin, "uk", 1)}%/добу, TPED, ${BASE_LABEL[m.base].uk}. Від ${formatEur(m.priceEur, "uk")} без ПДВ.`,
+        ru: `Криоцилиндр на ${litres(m.volume, "ru")} для жидкого азота, кислорода и аргона: клапан ${bar(m.relief, "ru")}, потери ${num(m.nerLin, "ru", 1)}%/сутки, TPED, ${BASE_LABEL[m.base].ru}. От ${formatEur(m.priceEur, "ru")} без НДС.`,
       },
       keywords: {
         en: `${m.model}, cryogenic cylinder ${m.volume} L, liquid nitrogen dewar ${m.volume} L`,
@@ -1120,7 +1122,7 @@ function buildAmbientVaporizerProduct(gas: GasKey, index: number): SeedProduct {
       metaDescription: {
         en: `Ambient air vaporizer for ${g.gen.en}, 50–2000 kg/h, selected for pressure and climate. Supply, installation and tie-in to the tank.`,
         uk: `Атмосферний випарник для ${g.gen.uk}, 50–2000 кг/год, підбір під тиск і клімат. Постачання, монтаж і підключення до кріогенної ємності по Україні.`,
-        ru: `Атмосферный испаритель для ${g.gen.ru}, 50–2000 кг/ч, подбор под давление и климат. Поставка, монтаж и подключение к криогенной ёмкости по Украине.`,
+        ru: `Атмосферный испаритель для ${g.gen.ru}, 50–2000 кг/ч, подбор под давление и климат. Поставка, монтаж и подключение к криогенной ёмкости.`,
       },
       keywords: {
         en: `ambient vaporizer ${g.nom.en}, ${g.nom.en} gasifier`,

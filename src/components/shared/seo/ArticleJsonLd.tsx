@@ -13,6 +13,11 @@ export default function ArticleJsonLd({
 }) {
   const url = absoluteUrl(locale, `${ROUTES.blog}/${post.slug}`);
   const baseUrl = getBaseUrl();
+  // Автор «CO₂ Lab» — інженерна команда, а не людина: розмічаємо його
+  // як саму організацію, а не як Person з назвою компанії.
+  const isTeamAuthor =
+    post.author?.name?.replace(/₂/g, "2").replace(/\s+/g, "").toLowerCase() ===
+    "co2lab";
 
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -28,7 +33,7 @@ export default function ArticleJsonLd({
     ...(post.updatedAt ?? post.publishedAt
       ? { dateModified: post.updatedAt ?? post.publishedAt }
       : {}),
-    ...(post.author?.name
+    ...(post.author?.name && !isTeamAuthor
       ? {
           author: {
             "@type": "Person",

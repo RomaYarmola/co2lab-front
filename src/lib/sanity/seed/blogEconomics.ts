@@ -54,7 +54,7 @@ export const postPriceUnits: SeedPost = {
   isPublished: true,
   isFeatured: true,
   publishedAt: "2026-09-07T11:00:00Z",
-  updatedAt: "2026-09-07T11:00:00Z",
+  updatedAt: "2026-09-23T11:00:00Z",
   readingTimeMinutes: 4,
   author: seedAuthor,
   categories: [catSelection],

@@ -15,10 +15,13 @@ export default function ProductCardGallery({
   images,
   name,
   className,
+  priority = false,
 }: {
   images: GalleryImage[];
   name: string;
   className?: string;
+  /** Вантажити перше фото одразу й з високим пріоритетом, без lazy. */
+  priority?: boolean;
 }) {
   const t = useTranslations("product");
 
@@ -129,6 +132,8 @@ export default function ProductCardGallery({
               src={image.url}
               alt={image.alt || name}
               fill
+              preload={priority && i === 0}
+              fetchPriority={priority && i === 0 ? "high" : undefined}
               sizes="(min-width: 1280px) 300px, (min-width: 640px) 45vw, 90vw"
               className="object-cover object-center transition-transform duration-700 ease-out xl:group-hover:scale-[1.03]"
             />

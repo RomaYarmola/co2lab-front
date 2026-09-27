@@ -94,8 +94,9 @@ export default function HeroSlider() {
                   alt=""
                   fill
                   placeholder="blur"
-                  priority
-                  fetchPriority="high"
+                  // LCP — фото героя. Мініатюри без priority і з lazy за
+                  // замовчуванням: React 19 сам додає preload кожному не-lazy
+                  // <img>, і п'ять preload-ів ділили канал з героєм на мобільному
                   className="object-cover"
                   sizes="140px"
                 />
