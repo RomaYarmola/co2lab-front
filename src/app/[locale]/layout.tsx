@@ -19,6 +19,7 @@ import { fetchCategorySlugAliases } from "@/lib/sanity/slugAliases";
 import OrganizationJsonLd from "@/components/shared/seo/OrganizationJsonLd";
 import { AnalyticsNoScript, AnalyticsScripts } from "@/components/shared/analytics/Analytics";
 import VisitTracker from "@/components/shared/analytics/VisitTracker";
+import ContactClickTracker from "@/components/shared/analytics/ContactClickTracker";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -115,6 +116,7 @@ export default async function LocaleLayout({
         <AnalyticsNoScript />
         <AnalyticsScripts />
         <VisitTracker />
+        <ContactClickTracker />
         <I18nProvider locale={locale} messages={messages}>
           <SlugAliasProvider value={slugAliases}>
             <OrganizationJsonLd locale={locale} />

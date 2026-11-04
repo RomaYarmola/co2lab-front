@@ -1,7 +1,4 @@
-"use client";
-
 import type { AnchorHTMLAttributes, ReactNode } from "react";
-import { trackEvent } from "@/lib/analytics/track";
 
 type TrackedLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   href: string;
@@ -11,28 +8,18 @@ type TrackedLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
 };
 
 /**
- * <a> для tel:/mailto:, який відправляє phone_click / email_click у dataLayer.
- * Для інших href поводиться як звичайне посилання.
+ * <a> для tel:/mailto:, що підписує місце кліку. Саму подію (phone_click /
+ * email_click у dataLayer, contact_phone / contact_email у Clarity) шле
+ * ContactClickTracker — один раз, хоч би де стояло посилання.
  */
 export default function TrackedLink({
   href,
   location,
   children,
-  onClick,
   ...rest
 }: TrackedLinkProps) {
   return (
-    <a
-      href={href}
-      onClick={(event) => {
-        if (href.startsWith("tel:"))
-          trackEvent({ event: "phone_click", location });
-        else if (href.startsWith("mailto:"))
-          trackEvent({ event: "email_click", location });
-        onClick?.(event);
-      }}
-      {...rest}
-    >
+    <a href={href} data-track-location={location} {...rest}>
       {children}
     </a>
   );
