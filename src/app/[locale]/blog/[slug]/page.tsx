@@ -38,7 +38,7 @@ import { allSlugs } from "@/lib/sanity/localized";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-export const revalidate = 300;
+export const revalidate = 21600; // 6 год: ISR Writes на Hobby (було 300 → 1,3 млн записів/міс)
 
 export async function generateStaticParams() {
   const posts = await fetchBlogPosts();

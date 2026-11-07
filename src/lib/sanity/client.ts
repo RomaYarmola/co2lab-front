@@ -33,7 +33,7 @@ export function getSanityClient(): SanityClient | null {
 export type SanityFetchOptions = {
   /** Теги для revalidateTag() з вебхука Sanity */
   tags?: string[];
-  /** Секунди ISR. 0 — без кешу. */
+  /** Секунди ISR (за замовчуванням 6 год). 0 — без кешу. */
   revalidate?: number;
 };
 
@@ -49,7 +49,7 @@ export async function sanityFetch<T>(
   try {
     return await client.fetch<T>(query, params, {
       next: {
-        revalidate: options.revalidate ?? 300,
+        revalidate: options.revalidate ?? 21600, // 6 год, як і сторінки
         tags: options.tags,
       },
     });

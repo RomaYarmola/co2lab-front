@@ -7,7 +7,7 @@ import { createPageMetadata } from "@/utils/createMetadata";
 
 type Props = { params: Promise<{ locale: string; industry: string }> };
 
-export const revalidate = 300;
+export const revalidate = 21600; // 6 год: ISR Writes на Hobby (було 300 → 1,3 млн записів/міс)
 /** Лише три відомі галузі — будь-який інший slug віддає 404, а не порожню сторінку. */
 export const dynamicParams = false;
 

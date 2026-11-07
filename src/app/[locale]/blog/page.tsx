@@ -17,7 +17,7 @@ import { mapBlogCategory, mapPostCard } from "@/lib/sanity/adapters";
 
 type Props = { params: Promise<{ locale: string }> };
 
-export const revalidate = 300;
+export const revalidate = 21600; // 6 год: ISR Writes на Hobby (було 300 → 1,3 млн записів/міс)
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: raw } = await params;
