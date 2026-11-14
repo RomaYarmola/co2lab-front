@@ -4,7 +4,7 @@ import { fetchBlogCategories, fetchBlogSitemapEntries } from "@/lib/sanity/fetch
 import { allSlugs } from "@/lib/sanity/localized";
 import { buildSitemapXml, XML_HEADERS, type SitemapUrl } from "@/lib/seo/sitemapXml";
 
-export const revalidate = 3600;
+export const revalidate = 21600; // 6 год: ISR Writes на Hobby, як і сторінки; свіжість дає вебхук /api/revalidate/sanity
 
 export async function GET() {
   const [posts, categories] = await Promise.all([

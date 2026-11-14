@@ -12,7 +12,7 @@ import { LANDINGS } from "@/content/landings";
  * джерел, що й сайт, тож файл не застаріває після кожної публікації в Studio.
  * Українські адреси каталогу дублюємо окремим списком: робочий ринок — Україна.
  */
-export const revalidate = 3600;
+export const revalidate = 21600; // 6 год: ISR Writes на Hobby, як і сторінки; свіжість дає вебхук /api/revalidate/sanity
 
 const u = (path: string) => `${getBaseUrl()}${path}`;
 
