@@ -20,7 +20,7 @@ import { num } from "@/lib/sanity/seed/format";
 
 type Props = { params: Promise<{ locale: string }> };
 
-export const revalidate = 3600;
+export const revalidate = 21600; // 6 год: ISR Writes на Hobby, як і сторінки; свіжість дає вебхук /api/revalidate/sanity
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await resolveLocale(params);

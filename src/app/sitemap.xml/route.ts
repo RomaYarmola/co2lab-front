@@ -1,6 +1,6 @@
 import { buildSitemapIndexXml, XML_HEADERS } from "@/lib/seo/sitemapXml";
 
-export const revalidate = 3600;
+export const revalidate = 21600; // 6 год: ISR Writes на Hobby, як і сторінки; свіжість дає вебхук /api/revalidate/sanity
 
 /**
  * Індекс сайтмапів. Розбиття по типах контенту дає точнішу статистику
